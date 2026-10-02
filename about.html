@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us – Apro Global Real Estate</title>
+  <meta name="description" content="Learn about Apro Global Real Estate — Nigeria's trusted property agency since 2011, serving Lagos and Abuja with integrity, diligence and dedication." />
+  <link rel="icon" type="image/png" href="assets/image/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    /* ── about.html only ── */
+
+    /* Parallax intro quote */
+    .about-quote-band {
+      background: var(--green);
+      padding: 72px 6%;
+      overflow: hidden;
+      position: relative;
+    }
+    .about-quote-band::before {
+      content: '\201C';
+      position: absolute; top: -40px; left: 4%;
+      font-size: 280px; line-height: 1;
+      font-family: 'Playfair Display', serif;
+      color: rgba(255,255,255,0.06);
+      pointer-events: none;
+    }
+    .about-quote-band blockquote {
+      font-size: clamp(22px, 3vw, 34px);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.45;
+      max-width: 860px;
+      position: relative; z-index: 1;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+    }
+    .about-quote-band cite {
+      display: block;
+      margin-top: 20px;
+      font-size: 13px;
+      font-style: normal;
+      font-weight: 700;
+      color: rgba(255,255,255,0.65);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-family: 'Inter', sans-serif;
+    }
+    .about-quote-band cite::before {
+      content: '— ';
+    }
+
+    /* Marquee strip */
+    .about-marquee {
+      background: #0a1f16;
+      padding: 18px 0;
+      overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .marquee-track {
+      display: flex; gap: 56px; align-items: center;
+      white-space: nowrap;
+      animation: marqueeScroll 22s linear infinite;
+      width: max-content;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    @keyframes marqueeScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .marquee-item {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 13px; font-weight: 700;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      flex-shrink: 0;
+    }
+    .marquee-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green-light); flex-shrink: 0;
+    }
+
+    /* Mosaic image collage */
+    .about-mosaic {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      grid-template-rows: 260px 260px;
+      gap: 6px;
+      padding: 0;
+      background: #0a1f16;
+    }
+    .mosaic-img {
+      overflow: hidden; position: relative;
+    }
+    .mosaic-img img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.5s ease;
+      filter: brightness(0.82);
+    }
+    .mosaic-img:hover img { transform: scale(1.06); filter: brightness(1); }
+    .mosaic-img.tall { grid-row: span 2; }
+    .mosaic-img::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,31,22,0.4) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    /* Caption overlay */
+    .mosaic-caption {
+      position: absolute; bottom: 16px; left: 16px; right: 16px; z-index: 2;
+      background: rgba(10,31,22,0.72);
+      backdrop-filter: blur(8px);
+      border-radius: 10px; padding: 10px 14px;
+      font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.85);
+      opacity: 0; transform: translateY(8px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .mosaic-img:hover .mosaic-caption { opacity: 1; transform: translateY(0); }
+
+    /* Numbers showcase */
+    .about-numbers {
+      background: #fff;
+      padding: 80px 6%;
+    }
+    .about-numbers-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .numbers-text .section-tag { margin-bottom: 18px; }
+    .numbers-text h2 {
+      font-size: 40px; font-weight: 800;
+      color: var(--dark); line-height: 1.15; margin-bottom: 20px;
+    }
+    .numbers-text h2 em {
+      font-family: 'Playfair Display', serif;
+      font-style: italic; color: var(--green);
+    }
+    .numbers-text p { font-size: 15px; color: #555; line-height: 1.8; }
+    .numbers-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    }
+    .number-card {
+      background: var(--off-white);
+      border-radius: 22px; padding: 28px 24px;
+      border: 1.5px solid transparent;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .number-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--green), var(--green-light));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.35s;
+    }
+    .number-card:hover { border-color: rgba(26,122,94,0.2); transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,0,0,0.08); }
+    .number-card:hover::before { transform: scaleX(1); }
+    .number-card-val {
+      font-size: 44px; font-weight: 800; color: var(--dark); line-height: 1;
+      margin-bottom: 6px;
+    }
+    .number-card-val span { color: var(--green); }
+    .number-card-label { font-size: 13px; color: #666; font-weight: 500; line-height: 1.5; }
+
+    /* Story / timeline full redesign */
+    .about-story {
+      background: #0a1f16;
+      padding: 90px 6%;
+      position: relative; overflow: hidden;
+    }
+    .about-story::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(46,171,123,0.1), transparent 70%);
+      top: -200px; right: -100px; pointer-events: none;
+    }
+    .story-header { margin-bottom: 64px; }
+    .story-header .section-tag { margin-bottom: 16px; }
+    .story-header h2 {
+      font-size: 42px; font-weight: 800; color: #fff; line-height: 1.15;
+    }
+    .story-header h2 em {
+      font-family: 'Playfair Display', serif; font-style: italic; color: var(--green-light);
+    }
+
+    /* Horizontal scroll timeline */
+    .timeline-h {
+      display: flex; gap: 0; position: relative;
+      /* allow horizontal layout */
+    }
+    /* connector line across all items */
+    .timeline-h::before {
+      content: '';
+      position: absolute;
+      top: 32px; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--green-light), var(--green), transparent);
+      z-index: 0;
+    }
+    .tl-h-item {
+      flex: 1; min-width: 0;
+      padding: 0 24px;
+      position: relative; z-index: 1;
+      padding-top: 0;
+    }
+    .tl-h-item:first-child { padding-left: 0; }
+    .tl-h-item:last-child { padding-right: 0; }
+
+    .tl-h-dot {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--green);
+      border: 3px solid #0a1f16;
+      box-shadow: 0 0 0 3px var(--green-light);
+      margin-bottom: 24px;
+      position: relative; z-index: 2;
+    }
+    .tl-h-year {
+      font-size: 11px; font-weight: 800; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--green-light);
+      margin-bottom: 8px;
+    }
+    .tl-h-title {
+      font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 8px;
+    }
+    .tl-h-desc {
+      font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.7;
+    }
+
+    /* Values redesign */
+    .about-values-section {
+      background: var(--off-white); padding: 90px 6%;
+    }
+    .about-values-section .section-tag { margin-bottom: 16px; }
+    .about-values-section > h2 {
+      font-size: 40px; font-weight: 800; color: var(--dark); line-height: 1.15; margin-bottom: 52px;
+    }
+    .about-values-section > h2 em {
+      font-family: 'Playfair Display', serif; font-style: italic; color: var(--green);
+    }
+    .values-showcase {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+    }
+    .vs-card {
+      background: #fff; border-radius: 28px; overflow: hidden;
+      border: 1.5px solid #eeede8;
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex; flex-direction: column;
+    }
+    .vs-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(0,0,0,0.1); }
+    .vs-card-top {
+      background: var(--green);
+      padding: 36px 32px 28px;
+      position: relative; overflow: hidden;
+    }
+    .vs-card-top::before {
+      content: attr(data-letter);
+      position: absolute; right: -8px; top: -16px;
+      font-size: 120px; font-weight: 800; color: rgba(255,255,255,0.08);
+      line-height: 1; font-family: 'Playfair Display', serif;
+    }
+    .vs-icon {
+      width: 56px; height: 56px; border-radius: 16px;
+      background: rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+    }
+    .vs-icon svg { width: 26px; height: 26px; color: #fff; }
+    .vs-card-title { font-size: 26px; font-weight: 800; color: #fff; }
+    .vs-card-body { padding: 28px 32px 32px; flex: 1; }
+    .vs-card-body p { font-size: 14.5px; color: #555; line-height: 1.8; }
+
+    /* Team redesign */
+    .about-team-section {
+      background: #fff; padding: 90px 6%;
+    }
+    .about-team-section .section-tag { margin-bottom: 16px; }
+    .about-team-section > h2 {
+      font-size: 40px; font-weight: 800; color: var(--dark); line-height: 1.15; margin-bottom: 52px;
+    }
+    .about-team-section > h2 em {
+      font-family: 'Playfair Display', serif; font-style: italic; color: var(--green);
+    }
+    .team-grid-about {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+    }
+    .team-card-about {
+      position: relative; border-radius: 28px; overflow: hidden;
+      aspect-ratio: 3/4;
+      cursor: pointer;
+    }
+    .team-card-about img {
+      width: 100%; height: 100%; object-fit: cover; object-position: top;
+      display: block;
+      transition: transform 0.45s;
+    }
+    .team-card-about:hover img { transform: scale(1.06); }
+    /* Dark gradient */
+    .team-card-about::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(to top, rgba(10,31,22,0.92) 0%, transparent 55%);
+    }
+    /* Info at bottom */
+    .team-info-about {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
+      padding: 28px 28px 28px;
+    }
+    .team-role-badge {
+      display: inline-block;
+      background: var(--green);
+      color: #fff; font-size: 10px; font-weight: 700;
+      padding: 4px 12px; border-radius: 50px;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+    .team-name-about {
+      font-size: 22px; font-weight: 800; color: #fff; line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .team-bio-about {
+      font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.6;
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .team-card-about:hover .team-bio-about { max-height: 120px; }
+
+    /* Partners / certifications strip */
+    .about-partners {
+      background: var(--off-white); padding: 60px 6%;
+      text-align: center;
+    }
+    .about-partners h3 {
+      font-size: 14px; font-weight: 700; color: #aaa;
+      text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 32px;
+    }
+    .partners-logos {
+      display: flex; align-items: center; justify-content: center;
+      gap: 40px; flex-wrap: wrap;
+    }
+    .partner-logo {
+      background: #fff; border: 1.5px solid #eeede8;
+      border-radius: 14px; padding: 16px 28px;
+      font-size: 14px; font-weight: 800;
+      color: #aaa; letter-spacing: 0.08em;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .partner-logo:hover { border-color: var(--green); color: var(--green); }
+
+    /* CTA section */
+    .about-final-cta {
+      background: #0a1f16; padding: 100px 6%;
+      position: relative; overflow: hidden;
+      text-align: center;
+    }
+    .about-final-cta::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 70% at 50% 100%, rgba(46,171,123,0.18), transparent);
+      pointer-events: none;
+    }
+    .about-final-cta .section-tag { margin: 0 auto 24px; }
+    .about-final-cta h2 {
+      font-size: 52px; font-weight: 800; color: #fff; line-height: 1.1; margin-bottom: 20px;
+    }
+    .about-final-cta h2 em {
+      font-family: 'Playfair Display', serif; font-style: italic; color: var(--green-light);
+    }
+    .about-final-cta p {
+      font-size: 16px; color: rgba(255,255,255,0.65); max-width: 560px; margin: 0 auto 40px; line-height: 1.8;
+    }
+    .about-final-cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    /* Animate on scroll helpers */
+    .fade-up {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.in-view { opacity: 1; transform: translateY(0); }
+    .fade-left {
+      opacity: 0; transform: translateX(-40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-left.in-view { opacity: 1; transform: translateX(0); }
+    .fade-right {
+      opacity: 0; transform: translateX(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-right.in-view { opacity: 1; transform: translateX(0); }
+
+    @media (max-width: 1024px) {
+      .about-numbers-inner { grid-template-columns: 1fr; }
+      .values-showcase { grid-template-columns: 1fr; }
+      .team-grid-about { grid-template-columns: repeat(2, 1fr); }
+      .timeline-h { flex-direction: column; gap: 36px; }
+      .timeline-h::before { display: none; }
+      .tl-h-item { padding: 0; padding-left: 32px; border-left: 2px solid var(--green); }
+      .tl-h-item:first-child { padding-left: 32px; }
+      .tl-h-dot { position: absolute; left: -10px; top: 0; }
+      .tl-h-item { position: relative; }
+      .about-mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .mosaic-img.tall { grid-row: span 1; }
+      .about-final-cta h2 { font-size: 36px; }
+    }
+    @media (max-width: 768px) {
+      .about-mosaic { grid-template-columns: 1fr; }
+      .numbers-grid { grid-template-columns: 1fr 1fr; }
+      .values-showcase { grid-template-columns: 1fr; }
+      .team-grid-about { grid-template-columns: 1fr; }
+      .about-final-cta h2 { font-size: 28px; }
+      .about-quote-band blockquote { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Navigation">
+    <div class="mm-blob mm-blob-1"></div>
+    <div class="mm-blob mm-blob-2"></div>
+    <div class="mm-blob mm-blob-3"></div>
+    <div class="mm-topbar">
+      <div class="mm-logo"><img src="assets/image/logo.png" alt="Apro Global" /></div>
+      <button class="mm-close" id="menuClose" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="mm-card">
+      <nav class="mm-nav">
+        <a href="index.html"         class="mm-link"          data-num="01" onclick="closeMobileMenu()"><span class="mm-link-label">Home</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="services.html"      class="mm-link"          data-num="02" onclick="closeMobileMenu()"><span class="mm-link-label">Services</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="listings.html"      class="mm-link"          data-num="03" onclick="closeMobileMenu()"><span class="mm-link-label">Listings</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="about.html"         class="mm-link active"   data-num="04" onclick="closeMobileMenu()"><span class="mm-link-label">About</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="contact.html"       class="mm-link"          data-num="05" onclick="closeMobileMenu()"><span class="mm-link-label">Contact</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </nav>
+      <div class="mm-card-bottom">
+        <div class="mm-contact-chips">
+          <a href="tel:+2340000000000" class="mm-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1 19.79 19.79 0 0 1 1.56 4.5 2 2 0 0 1 3.54 2.34h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l1.73-1.73a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Call Us</a>
+          <a href="mailto:info@aproglobal.com" class="mm-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Email</a>
+        </div>
+        <a href="#" class="mm-cta" onclick="closeMobileMenu()">List Property <span class="mm-cta-arrow">→</span></a>
+      </div>
+    </div>
+    <div class="mm-stats">
+      <div class="mm-stat"><span class="mm-stat-num">250+</span><span class="mm-stat-lbl">Listings</span></div>
+      <div class="mm-stat-div"></div>
+      <div class="mm-stat"><span class="mm-stat-num">1,500+</span><span class="mm-stat-lbl">Clients</span></div>
+      <div class="mm-stat-div"></div>
+      <div class="mm-stat"><span class="mm-stat-num">23yrs</span><span class="mm-stat-lbl">Experience</span></div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="logo" aria-label="Apro Global Real Estate">
+      <img src="assets/image/logo.png" alt="Apro Global Real Estate" />
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="listings.html">Listings</a>
+      <a href="about.html" class="active">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-right">
+      <button class="icon-btn" aria-label="Notifications">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="My Account">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+      <a href="listings.html" class="list-btn">List Property<span class="arrow-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══ PAGE HERO ══ -->
+  <section class="page-hero">
+    <img class="page-hero-bg"
+      src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=85&auto=format&fit=crop"
+      alt="About Apro Global Real Estate" />
+    <div class="page-hero-content">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        <span>About Us</span>
+      </div>
+      <h1>Our <em>Story</em></h1>
+      <p class="page-hero-sub">Fifteen years of bridging the gap between property seekers and their dream spaces across Nigeria.</p>
+    </div>
+  </section>
+
+  <!-- ══ MARQUEE ══ -->
+  <div class="about-marquee">
+    <div class="marquee-track">
+      <span class="marquee-item"><span class="marquee-dot"></span>Property Management</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Lagos &amp; Abuja</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Est. 2011</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>1,500+ Clients</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Integrity First</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Below Market Price</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Property Sales</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Financial Advisory</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Leasing Services</span>
+      <!-- duplicate for seamless loop -->
+      <span class="marquee-item"><span class="marquee-dot"></span>Property Management</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Lagos &amp; Abuja</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Est. 2011</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>1,500+ Clients</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Integrity First</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Below Market Price</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Property Sales</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Financial Advisory</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Leasing Services</span>
+    </div>
+  </div>
+
+  <!-- ══ MISSION ══ -->
+  <section class="about-mission fade-up">
+    <div class="about-mission-text">
+      <span class="section-tag">Who We Are</span>
+      <h2>Built on <em>Trust,</em><br>Driven by Purpose</h2>
+      <p>Apro Global Real Estate was established in <strong>2011</strong> with the sole aim to bridge the gap between the demand and supply of quality housing, foster access to emerging real developments, below market price property investments and to offer real estate financial advisory services.</p>
+      <p>As a full service real estate agency and property management company, serving <strong>Lagos and Abuja</strong>, with a combined 23 years of experience we have demonstrated expertise in the management, sales and lease of; Flats/Apartments, Duplex, Townhouses, and Commercial properties — building a strong client base of over <strong>1,500 serviced clients</strong>.</p>
+      <div class="about-cta" style="margin-top:28px;">
+        <a href="services.html" class="btn-primary" style="background:var(--green);color:#fff;">Our Services <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="tel:+2340000000000" class="btn-secondary" style="color:var(--dark);border-color:var(--dark);">Call Us</a>
+      </div>
+    </div>
+    <div class="about-mission-visual">
+      <div class="main-img">
+        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80&auto=format&fit=crop" alt="Apro Global team" />
+      </div>
+      <div class="mission-accent">
+        <div class="mission-accent-num">15<span>+</span></div>
+        <p>Years of trusted service in Nigeria</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ NUMBERS ══ -->
+  <section class="about-numbers">
+    <div class="about-numbers-inner">
+      <div class="numbers-text fade-left">
+        <span class="section-tag">By the Numbers</span>
+        <h2>Proven Results,<br><em>Real Impact</em></h2>
+        <p>Our track record speaks for itself. Over a decade of consistent performance has earned us the trust of individuals, families, and businesses across Nigeria's two most active real estate markets.</p>
+      </div>
+      <div class="numbers-grid fade-right">
+        <div class="number-card">
+          <div class="number-card-val">250<span>+</span></div>
+          <div class="number-card-label">Active property listings across Lagos & Abuja</div>
+        </div>
+        <div class="number-card">
+          <div class="number-card-val">1,500<span>+</span></div>
+          <div class="number-card-label">Clients successfully served since 2011</div>
+        </div>
+        <div class="number-card">
+          <div class="number-card-val">23<span>+</span></div>
+          <div class="number-card-label">Combined years of real estate expertise</div>
+        </div>
+        <div class="number-card">
+          <div class="number-card-val">2</div>
+          <div class="number-card-label">Major Nigerian cities — Lagos &amp; Abuja</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ QUOTE BAND ══ -->
+  <div class="about-quote-band fade-up">
+    <blockquote>
+      "We cannot spell success without <strong style="color:#fff;">'U'</strong> — our clients are the foundation of everything we do. Their success is our success, and that belief drives us every single day."
+    </blockquote>
+    <cite>Apro Global Real Estate Leadership</cite>
+  </div>
+
+  <!-- ══ PHOTO MOSAIC ══ -->
+  <div class="about-mosaic">
+    <div class="mosaic-img tall">
+      <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80&auto=format&fit=crop" alt="Luxury property" />
+      <div class="mosaic-caption">Premium Residential Portfolio</div>
+    </div>
+    <div class="mosaic-img">
+      <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80&auto=format&fit=crop" alt="Modern apartment" />
+      <div class="mosaic-caption">Lekki, Lagos</div>
+    </div>
+    <div class="mosaic-img">
+      <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&q=80&auto=format&fit=crop" alt="Duplex" />
+      <div class="mosaic-caption">Ikoyi Duplex</div>
+    </div>
+    <div class="mosaic-img">
+      <img src="https://images.unsplash.com/photo-1572120360610-d971b9d7767c?w=600&q=80&auto=format&fit=crop" alt="Office space" />
+      <div class="mosaic-caption">Commercial — Maitama, Abuja</div>
+    </div>
+    <div class="mosaic-img">
+      <img src="https://images.unsplash.com/photo-1628744448840-55bdb2497bd4?w=600&q=80&auto=format&fit=crop" alt="Interior" />
+      <div class="mosaic-caption">Interior Excellence</div>
+    </div>
+  </div>
+
+  <!-- ══ OUR STORY TIMELINE ══ -->
+  <section class="about-story">
+    <div class="story-header fade-up">
+      <span class="section-tag">Our Journey</span>
+      <h2>From a Vision to<br><em>Nigeria's Trusted</em> Agency</h2>
+    </div>
+    <div class="timeline-h">
+      <div class="tl-h-item fade-up" style="transition-delay:0.0s">
+        <div class="tl-h-dot"></div>
+        <div class="tl-h-year">2011</div>
+        <div class="tl-h-title">Founded</div>
+        <div class="tl-h-desc">Apro Global Real Estate is established in Lagos with a mission to bridge the gap between housing demand and supply.</div>
+      </div>
+      <div class="tl-h-item fade-up" style="transition-delay:0.1s">
+        <div class="tl-h-dot"></div>
+        <div class="tl-h-year">2013</div>
+        <div class="tl-h-title">First 100 Clients</div>
+        <div class="tl-h-desc">Milestone reached: 100 satisfied clients across residential and commercial properties in Lagos.</div>
+      </div>
+      <div class="tl-h-item fade-up" style="transition-delay:0.2s">
+        <div class="tl-h-dot"></div>
+        <div class="tl-h-year">2016</div>
+        <div class="tl-h-title">Abuja Expansion</div>
+        <div class="tl-h-desc">Expanded operations to Abuja, serving both the FCT's commercial and residential markets.</div>
+      </div>
+      <div class="tl-h-item fade-up" style="transition-delay:0.3s">
+        <div class="tl-h-dot"></div>
+        <div class="tl-h-year">2019</div>
+        <div class="tl-h-title">Advisory Launch</div>
+        <div class="tl-h-desc">Launched full real estate financial advisory services, helping investors make below-market-price acquisitions.</div>
+      </div>
+      <div class="tl-h-item fade-up" style="transition-delay:0.4s">
+        <div class="tl-h-dot"></div>
+        <div class="tl-h-year">2022</div>
+        <div class="tl-h-title">1,000+ Clients</div>
+        <div class="tl-h-desc">Surpassed 1,000 serviced clients, cementing our reputation as a leading Nigerian property agency.</div>
+      </div>
+      <div class="tl-h-item fade-up" style="transition-delay:0.5s">
+        <div class="tl-h-dot"></div>
+        <div class="tl-h-year">2026</div>
+        <div class="tl-h-title">1,500+ &amp; Growing</div>
+        <div class="tl-h-desc">Today, with 1,500+ clients and 250+ active listings, we continue our pursuit of global real estate excellence.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CORE VALUES ══ -->
+  <section class="about-values-section">
+    <span class="section-tag">Core Values</span>
+    <h2>The Principles That<br><em>Guide</em> Everything We Do</h2>
+    <div class="values-showcase">
+      <div class="vs-card fade-up" style="transition-delay:0s">
+        <div class="vs-card-top" data-letter="D">
+          <div class="vs-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+          <div class="vs-card-title">Diligence</div>
+        </div>
+        <div class="vs-card-body">
+          <p>We approach every client relationship and every transaction with thorough care and meticulous attention to detail. We don't cut corners — we do the work that needs to be done, every time.</p>
+        </div>
+      </div>
+      <div class="vs-card fade-up" style="transition-delay:0.12s">
+        <div class="vs-card-top" data-letter="I">
+          <div class="vs-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="vs-card-title">Integrity</div>
+        </div>
+        <div class="vs-card-body">
+          <p>Honesty and transparency are non-negotiable at Apro Global. We give our clients accurate information, fair valuations, and unbiased guidance — even when the truth is difficult to deliver.</p>
+        </div>
+      </div>
+      <div class="vs-card fade-up" style="transition-delay:0.24s">
+        <div class="vs-card-top" data-letter="D">
+          <div class="vs-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <div class="vs-card-title">Dedication</div>
+        </div>
+        <div class="vs-card-body">
+          <p>Our team is committed to seeing each client's goals realised, no matter how complex. We go above and beyond to deliver results that exceed expectations and build lasting relationships.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ PARTNERS STRIP ══ -->
+  <div class="about-partners fade-up">
+    <h3>Trusted &amp; Recognised By</h3>
+    <div class="partners-logos">
+      <div class="partner-logo">LASRERA</div>
+      <div class="partner-logo">NIESV</div>
+      <div class="partner-logo">NITP</div>
+      <div class="partner-logo">FCDA</div>
+      <div class="partner-logo">Real Estate Lagos</div>
+    </div>
+  </div>
+
+  <!-- ══ FINAL CTA ══ -->
+  <section class="about-final-cta">
+    <span class="section-tag">Work With Us</span>
+    <h2>Let's Find Your<br>Perfect <em>Property</em></h2>
+    <p>Whether you're buying, selling, renting or investing — our dedicated team is ready to guide you through every step of your real estate journey.</p>
+    <div class="about-final-cta-btns">
+      <a href="index.html#listings" class="btn-primary">Browse Listings<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="services.html" class="btn-outline-white">View Our Services</a>
+      <a href="tel:+2340000000000" class="btn-outline-white">Call Us Now</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><img class="footer-logo-img" src="assets/image/logo.png" alt="Apro Global Real Estate" /></a>
+        <p>Bridging the gap between demand and supply of quality housing in Nigeria since 2011. Serving Lagos and Abuja with integrity, diligence and dedication.</p>
+      </div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About Us</a></li><li><a href="#">Our Team</a></li><li><a href="#">Careers</a></li><li><a href="index.html#blog">Blog</a></li><li><a href="#">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Services</h4><ul><li><a href="index.html#listings">Buy Property</a></li><li><a href="index.html#listings">Rent Property</a></li><li><a href="#">Sell Property</a></li><li><a href="services.html">Property Management</a></li><li><a href="services.html">Financial Advisory</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="#">Lagos Office</a></li><li><a href="#">Abuja Office</a></li><li><a href="tel:+2340000000000">+234 000 000 0000</a></li><li><a href="mailto:info@aproglobal.com">info@aproglobal.com</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Apro Global Real Estate. All rights reserved.</span>
+      <span><a href="#">Privacy Policy</a> &nbsp;·&nbsp; <a href="#">Terms of Service</a></span>
+    </div>
+  </footer>
+
+  <!-- FABs -->
+  <a href="https://wa.me/2340000000000" class="fab fab-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+    <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.47.643 4.787 1.768 6.8L2 30l7.4-1.74A13.94 13.94 0 0 0 16 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm0 25.5a11.45 11.45 0 0 1-5.82-1.588l-.416-.248-4.394 1.032 1.054-4.278-.272-.44A11.47 11.47 0 0 1 4.5 16C4.5 9.648 9.648 4.5 16 4.5S27.5 9.648 27.5 16 22.352 27.5 16 27.5zm6.29-8.62c-.345-.172-2.04-1.006-2.356-1.12-.316-.116-.546-.172-.776.172-.23.345-.89 1.12-1.09 1.35-.2.23-.4.258-.745.086-.345-.172-1.456-.537-2.774-1.712-1.025-.915-1.717-2.044-1.918-2.39-.2-.344-.022-.53.15-.702.154-.154.345-.402.517-.603.172-.2.23-.344.345-.573.115-.23.057-.43-.029-.603-.086-.172-.776-1.87-1.063-2.562-.28-.672-.564-.58-.776-.59l-.66-.012c-.23 0-.603.086-.918.43-.316.344-1.205 1.177-1.205 2.87s1.234 3.33 1.406 3.56c.172.23 2.428 3.71 5.882 5.202.822.355 1.463.567 1.963.726.824.263 1.574.226 2.167.137.66-.099 2.04-.834 2.328-1.638.287-.804.287-1.493.2-1.638-.086-.144-.316-.23-.66-.402z"/></svg>
+    <span class="fab-label">WhatsApp</span>
+  </a>
+  <button class="fab fab-totop" id="scrollToTop" aria-label="Scroll to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+  </button>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    // Scroll-triggered fade animations for about page
+    document.addEventListener('DOMContentLoaded', () => {
+      const els = document.querySelectorAll('.fade-up, .fade-left, .fade-right');
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); obs.unobserve(e.target); } });
+      }, { threshold: 0.12 });
+      els.forEach(el => obs.observe(el));
+    });
+  </script>
+</body>
+</html>

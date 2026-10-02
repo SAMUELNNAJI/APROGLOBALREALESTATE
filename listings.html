@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Property Listings – Apro Global Real Estate</title>
+  <meta name="description" content="Browse premium properties for sale and rent across Lagos and Abuja. Apro Global Real Estate." />
+  <link rel="icon" type="image/png" href="assets/image/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    /* ══════════════════════════════════════════════
+       LISTINGS PAGE STYLES
+    ══════════════════════════════════════════════ */
+
+    /* ── Filter bar ── */
+    .listings-filter-bar {
+      background: #fff;
+      border-bottom: 1px solid #eee;
+      padding: 0 5%;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    }
+    .filter-bar-inner {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      min-height: 64px;
+      flex-wrap: wrap;
+    }
+
+    /* type tabs */
+    .filter-type-tabs {
+      display: flex;
+      gap: 0;
+      border-right: 1px solid #eee;
+      padding-right: 24px;
+      margin-right: 24px;
+      height: 64px;
+      align-items: center;
+    }
+    .ftype-tab {
+      font-size: 13.5px; font-weight: 600;
+      color: #888; padding: 8px 18px;
+      border-radius: 50px; cursor: pointer;
+      border: none; background: transparent;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.18s, color 0.18s;
+      white-space: nowrap;
+    }
+    .ftype-tab.active {
+      background: var(--dark); color: #fff;
+    }
+    .ftype-tab:hover:not(.active) { background: #f5f5f3; color: var(--dark); }
+
+    /* dropdowns */
+    .filter-dropdowns {
+      display: flex; gap: 12px; align-items: center; flex: 1; flex-wrap: wrap;
+    }
+    .filter-select {
+      display: flex; align-items: center; gap: 8px;
+      border: 1.5px solid #ebebeb;
+      border-radius: 50px;
+      padding: 8px 16px 8px 14px;
+      font-size: 13px; font-weight: 600; color: var(--dark);
+      background: #fff; cursor: pointer;
+      transition: border-color 0.18s;
+      position: relative;
+    }
+    .filter-select:hover { border-color: var(--green); }
+    .filter-select svg { width: 13px; height: 13px; color: #aaa; }
+    .filter-select select {
+      border: none; outline: none;
+      font-size: 13px; font-weight: 600; color: var(--dark);
+      background: transparent; cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      appearance: none; -webkit-appearance: none;
+      padding-right: 6px;
+    }
+
+    /* result count + sort */
+    .filter-right {
+      display: flex; align-items: center; gap: 16px;
+      margin-left: auto;
+    }
+    .result-count { font-size: 13px; color: #888; font-weight: 500; white-space: nowrap; }
+    .result-count strong { color: var(--dark); }
+    .sort-select {
+      border: 1.5px solid #ebebeb; border-radius: 50px;
+      padding: 7px 14px; font-size: 13px; font-weight: 600;
+      color: var(--dark); background: #fff; cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      appearance: none; -webkit-appearance: none;
+      outline: none;
+    }
+    .sort-select:focus { border-color: var(--green); }
+
+    /* view toggle */
+    .view-toggle { display: flex; gap: 4px; }
+    .view-btn {
+      width: 34px; height: 34px; border-radius: 8px;
+      border: 1.5px solid #ebebeb; background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.18s;
+    }
+    .view-btn.active { background: var(--dark); border-color: var(--dark); }
+    .view-btn svg { width: 15px; height: 15px; color: #aaa; }
+    .view-btn.active svg { color: #fff; }
+
+    /* ── Listings page body ── */
+    .listings-page-body {
+      background: #f8f8f6;
+      padding: 52px 5% 40px;
+    }
+
+    /* Listings grid */
+    .listings-page-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 26px;
+      margin-bottom: 52px;
+    }
+
+    /* Enhanced listing card */
+    .lp-card {
+      background: #fff;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1.5px solid #eeede8;
+      transition: transform 0.28s, box-shadow 0.28s;
+      cursor: pointer;
+      display: flex; flex-direction: column;
+    }
+    .lp-card:hover { transform: translateY(-8px); box-shadow: 0 20px 56px rgba(0,0,0,0.12); }
+
+    .lp-img {
+      position: relative; height: 230px; overflow: hidden; flex-shrink: 0;
+    }
+    .lp-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.45s;
+    }
+    .lp-card:hover .lp-img img { transform: scale(1.07); }
+
+    /* gradient over image */
+    .lp-img::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .lp-badge {
+      position: absolute; top: 14px; left: 14px; z-index: 2;
+      font-size: 10.5px; font-weight: 800;
+      padding: 5px 13px; border-radius: 50px;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .badge-sale { background: var(--green); color: #fff; }
+    .badge-rent { background: #1a1a1a; color: #fff; }
+    .badge-new  { background: #f59e0b; color: #fff; }
+
+    .lp-wishlist {
+      position: absolute; top: 14px; right: 14px; z-index: 2;
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.92); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      border: none; cursor: pointer; transition: background 0.2s, transform 0.2s;
+    }
+    .lp-wishlist:hover { background: #fff; transform: scale(1.1); }
+    .lp-wishlist svg { width: 15px; height: 15px; color: #888; transition: color 0.2s, fill 0.2s; }
+    .lp-wishlist.liked svg { color: #e53e3e; fill: #e53e3e; }
+
+    /* price over image bottom */
+    .lp-price-overlay {
+      position: absolute; bottom: 14px; left: 14px; z-index: 2;
+      font-size: 20px; font-weight: 800; color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+    .lp-price-overlay small {
+      font-size: 12px; font-weight: 500; opacity: 0.8;
+    }
+
+    .lp-body { padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+
+    .lp-title {
+      font-size: 16px; font-weight: 700; color: var(--dark);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    .lp-location {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 12.5px; color: #888;
+    }
+    .lp-location svg { width: 13px; height: 13px; color: var(--green); flex-shrink: 0; }
+
+    .lp-divider { border: none; border-top: 1px solid #f0f0ee; margin: 4px 0; }
+
+    .lp-features { display: flex; align-items: center; }
+    .lp-feat {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 12px; font-weight: 600; color: #444; flex: 1;
+    }
+    .lp-feat svg { width: 14px; height: 14px; color: var(--green); }
+    .lp-feat-div { width: 1px; height: 14px; background: #eee; margin: 0 4px; }
+
+    .lp-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: auto; padding-top: 12px;
+      border-top: 1px solid #f0f0ee;
+    }
+    .lp-agent { display: flex; align-items: center; gap: 8px; }
+    .lp-avatar {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--green);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 800; color: #fff;
+    }
+    .lp-agent-name { font-size: 12px; font-weight: 600; color: var(--dark); }
+    .lp-agent-role { font-size: 10.5px; color: #999; }
+    .lp-contact {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--green); color: #fff;
+      font-size: 11.5px; font-weight: 700;
+      padding: 7px 16px; border-radius: 50px;
+      border: none; cursor: pointer; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .lp-contact:hover { background: var(--green-dark); }
+
+    /* ── Pagination ── */
+    .listings-pagination {
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; padding-bottom: 16px;
+    }
+    .pg-btn {
+      display: flex; align-items: center; justify-content: center;
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      border: 1.5px solid #ebebeb;
+      background: #fff;
+      font-size: 14px; font-weight: 600; color: var(--dark);
+      cursor: pointer; transition: all 0.18s;
+      font-family: 'Inter', sans-serif;
+    }
+    .pg-btn.active { background: var(--dark); color: #fff; border-color: var(--dark); }
+    .pg-btn:hover:not(.active) { border-color: var(--green); color: var(--green); }
+    .pg-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+    .pg-btn svg { width: 16px; height: 16px; }
+    .pg-arrow {
+      display: flex; align-items: center; gap: 6px;
+      padding: 0 16px; width: auto;
+      font-size: 13px;
+    }
+
+    /* ── Empty state (hidden by default) ── */
+    .no-results {
+      display: none; text-align: center;
+      padding: 80px 20px; grid-column: 1/-1;
+    }
+    .no-results svg { width: 64px; height: 64px; color: #ddd; margin-bottom: 16px; }
+    .no-results h3 { font-size: 20px; font-weight: 700; color: #444; margin-bottom: 8px; }
+    .no-results p { font-size: 14px; color: #888; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      .listings-page-grid { grid-template-columns: repeat(2, 1fr); }
+      .filter-bar-inner { gap: 12px; flex-wrap: wrap; padding: 12px 0; }
+      .filter-type-tabs { border-right: none; padding-right: 0; margin-right: 0; height: auto; }
+    }
+    @media (max-width: 768px) {
+      .listings-page-grid { grid-template-columns: 1fr; }
+      .filter-bar-inner { flex-direction: column; align-items: flex-start; padding: 14px 0; height: auto; }
+      .filter-dropdowns { width: 100%; }
+      .filter-right { margin-left: 0; width: 100%; justify-content: space-between; }
+      .view-toggle { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true">
+    <div class="mm-blob mm-blob-1"></div>
+    <div class="mm-blob mm-blob-2"></div>
+    <div class="mm-blob mm-blob-3"></div>
+    <div class="mm-topbar">
+      <div class="mm-logo"><img src="assets/image/logo.png" alt="Apro Global" /></div>
+      <button class="mm-close" id="menuClose" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="mm-card">
+      <nav class="mm-nav">
+        <a href="index.html"    class="mm-link"        data-num="01" onclick="closeMobileMenu()"><span class="mm-link-label">Home</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="services.html" class="mm-link"        data-num="02" onclick="closeMobileMenu()"><span class="mm-link-label">Services</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="listings.html" class="mm-link active" data-num="03" onclick="closeMobileMenu()"><span class="mm-link-label">Listings</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="about.html"    class="mm-link"        data-num="04" onclick="closeMobileMenu()"><span class="mm-link-label">About</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="contact.html"  class="mm-link"        data-num="05" onclick="closeMobileMenu()"><span class="mm-link-label">Contact</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </nav>
+      <div class="mm-card-bottom">
+        <div class="mm-contact-chips">
+          <a href="tel:+2347063822217" class="mm-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1 19.79 19.79 0 0 1 1.56 4.5 2 2 0 0 1 3.54 2.34h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l1.73-1.73a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Call Us</a>
+          <a href="mailto:info@aproglobalestate.com.ng" class="mm-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Email</a>
+        </div>
+        <a href="contact.html" class="mm-cta" onclick="closeMobileMenu()">List Property <span class="mm-cta-arrow">→</span></a>
+      </div>
+    </div>
+    <div class="mm-stats">
+      <div class="mm-stat"><span class="mm-stat-num">250+</span><span class="mm-stat-lbl">Listings</span></div>
+      <div class="mm-stat-div"></div>
+      <div class="mm-stat"><span class="mm-stat-num">1,500+</span><span class="mm-stat-lbl">Clients</span></div>
+      <div class="mm-stat-div"></div>
+      <div class="mm-stat"><span class="mm-stat-num">23yrs</span><span class="mm-stat-lbl">Experience</span></div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="logo"><img src="assets/image/logo.png" alt="Apro Global Real Estate" /></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="listings.html" class="active">Listings</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-right">
+      <button class="icon-btn" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></button>
+      <button class="icon-btn" aria-label="My Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
+      <a href="listings.html" class="list-btn">List Property<span class="arrow-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <img class="page-hero-bg" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=85&auto=format&fit=crop" alt="Property Listings" />
+    <div class="page-hero-content">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        <span>Listings</span>
+      </div>
+      <h1>Property <em>Listings</em></h1>
+      <p class="page-hero-sub">Explore our curated selection of premium properties for sale and rent across Lagos and Abuja.</p>
+    </div>
+  </section>
+
+  <!-- FILTER BAR -->
+  <div class="listings-filter-bar" id="filterBar">
+    <div class="filter-bar-inner">
+
+      <!-- Type tabs -->
+      <div class="filter-type-tabs">
+        <button class="ftype-tab active" data-type="all"  onclick="filterType(this)">All</button>
+        <button class="ftype-tab"        data-type="sale" onclick="filterType(this)">For Sale</button>
+        <button class="ftype-tab"        data-type="rent" onclick="filterType(this)">For Rent</button>
+      </div>
+
+      <!-- Dropdowns -->
+      <div class="filter-dropdowns">
+        <div class="filter-select">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <select id="locationFilter" onchange="applyFilters()">
+            <option value="all">All Locations</option>
+            <option value="lagos">Lagos</option>
+            <option value="abuja">Abuja</option>
+          </select>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+
+        <div class="filter-select">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          <select id="typeFilter" onchange="applyFilters()">
+            <option value="all">All Types</option>
+            <option value="apartment">Apartment / Flat</option>
+            <option value="duplex">Duplex</option>
+            <option value="townhouse">Townhouse</option>
+            <option value="office">Office</option>
+            <option value="land">Land</option>
+          </select>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+
+        <div class="filter-select">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <select id="priceFilter" onchange="applyFilters()">
+            <option value="all">Any Price</option>
+            <option value="low">Under ₦10M</option>
+            <option value="mid">₦10M – ₦100M</option>
+            <option value="high">Above ₦100M</option>
+          </select>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+
+      <!-- Right: count + sort + view -->
+      <div class="filter-right">
+        <span class="result-count"><strong id="resultCount">9</strong> properties found</span>
+        <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+          <option value="default">Sort: Default</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="newest">Newest First</option>
+        </select>
+        <div class="view-toggle">
+          <button class="view-btn active" id="gridViewBtn" aria-label="Grid view" onclick="setView('grid',this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          </button>
+          <button class="view-btn" id="listViewBtn" aria-label="List view" onclick="setView('list',this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LISTINGS GRID -->
+  <div class="listings-page-body">
+    <div class="listings-page-grid" id="listingsGrid">
+
+      <!-- Card 1 -->
+      <div class="lp-card" data-type="sale" data-location="lagos" data-proptype="apartment" data-price="85000000">
+        <div class="lp-img">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80&auto=format&fit=crop" alt="3 Bedroom Flat, Lekki Phase 1" loading="lazy" />
+          <span class="lp-badge badge-sale">For Sale</span>
+          <button class="lp-wishlist" aria-label="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <div class="lp-price-overlay">₦85,000,000 <small>/ sale</small></div>
+        </div>
+        <div class="lp-body">
+          <div class="lp-title">3 Bedroom Flat – Lekki Phase 1</div>
+          <div class="lp-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Lekki Phase 1, Lagos</div>
+          <hr class="lp-divider" />
+          <div class="lp-features">
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>3 Beds</div>
+            <div class="lp-feat-div"></div>
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h7"/></svg>2 Baths</div>
+            <div class="lp-feat-div"></div>
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>120 m²</div>
+          </div>
+          <div class="lp-footer">
+            <div class="lp-agent"><div class="lp-avatar">AG</div><div><div class="lp-agent-name">Apro Global</div><div class="lp-agent-role">Verified Agent</div></div></div>
+            <a href="contact.html" class="lp-contact">Contact</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="lp-card" data-type="sale" data-location="lagos" data-proptype="duplex" data-price="320000000">
+        <div class="lp-img">
+          <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&q=80&auto=format&fit=crop" alt="4 Bedroom Duplex, Ikoyi" loading="lazy" />
+          <span class="lp-badge badge-sale">For Sale</span>
+          <button class="lp-wishlist" aria-label="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <div class="lp-price-overlay">₦320,000,000 <small>/ sale</small></div>
+        </div>
+        <div class="lp-body">
+          <div class="lp-title">4 Bedroom Duplex – Ikoyi</div>
+          <div class="lp-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Ikoyi, Lagos</div>
+          <hr class="lp-divider" />
+          <div class="lp-features">
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>4 Beds</div>
+            <div class="lp-feat-div"></div>
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h7"/></svg>4 Baths</div>
+            <div class="lp-feat-div"></div>
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>280 m²</div>
+          </div>
+          <div class="lp-footer">
+            <div class="lp-agent"><div class="lp-avatar">AG</div><div><div class="lp-agent-name">Apro Global</div><div class="lp-agent-role">Verified Agent</div></div></div>
+            <a href="contact.html" class="lp-contact">Contact</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="lp-card" data-type="rent" data-location="lagos" data-proptype="apartment" data-price="4500000">
+        <div class="lp-img">
+          <img src="https://images.unsplash.com/photo-1565402170291-8491f14678db?w=600&q=80&auto=format&fit=crop" alt="2 Bedroom Apartment, Victoria Island" loading="lazy" />
+          <span class="lp-badge badge-rent">For Rent</span>
+          <button class="lp-wishlist" aria-label="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <div class="lp-price-overlay">₦4,500,000 <small>/ year</small></div>
+        </div>
+        <div class="lp-body">
+          <div class="lp-title">2 Bedroom Apartment – Victoria Island</div>
+          <div class="lp-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Victoria Island, Lagos</div>
+          <hr class="lp-divider" />
+          <div class="lp-features">
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>2 Beds</div>
+            <div class="lp-feat-div"></div>
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h7"/></svg>2 Baths</div>
+            <div class="lp-feat-div"></div>
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>95 m²</div>
+          </div>
+          <div class="lp-footer">
+            <div class="lp-agent"><div class="lp-avatar">AG</div><div><div class="lp-agent-name">Apro Global</div><div class="lp-agent-role">Verified Agent</div></div></div>
+            <a href="contact.html" class="lp-contact">Contact</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="lp-card" data-type="rent" data-location="abuja" data-proptype="office" data-price="12000000">
+        <div class="lp-img">
+          <img src="https://images.unsplash.com/photo-1572120360610-d971b9d7767c?w=600&q=80&auto=format&fit=crop" alt="Office Space, Maitama" loading="lazy" />
+          <span class="lp-badge badge-rent">For Rent</span>
+          <button class="lp-wishlist" aria-label="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <div class="lp-price-overlay">₦12,000,000 <small>/ year</small></div>
+        </div>
+        <div class="lp-body">
+          <div class="lp-title">Office Space – Maitama, Abuja</div>
+          <div class="lp-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Maitama, Abuja</div>
+          <hr class="lp-divider" />
+          <div class="lp-features">
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>Commercial</div>
+            <div class="lp-feat-div"></div>
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h7"/></svg>2 WCs</div>
+            <div class="lp-feat-div"></div>
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>200 m²</div>
+          </div>
+          <div class="lp-footer">
+            <div class="lp-agent"><div class="lp-avatar">AG</div><div><div class="lp-agent-name">Apro Global</div><div class="lp-agent-role">Verified Agent</div></div></div>
+            <a href="contact.html" class="lp-contact">Contact</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="lp-card" data-type="sale" data-location="abuja" data-proptype="townhouse" data-price="180000000">
+        <div class="lp-img">
+          <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&q=80&auto=format&fit=crop" alt="5 Bedroom Townhouse, Wuse 2" loading="lazy" />
+          <span class="lp-badge badge-new">New</span>
+          <button class="lp-wishlist" aria-label="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <div class="lp-price-overlay">₦180,000,000 <small>/ sale</small></div>
+        </div>
+        <div class="lp-body">
+          <div class="lp-title">5 Bedroom Townhouse – Wuse 2</div>
+          <div class="lp-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Wuse 2, Abuja</div>
+          <hr class="lp-divider" />
+          <div class="lp-features">
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>5 Beds</div>
+            <div class="lp-feat-div"></div>
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h7"/></svg>5 Baths</div>
+            <div class="lp-feat-div"></div>
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>350 m²</div>
+          </div>
+          <div class="lp-footer">
+            <div class="lp-agent"><div class="lp-avatar">AG</div><div><div class="lp-agent-name">Apro Global</div><div class="lp-agent-role">Verified Agent</div></div></div>
+            <a href="contact.html" class="lp-contact">Contact</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="lp-card" data-type="sale" data-location="lagos" data-proptype="land" data-price="25000000">
+        <div class="lp-img">
+          <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80&auto=format&fit=crop" alt="Land, Epe" loading="lazy" />
+          <span class="lp-badge badge-sale">For Sale</span>
+          <button class="lp-wishlist" aria-label="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <div class="lp-price-overlay">₦25,000,000 <small>/ plot</small></div>
+        </div>
+        <div class="lp-body">
+          <div class="lp-title">Land – Epe Corridor, Lagos</div>
+          <div class="lp-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Epe, Lagos</div>
+          <hr class="lp-divider" />
+          <div class="lp-features">
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/></svg>Dry Land</div>
+            <div class="lp-feat-div"></div>
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>C of O</div>
+            <div class="lp-feat-div"></div>
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>600 m²</div>
+          </div>
+          <div class="lp-footer">
+            <div class="lp-agent"><div class="lp-avatar">AG</div><div><div class="lp-agent-name">Apro Global</div><div class="lp-agent-role">Verified Agent</div></div></div>
+            <a href="contact.html" class="lp-contact">Contact</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 7 -->
+      <div class="lp-card" data-type="sale" data-location="lagos" data-proptype="townhouse" data-price="95000000">
+        <div class="lp-img">
+          <img src="https://images.unsplash.com/photo-1600047509360-e8b0e7c13f3a?w=600&q=80&auto=format&fit=crop" alt="3 Bedroom Terrace, Lekki Phase 2" loading="lazy" />
+          <span class="lp-badge badge-sale">For Sale</span>
+          <button class="lp-wishlist" aria-label="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <div class="lp-price-overlay">₦95,000,000 <small>/ sale</small></div>
+        </div>
+        <div class="lp-body">
+          <div class="lp-title">3 Bedroom Terrace – Lekki Phase 2</div>
+          <div class="lp-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Lekki Phase 2, Lagos</div>
+          <hr class="lp-divider" />
+          <div class="lp-features">
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>3 Beds</div>
+            <div class="lp-feat-div"></div>
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h7"/></svg>3 Baths</div>
+            <div class="lp-feat-div"></div>
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>160 m²</div>
+          </div>
+          <div class="lp-footer">
+            <div class="lp-agent"><div class="lp-avatar">AG</div><div><div class="lp-agent-name">Apro Global</div><div class="lp-agent-role">Verified Agent</div></div></div>
+            <a href="contact.html" class="lp-contact">Contact</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 8 -->
+      <div class="lp-card" data-type="rent" data-location="abuja" data-proptype="apartment" data-price="3200000">
+        <div class="lp-img">
+          <img src="https://images.unsplash.com/photo-1628744448840-55bdb2497bd4?w=600&q=80&auto=format&fit=crop" alt="2 Bedroom Flat, Gwarimpa" loading="lazy" />
+          <span class="lp-badge badge-rent">For Rent</span>
+          <button class="lp-wishlist" aria-label="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <div class="lp-price-overlay">₦3,200,000 <small>/ year</small></div>
+        </div>
+        <div class="lp-body">
+          <div class="lp-title">2 Bedroom Flat – Gwarimpa, Abuja</div>
+          <div class="lp-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Gwarimpa, Abuja</div>
+          <hr class="lp-divider" />
+          <div class="lp-features">
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>2 Beds</div>
+            <div class="lp-feat-div"></div>
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h7"/></svg>2 Baths</div>
+            <div class="lp-feat-div"></div>
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>90 m²</div>
+          </div>
+          <div class="lp-footer">
+            <div class="lp-agent"><div class="lp-avatar">AG</div><div><div class="lp-agent-name">Apro Global</div><div class="lp-agent-role">Verified Agent</div></div></div>
+            <a href="contact.html" class="lp-contact">Contact</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 9 -->
+      <div class="lp-card" data-type="sale" data-location="lagos" data-proptype="duplex" data-price="150000000">
+        <div class="lp-img">
+          <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=600&q=80&auto=format&fit=crop" alt="4 Bedroom Detached, Ajah" loading="lazy" />
+          <span class="lp-badge badge-new">New</span>
+          <button class="lp-wishlist" aria-label="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <div class="lp-price-overlay">₦150,000,000 <small>/ sale</small></div>
+        </div>
+        <div class="lp-body">
+          <div class="lp-title">4 Bed Detached House – Ajah</div>
+          <div class="lp-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Ajah, Lagos</div>
+          <hr class="lp-divider" />
+          <div class="lp-features">
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>4 Beds</div>
+            <div class="lp-feat-div"></div>
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h7"/></svg>4 Baths</div>
+            <div class="lp-feat-div"></div>
+            <div class="lp-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>240 m²</div>
+          </div>
+          <div class="lp-footer">
+            <div class="lp-agent"><div class="lp-avatar">AG</div><div><div class="lp-agent-name">Apro Global</div><div class="lp-agent-role">Verified Agent</div></div></div>
+            <a href="contact.html" class="lp-contact">Contact</a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /listings-page-grid -->
+
+    <!-- Pagination -->
+    <div class="listings-pagination">
+      <button class="pg-btn pg-arrow" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        Prev
+      </button>
+      <button class="pg-btn active">1</button>
+      <button class="pg-btn">2</button>
+      <button class="pg-btn">3</button>
+      <button class="pg-btn pg-arrow">
+        Next
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+
+  </div><!-- /listings-page-body -->
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><img class="footer-logo-img" src="assets/image/logo.png" alt="Apro Global Real Estate" /></a>
+        <p>Bridging the gap between demand and supply of quality housing in Nigeria since 2011. Serving Lagos and Abuja with integrity, diligence and dedication.</p>
+      </div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About Us</a></li><li><a href="#">Our Team</a></li><li><a href="#">Careers</a></li><li><a href="index.html#blog">Blog</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Services</h4><ul><li><a href="listings.html">Buy Property</a></li><li><a href="listings.html">Rent Property</a></li><li><a href="contact.html">Sell Property</a></li><li><a href="services.html">Property Management</a></li><li><a href="services.html">Financial Advisory</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="#">Lagos — Ikoyi Office</a></li><li><a href="tel:+2347063822217">+234 706 382 2217</a></li><li><a href="mailto:info@aproglobalestate.com.ng">info@aproglobalestate.com.ng</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Apro Global Real Estate. All rights reserved.</span>
+      <span><a href="#">Privacy Policy</a> &nbsp;·&nbsp; <a href="#">Terms of Service</a></span>
+    </div>
+  </footer>
+
+  <!-- FABs -->
+  <a href="https://wa.me/2347063822217" class="fab fab-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+    <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.47.643 4.787 1.768 6.8L2 30l7.4-1.74A13.94 13.94 0 0 0 16 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm0 25.5a11.45 11.45 0 0 1-5.82-1.588l-.416-.248-4.394 1.032 1.054-4.278-.272-.44A11.47 11.47 0 0 1 4.5 16C4.5 9.648 9.648 4.5 16 4.5S27.5 9.648 27.5 16 22.352 27.5 16 27.5zm6.29-8.62c-.345-.172-2.04-1.006-2.356-1.12-.316-.116-.546-.172-.776.172-.23.345-.89 1.12-1.09 1.35-.2.23-.4.258-.745.086-.345-.172-1.456-.537-2.774-1.712-1.025-.915-1.717-2.044-1.918-2.39-.2-.344-.022-.53.15-.702.154-.154.345-.402.517-.603.172-.2.23-.344.345-.573.115-.23.057-.43-.029-.603-.086-.172-.776-1.87-1.063-2.562-.28-.672-.564-.58-.776-.59l-.66-.012c-.23 0-.603.086-.918.43-.316.344-1.205 1.177-1.205 2.87s1.234 3.33 1.406 3.56c.172.23 2.428 3.71 5.882 5.202.822.355 1.463.567 1.963.726.824.263 1.574.226 2.167.137.66-.099 2.04-.834 2.328-1.638.287-.804.287-1.493.2-1.638-.086-.144-.316-.23-.66-.402z"/></svg>
+    <span class="fab-label">WhatsApp</span>
+  </a>
+  <button class="fab fab-totop" id="scrollToTop" aria-label="Scroll to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+  </button>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    let activeType = 'all';
+
+    function filterType(btn) {
+      document.querySelectorAll('.ftype-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeType = btn.dataset.type;
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const loc   = document.getElementById('locationFilter').value;
+      const type  = document.getElementById('typeFilter').value;
+      const price = document.getElementById('priceFilter').value;
+      const sort  = document.getElementById('sortSelect').value;
+
+      let cards = Array.from(document.querySelectorAll('.lp-card'));
+
+      // filter
+      let visible = cards.filter(c => {
+        const cType  = c.dataset.type;
+        const cLoc   = c.dataset.location;
+        const cProp  = c.dataset.proptype;
+        const cPrice = parseInt(c.dataset.price);
+
+        if (activeType !== 'all' && cType !== activeType) return false;
+        if (loc  !== 'all' && cLoc  !== loc)  return false;
+        if (type !== 'all' && cProp !== type)  return false;
+        if (price === 'low'  && cPrice >= 10000000)  return false;
+        if (price === 'mid'  && (cPrice < 10000000 || cPrice > 100000000)) return false;
+        if (price === 'high' && cPrice <= 100000000) return false;
+        return true;
+      });
+
+      // sort
+      if (sort === 'price-asc')  visible.sort((a,b) => parseInt(a.dataset.price) - parseInt(b.dataset.price));
+      if (sort === 'price-desc') visible.sort((a,b) => parseInt(b.dataset.price) - parseInt(a.dataset.price));
+
+      // apply visibility
+      cards.forEach(c => { c.style.display = 'none'; });
+      visible.forEach(c => { c.style.display = 'flex'; });
+
+      // update count
+      document.getElementById('resultCount').textContent = visible.length;
+    }
+
+    function setView(type, btn) {
+      document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const grid = document.getElementById('listingsGrid');
+      if (type === 'list') {
+        grid.style.gridTemplateColumns = '1fr';
+      } else {
+        grid.style.gridTemplateColumns = '';
+      }
+    }
+
+    // wishlist
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.lp-wishlist').forEach(btn => {
+        btn.addEventListener('click', e => { e.stopPropagation(); btn.classList.toggle('liked'); });
+      });
+
+      // card fade-in
+      document.querySelectorAll('.lp-card').forEach((c,i) => {
+        c.style.opacity = '0';
+        c.style.transform = 'translateY(28px)';
+        c.style.transition = `opacity 0.5s ${i*0.06}s ease, transform 0.5s ${i*0.06}s ease`;
+        new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) { c.style.opacity='1'; c.style.transform='translateY(0)'; }
+        }, {threshold:0.1}).observe(c);
+      });
+    });
+  </script>
+</body>
+</html>
