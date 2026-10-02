@@ -164,7 +164,7 @@ body {
 /* ── Overlay shell ── */
 .mobile-menu {
   position: fixed; inset: 0;
-  z-index: 999;
+  z-index: 1100;   /* above navbar (1000) so navbar doesn't bleed through */
   overflow: hidden;
   background: linear-gradient(135deg,
     rgba(8,22,16,0.95)  0%,
@@ -241,7 +241,7 @@ body {
   border-bottom: 1px solid rgba(255,255,255,0.08);
   background: rgba(255,255,255,0.04);
   backdrop-filter: blur(8px);
-  z-index: 2;
+  z-index: 10;  /* above blobs inside the menu */
 }
 .mm-logo img {
   height: 44px; width: auto;
@@ -1138,10 +1138,54 @@ body {
   /* hero — perf widget top-right, hero text bottom */
   .hero { height: 100svh; min-height: 600px; }
   .hero-content { bottom: 180px; left: 5%; right: 5%; }
-  .hero-content h1 { font-size: 48px; }
+  .hero-content h1 { font-size: 56px; }
   .property-pills { display: none; }
-  /* perf widget stays top-right on tablet */
-  .perf-widget { top: 90px; right: 4%; width: 210px; left: auto; bottom: auto; font-size: inherit; }
+
+  /* perf widget — bigger on tablet */
+  .perf-widget {
+    top: 90px; right: 4%;
+    width: 280px;          /* was 210px */
+    left: auto; bottom: auto;
+    padding: 20px 22px;
+  }
+  .perf-num    { font-size: 24px; }      /* was 18px */
+  .perf-num-sub{ font-size: 12px; }
+  .perf-label  { font-size: 14px; }
+  .perf-change { font-size: 13px; }
+  .bar-chart   { height: 72px; }
+  .bar-wrap    { height: 58px; }
+  .bar-tooltip { font-size: 12px; padding: 4px 11px; }
+
+  /* hamburger menu — bigger on tablet */
+  .mm-card {
+    width: min(520px, calc(100vw - 48px));
+  }
+  .mm-link {
+    font-size: 22px;
+    padding: 18px 32px;
+  }
+  .mm-link::before { font-size: 12px; margin-right: 18px; }
+  .mm-contact-chips { gap: 12px; }
+  .mm-chip {
+    font-size: 16px;
+    padding: 16px 24px;
+  }
+  .mm-chip svg { width: 22px; height: 22px; }
+  .mm-cta {
+    font-size: 16px;
+    padding: 17px 24px;
+    border-radius: 16px;
+  }
+  .mm-stats {
+    width: min(520px, calc(100vw - 48px));
+    padding: 18px 36px;
+  }
+  .mm-stat-num { font-size: 22px; }
+  .mm-stat-lbl { font-size: 12px; }
+  .mm-topbar   { padding: 20px 28px; }
+  .mm-logo img { height: 54px; }
+  .mm-close    { width: 52px; height: 52px; border-radius: 14px; }
+  .mm-close svg{ width: 22px; height: 22px; }
 
   /* search */
   .search-panel { margin: -44px 3% 0; }
@@ -1183,6 +1227,22 @@ body {
   .navbar.scrolled { padding: 8px 18px; }
   .logo img { height: 48px; }
   .navbar.scrolled .logo img { height: 38px; }
+
+  /* ── Reset hamburger menu to mobile size (undo tablet enlargements) ── */
+  .mm-card { width: min(340px, calc(100vw - 32px)); }
+  .mm-link { font-size: 17px; padding: 15px 28px; }
+  .mm-link::before { font-size: 10px; margin-right: 14px; }
+  .mm-contact-chips { gap: 10px; }
+  .mm-chip { font-size: 14px; padding: 13px 20px; }
+  .mm-chip svg { width: 18px; height: 18px; }
+  .mm-cta { font-size: 14px; padding: 14px 20px; border-radius: 14px; }
+  .mm-stats { width: min(340px, calc(100vw - 32px)); padding: 14px 28px; }
+  .mm-stat-num { font-size: 18px; }
+  .mm-stat-lbl { font-size: 10px; }
+  .mm-topbar { padding: 16px 20px; }
+  .mm-logo img { height: 44px; }
+  .mm-close { width: 42px; height: 42px; border-radius: 12px; }
+  .mm-close svg { width: 18px; height: 18px; }
 
   /* hero */
   .hero { height: 100svh; min-height: 580px; }
