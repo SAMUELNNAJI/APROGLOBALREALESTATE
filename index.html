@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apro Global Real Estate – Find Your Place in Lagos & Abuja</title>
+  <meta name="description" content="Apro Global Real Estate – A full service real estate agency serving Lagos and Abuja since 2011. Buy, Rent or Sell properties below market price." />
+  <link rel="icon" type="image/png" href="assets/image/logo.png" />
+  <link rel="shortcut icon" type="image/png" href="assets/image/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════════
+       MOBILE MENU DRAWER — crazy glassmorphism
+  ══════════════════════════════════════════════════════ -->
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Navigation">
+
+    <!-- animated background blobs -->
+    <div class="mm-blob mm-blob-1"></div>
+    <div class="mm-blob mm-blob-2"></div>
+    <div class="mm-blob mm-blob-3"></div>
+
+    <!-- top bar inside menu -->
+    <div class="mm-topbar">
+      <div class="mm-logo">
+        <img src="assets/image/logo.png" alt="Apro Global" />
+      </div>
+      <button class="mm-close" id="menuClose" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- glass nav card -->
+    <div class="mm-card">
+      <nav class="mm-nav">
+        <a href="#"         class="mm-link active"  data-num="01" onclick="closeMobileMenu()"><span class="mm-link-label">Home</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="#listings" class="mm-link"          data-num="02" onclick="closeMobileMenu()"><span class="mm-link-label">Buy</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="#listings" class="mm-link"          data-num="03" onclick="closeMobileMenu()"><span class="mm-link-label">Rent</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="#"         class="mm-link"          data-num="04" onclick="closeMobileMenu()"><span class="mm-link-label">Sell</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="#"         class="mm-link"          data-num="05" onclick="closeMobileMenu()"><span class="mm-link-label">Agents</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="#about"    class="mm-link"          data-num="06" onclick="closeMobileMenu()"><span class="mm-link-label">About</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </nav>
+
+      <!-- bottom row inside card -->
+      <div class="mm-card-bottom">
+        <div class="mm-contact-chips">
+          <a href="tel:+2340000000000" class="mm-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1 19.79 19.79 0 0 1 1.56 4.5 2 2 0 0 1 3.54 2.34h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l1.73-1.73a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Call Us
+          </a>
+          <a href="mailto:info@aproglobal.com" class="mm-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Email
+          </a>
+        </div>
+        <a href="#" class="mm-cta" onclick="closeMobileMenu()">
+          List Property
+          <span class="mm-cta-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- floating stats strip -->
+    <div class="mm-stats">
+      <div class="mm-stat"><span class="mm-stat-num">250+</span><span class="mm-stat-lbl">Listings</span></div>
+      <div class="mm-stat-div"></div>
+      <div class="mm-stat"><span class="mm-stat-num">1,500+</span><span class="mm-stat-lbl">Clients</span></div>
+      <div class="mm-stat-div"></div>
+      <div class="mm-stat"><span class="mm-stat-num">23yrs</span><span class="mm-stat-lbl">Experience</span></div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       NAVBAR
+  ══════════════════════════════════════════════════════ -->
+  <nav class="navbar" id="navbar">
+    <a href="#" class="logo" aria-label="Apro Global Real Estate – Home">
+      <img src="assets/image/logo.png" alt="Apro Global Real Estate" />
+    </a>
+
+    <div class="nav-links">
+      <a href="#"         class="active">Home</a>
+      <a href="#listings">Buy</a>
+      <a href="#listings">Rent</a>
+      <a href="#">Sell</a>
+      <a href="#">Agents</a>
+      <a href="#about">About</a>
+    </div>
+
+    <div class="nav-right">
+      <button class="icon-btn" aria-label="Notifications">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+      </button>
+      <button class="icon-btn" aria-label="My Account">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        </svg>
+      </button>
+      <button class="list-btn">
+        List Property
+        <span class="arrow-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </span>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════════════════ -->
+  <section class="hero" id="hero">
+
+    <!-- Single background image -->
+    <img
+      class="hero-bg"
+      src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1600&q=85&auto=format&fit=crop"
+      alt="Luxury modern villa"
+      onerror="this.style.background='linear-gradient(135deg,#0d1f1a 0%,#1a4030 100%)';this.removeAttribute('src')"
+    />
+
+    <!-- Performance Widget -->
+    <div class="perf-widget">
+      <div class="perf-header">
+        <div class="perf-label"><span class="perf-dot"></span>Market Performance</div>
+        <div class="perf-change">
+          Change
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="perf-nums">
+        <div><div class="perf-num">₦85M</div><div class="perf-num-sub">Current</div></div>
+        <div><div class="perf-num">₦68M</div><div class="perf-num-sub">Est.</div></div>
+      </div>
+      <div class="bar-chart">
+        <div class="bar-group">
+          <div class="bar-wrap"><div class="bar light" style="height:26px"></div><div class="bar dark" style="height:18px"></div></div>
+          <span class="bar-year">2022</span>
+        </div>
+        <div class="bar-group">
+          <div class="bar-wrap"><div class="bar light" style="height:30px"></div><div class="bar dark" style="height:22px"></div></div>
+          <span class="bar-year">2023</span>
+        </div>
+        <div class="bar-group">
+          <div class="bar-wrap"><div class="bar light" style="height:36px"></div><div class="bar dark" style="height:28px"></div></div>
+          <span class="bar-year">2024</span>
+        </div>
+        <div class="bar-group">
+          <div class="bar-wrap"><div class="bar light" style="height:42px"></div><div class="bar dark" style="height:34px"></div></div>
+          <span class="bar-year">2025</span>
+        </div>
+        <div class="bar-group" style="position:relative">
+          <div class="bar-tooltip">₦85M</div>
+          <div class="bar-wrap"><div class="bar light" style="height:48px"></div><div class="bar dark" style="height:48px"></div></div>
+          <span class="bar-year">2026</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero animated headline -->
+    <div class="hero-content">
+      <h1>
+        <span class="hero-line">
+          <span class="hero-line-inner">
+            <span class="normal">Better </span><span class="italic">places,</span>
+          </span>
+        </span>
+        <span class="hero-line">
+          <span class="hero-line-inner">
+            <span class="italic">Smarter property </span><span class="normal">decisions</span>
+          </span>
+        </span>
+      </h1>
+      <div class="hero-sub">
+        <span class="hero-sub-badge">Est. 2011</span>
+        <span class="hero-sub-text">Lagos &amp; Abuja — Nigeria's most trusted agency</span>
+      </div>
+    </div>
+
+    <!-- Property type pills removed -->
+
+  </section><!-- /hero -->
+
+  <!-- ══════════════════════════════════════════════════
+       SEARCH PANEL
+  ══════════════════════════════════════════════════════ -->
+  <div class="search-panel">
+    <div class="search-tabs">
+      <button class="tab active" onclick="setTab(this)">Buy</button>
+      <button class="tab"        onclick="setTab(this)">Rent</button>
+      <button class="tab"        onclick="setTab(this)">Sell</button>
+    </div>
+    <div class="search-fields">
+      <div class="search-field">
+        <div class="field-label">Location</div>
+        <div class="field-value">Lagos
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="search-field">
+        <div class="field-label">Property Type</div>
+        <div class="field-value">Apartment
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="search-field">
+        <div class="field-label">Price Range</div>
+        <div class="field-value">₦5M – ₦20M
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="search-field">
+        <div class="field-label">Rooms</div>
+        <div class="field-value">3 (Bedroom)
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="search-bottom">
+      <div class="filter-row">
+        <span class="filter-label">Filter:</span>
+        <span class="filter-tag active-tag" onclick="toggleFilter(this)">Apartment</span>
+        <span class="filter-tag"            onclick="toggleFilter(this)">Villa</span>
+        <span class="filter-tag"            onclick="toggleFilter(this)">House</span>
+        <span class="filter-tag"            onclick="toggleFilter(this)">Office</span>
+        <span class="filter-tag"            onclick="toggleFilter(this)">Land</span>
+      </div>
+      <button class="search-btn">
+        Search Properties
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       STATS BAR
+  ══════════════════════════════════════════════════════ -->
+  <div class="stats-bar">
+    <div class="stat-item"><div class="stat-num">250<span>+</span></div><div class="stat-desc">Active listings</div></div>
+    <div class="stat-item"><div class="stat-num">1,500<span>+</span></div><div class="stat-desc">Clients serviced</div></div>
+    <div class="stat-item"><div class="stat-num">23<span>+</span></div><div class="stat-desc">Years of experience</div></div>
+    <div class="stat-item"><div class="stat-num">2<span>+</span></div><div class="stat-desc">Cities – Lagos &amp; Abuja</div></div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       ABOUT US
+  ══════════════════════════════════════════════════════ -->
+  <section class="about-section" id="about">
+    <img class="about-bg-img" src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&q=60&auto=format&fit=crop" alt="" aria-hidden="true" />
+    <div class="about-overlay"></div>
+    <div class="about-inner">
+
+      <!-- Left -->
+      <div class="about-left">
+        <div class="about-label">Who We Are</div>
+        <h2 class="about-headline">Nigeria's Trusted<br><em>Real Estate</em> Partner</h2>
+        <div class="about-metrics">
+          <div class="metric-card"><div class="metric-num">15<span>+</span></div><div class="metric-label">Years of trusted service in Nigeria</div></div>
+          <div class="metric-card"><div class="metric-num">1,500<span>+</span></div><div class="metric-label">Clients successfully serviced</div></div>
+          <div class="metric-card"><div class="metric-num">23<span>+</span></div><div class="metric-label">Combined years of expertise</div></div>
+          <div class="metric-card"><div class="metric-num">2</div><div class="metric-label">Major cities — Lagos &amp; Abuja</div></div>
+        </div>
+        <div class="about-photos">
+          <div class="about-photo"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=900&q=80&auto=format&fit=crop" alt="Apro Global Real Estate team" /></div>
+          <div class="about-photo"><img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=500&q=80&auto=format&fit=crop" alt="Luxury property" /></div>
+          <div class="about-photo"><img src="https://images.unsplash.com/photo-1628744448840-55bdb2497bd4?w=500&q=80&auto=format&fit=crop" alt="Modern interior" /></div>
+        </div>
+      </div>
+
+      <!-- Right -->
+      <div class="about-right">
+        <div class="about-divider"></div>
+        <p>Apro Global Real Estate was established in <strong>2011</strong> with the sole aim to bridge the gap between the demand and supply of quality housing, foster access to emerging real developments, below market price property investments and to offer real estate financial advisory services.</p>
+        <p>As a full service real estate agency and property management company, serving <strong>Lagos and Abuja</strong>, with a combined 23 years of experience in the real estate business we have demonstrated expertise in the management, sales and lease of; Flats/Apartments, Duplex, Townhouses, Commercial properties (shops, offices, warehouses) and more — building a strong client base of over <strong>1,500 serviced clients</strong>.</p>
+        <p>We believe that prompt attention to our property seekers, property owners as well as our residents is crucial in delivering optimum service. We also believe in the success of our clients because we cannot spell success without <strong>"U"</strong>. This has been our driving force that formed the basis of our vision: to <em>"attain a global presence and be the first point of call in terms of real estate needs."</em></p>
+        <div class="core-values">
+          <span class="value-badge">Diligence</span>
+          <span class="value-badge">Integrity</span>
+          <span class="value-badge">Dedication</span>
+        </div>
+        <div class="about-cta">
+          <a href="#listings" class="btn-primary">
+            View Properties
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#" class="btn-secondary">Contact Us</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════
+       LATEST LISTINGS
+  ══════════════════════════════════════════════════════ -->
+  <section class="listings-section" id="listings">
+    <div class="listings-header">
+      <div class="listings-header-left">
+        <span class="section-tag">Latest Listings</span>
+        <h2>Fresh Properties,<br><em>Exceptional</em> Value</h2>
+      </div>
+      <a href="#" class="view-all-btn">
+        View All Listings
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="listings-grid">
+
+      <!-- Card 1 -->
+      <div class="listing-card">
+        <div class="card-image">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80&auto=format&fit=crop" alt="3 Bedroom Flat, Lekki Phase 1" />
+          <span class="card-badge badge-for-sale">For Sale</span>
+          <button class="card-wishlist" aria-label="Save to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        </div>
+        <div class="card-body">
+          <div class="card-price">₦85,000,000 <span>/ sale</span></div>
+          <div class="card-title">3 Bedroom Flat – Lekki Phase 1</div>
+          <div class="card-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Lekki Phase 1, Lagos</div>
+          <hr class="card-divider" />
+          <div class="card-features">
+            <div class="card-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>3 Beds</div>
+            <div class="card-feature-divider"></div>
+            <div class="card-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h7"/></svg>2 Baths</div>
+            <div class="card-feature-divider"></div>
+            <div class="card-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>120 m²</div>
+          </div>
+          <div class="card-agent"><div class="agent-info"><div class="agent-avatar">AG</div><div><div class="agent-name">Apro Global</div><div class="agent-role">Verified Agent</div></div></div><a href="#" class="card-contact-btn">Contact</a></div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="listing-card">
+        <div class="card-image">
+          <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&q=80&auto=format&fit=crop" alt="4 Bedroom Duplex, Ikoyi" />
+          <span class="card-badge badge-for-sale">For Sale</span>
+          <button class="card-wishlist" aria-label="Save to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        </div>
+        <div class="card-body">
+          <div class="card-price">₦320,000,000 <span>/ sale</span></div>
+          <div class="card-title">4 Bedroom Duplex – Ikoyi</div>
+          <div class="card-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Ikoyi, Lagos</div>
+          <hr class="card-divider" />
+          <div class="card-features">
+            <div class="card-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>4 Beds</div>
+            <div class="card-feature-divider"></div>
+            <div class="card-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h7"/></svg>4 Baths</div>
+            <div class="card-feature-divider"></div>
+            <div class="card-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>280 m²</div>
+          </div>
+          <div class="card-agent"><div class="agent-info"><div class="agent-avatar">AG</div><div><div class="agent-name">Apro Global</div><div class="agent-role">Verified Agent</div></div></div><a href="#" class="card-contact-btn">Contact</a></div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="listing-card">
+        <div class="card-image">
+          <img src="https://images.unsplash.com/photo-1565402170291-8491f14678db?w=600&q=80&auto=format&fit=crop" alt="2 Bedroom Apartment, Victoria Island" />
+          <span class="card-badge badge-for-rent">For Rent</span>
+          <button class="card-wishlist" aria-label="Save to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        </div>
+        <div class="card-body">
+          <div class="card-price">₦4,500,000 <span>/ year</span></div>
+          <div class="card-title">2 Bedroom Apartment – Victoria Island</div>
+          <div class="card-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Victoria Island, Lagos</div>
+          <hr class="card-divider" />
+          <div class="card-features">
+            <div class="card-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>2 Beds</div>
+            <div class="card-feature-divider"></div>
+            <div class="card-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h7"/></svg>2 Baths</div>
+            <div class="card-feature-divider"></div>
+            <div class="card-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>95 m²</div>
+          </div>
+          <div class="card-agent"><div class="agent-info"><div class="agent-avatar">AG</div><div><div class="agent-name">Apro Global</div><div class="agent-role">Verified Agent</div></div></div><a href="#" class="card-contact-btn">Contact</a></div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="listing-card">
+        <div class="card-image">
+          <img src="https://images.unsplash.com/photo-1572120360610-d971b9d7767c?w=600&q=80&auto=format&fit=crop" alt="Office Space, Maitama Abuja" />
+          <span class="card-badge badge-for-rent">For Rent</span>
+          <button class="card-wishlist" aria-label="Save to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        </div>
+        <div class="card-body">
+          <div class="card-price">₦12,000,000 <span>/ year</span></div>
+          <div class="card-title">Office Space – Maitama, Abuja</div>
+          <div class="card-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Maitama, Abuja</div>
+          <hr class="card-divider" />
+          <div class="card-features">
+            <div class="card-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>Commercial</div>
+            <div class="card-feature-divider"></div>
+            <div class="card-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h7"/></svg>2 WCs</div>
+            <div class="card-feature-divider"></div>
+            <div class="card-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>200 m²</div>
+          </div>
+          <div class="card-agent"><div class="agent-info"><div class="agent-avatar">AG</div><div><div class="agent-name">Apro Global</div><div class="agent-role">Verified Agent</div></div></div><a href="#" class="card-contact-btn">Contact</a></div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="listing-card">
+        <div class="card-image">
+          <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&q=80&auto=format&fit=crop" alt="5 Bedroom Townhouse, Wuse 2 Abuja" />
+          <span class="card-badge badge-new">New</span>
+          <button class="card-wishlist" aria-label="Save to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        </div>
+        <div class="card-body">
+          <div class="card-price">₦180,000,000 <span>/ sale</span></div>
+          <div class="card-title">5 Bedroom Townhouse – Wuse 2</div>
+          <div class="card-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Wuse 2, Abuja</div>
+          <hr class="card-divider" />
+          <div class="card-features">
+            <div class="card-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>5 Beds</div>
+            <div class="card-feature-divider"></div>
+            <div class="card-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h7"/></svg>5 Baths</div>
+            <div class="card-feature-divider"></div>
+            <div class="card-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>350 m²</div>
+          </div>
+          <div class="card-agent"><div class="agent-info"><div class="agent-avatar">AG</div><div><div class="agent-name">Apro Global</div><div class="agent-role">Verified Agent</div></div></div><a href="#" class="card-contact-btn">Contact</a></div>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="listing-card">
+        <div class="card-image">
+          <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80&auto=format&fit=crop" alt="Land, Epe Lagos" />
+          <span class="card-badge badge-for-sale">For Sale</span>
+          <button class="card-wishlist" aria-label="Save to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        </div>
+        <div class="card-body">
+          <div class="card-price">₦25,000,000 <span>/ plot</span></div>
+          <div class="card-title">Land – Epe Corridor, Lagos</div>
+          <div class="card-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Epe, Lagos</div>
+          <hr class="card-divider" />
+          <div class="card-features">
+            <div class="card-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>Dry Land</div>
+            <div class="card-feature-divider"></div>
+            <div class="card-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>C of O</div>
+            <div class="card-feature-divider"></div>
+            <div class="card-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>600 m²</div>
+          </div>
+          <div class="card-agent"><div class="agent-info"><div class="agent-avatar">AG</div><div><div class="agent-name">Apro Global</div><div class="agent-role">Verified Agent</div></div></div><a href="#" class="card-contact-btn">Contact</a></div>
+        </div>
+      </div>
+
+    </div><!-- /listings-grid -->
+  </section>
+
+  <!-- ══════════════════════════════════════════════════
+       TESTIMONIALS — 3D carousel
+  ══════════════════════════════════════════════════════ -->
+  <section class="testimonials-section" id="testimonials">
+    <div class="testimonials-header">
+      <span class="section-tag">Testimonials</span>
+      <h2>What Our <em>Clients</em> Say</h2>
+    </div>
+
+    <div class="tcarousel-scene">
+      <div class="tcarousel-track">
+
+        <div class="t-card">
+          <div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div>
+          <p class="t-quote">Apro Global found us a perfect 3-bedroom flat in Lekki within two weeks. Their team was professional, responsive and made the whole process seamless. Highly recommended!</p>
+          <div class="t-person">
+            <div class="t-avatar">AO</div>
+            <div><div class="t-name">Adaeze Okonkwo</div><div class="t-role">Homeowner, Lekki Lagos</div></div>
+          </div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div>
+          <p class="t-quote">As a first-time investor, I was nervous. Apro Global's financial advisory team guided me to a below-market deal in Epe that has already appreciated 30% in two years.</p>
+          <div class="t-person">
+            <div class="t-avatar">EM</div>
+            <div><div class="t-name">Emeka Maduka</div><div class="t-role">Property Investor, Abuja</div></div>
+          </div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div>
+          <p class="t-quote">We leased our commercial warehouse in Apapa through Apro Global. The entire process from listing to signing took just 3 weeks. Excellent service, excellent team.</p>
+          <div class="t-person">
+            <div class="t-avatar">TF</div>
+            <div><div class="t-name">Taiwo Fashola</div><div class="t-role">Business Owner, Apapa Lagos</div></div>
+          </div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div>
+          <p class="t-quote">My family relocated from the UK and Apro Global handled everything — property search, documentation, and management. We couldn't have done it without them. Truly world-class.</p>
+          <div class="t-person">
+            <div class="t-avatar">NK</div>
+            <div><div class="t-name">Ngozi Kalu</div><div class="t-role">Diaspora Returnee, Ikoyi Lagos</div></div>
+          </div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div>
+          <p class="t-quote">Sold my duplex in Wuse 2 above asking price in under a month. Apro Global's marketing and negotiation skills are top-notch. I've since referred four friends to them.</p>
+          <div class="t-person">
+            <div class="t-avatar">BI</div>
+            <div><div class="t-name">Bello Ibrahim</div><div class="t-role">Property Seller, Wuse 2 Abuja</div></div>
+          </div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div>
+          <p class="t-quote">Their property management service for my Victoria Island apartment has been flawless for three years. Rent collected on time, maintenance handled promptly. Peace of mind guaranteed.</p>
+          <div class="t-person">
+            <div class="t-avatar">CF</div>
+            <div><div class="t-name">Chisom Eze</div><div class="t-role">Landlord, Victoria Island Lagos</div></div>
+          </div>
+        </div>
+
+      </div><!-- /tcarousel-track -->
+    </div><!-- /tcarousel-scene -->
+
+    <div class="tcarousel-nav">
+      <button class="tcarousel-btn t-prev" aria-label="Previous testimonial">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="tcarousel-counter"><span>1</span> / 6</div>
+      <button class="tcarousel-btn t-next" aria-label="Next testimonial">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+    <div class="tcarousel-dots">
+      <button class="tcarousel-dot active" aria-label="Testimonial 1"></button>
+      <button class="tcarousel-dot"        aria-label="Testimonial 2"></button>
+      <button class="tcarousel-dot"        aria-label="Testimonial 3"></button>
+      <button class="tcarousel-dot"        aria-label="Testimonial 4"></button>
+      <button class="tcarousel-dot"        aria-label="Testimonial 5"></button>
+      <button class="tcarousel-dot"        aria-label="Testimonial 6"></button>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════
+       BLOG SECTION
+  ══════════════════════════════════════════════════════ -->
+  <section class="blog-section" id="blog">
+    <div class="blog-header">
+      <div class="blog-header-left">
+        <span class="section-tag">Our Blog</span>
+        <h2>Insights &amp; <em>Real Estate</em> Tips</h2>
+      </div>
+      <a href="#" class="view-all-btn">
+        View All Articles
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="blog-grid">
+
+      <!-- Featured post -->
+      <div class="blog-card featured">
+        <div class="blog-card-img">
+          <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80&auto=format&fit=crop" alt="Lagos real estate market 2026" />
+          <span class="blog-card-cat">Market Trends</span>
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-card-date">September 28, 2026</div>
+          <div class="blog-card-title">Lagos Real Estate Market 2026: Why Now Is the Best Time to Invest</div>
+          <div class="blog-card-excerpt">With property values in Lekki, Ikoyi and Victoria Island rising steadily, savvy investors are doubling down. We break down the key drivers, hotspots and what to watch out for in Nigeria's most competitive market.</div>
+          <div class="blog-card-footer">
+            <div class="blog-card-author"><div class="blog-author-avatar">AG</div><div class="blog-author-name">Apro Global Team</div></div>
+            <a href="#" class="blog-read-more">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post 2 -->
+      <div class="blog-card">
+        <div class="blog-card-img">
+          <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&q=80&auto=format&fit=crop" alt="First time buyer guide" />
+          <span class="blog-card-cat">Buyer's Guide</span>
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-card-date">September 15, 2026</div>
+          <div class="blog-card-title">First-Time Buyer? Here's Everything You Need to Know in Nigeria</div>
+          <div class="blog-card-excerpt">From C of O verification to mortgage options, we guide you through every step of buying your first home.</div>
+          <div class="blog-card-footer">
+            <div class="blog-card-author"><div class="blog-author-avatar">AG</div><div class="blog-author-name">Apro Global Team</div></div>
+            <a href="#" class="blog-read-more">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post 3 -->
+      <div class="blog-card">
+        <div class="blog-card-img">
+          <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80&auto=format&fit=crop" alt="Abuja property hotspots" />
+          <span class="blog-card-cat">Abuja</span>
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-card-date">September 2, 2026</div>
+          <div class="blog-card-title">Top 5 Property Hotspots in Abuja for 2026</div>
+          <div class="blog-card-excerpt">Maitama, Wuse 2, Asokoro — discover which Abuja neighbourhoods offer the best ROI right now.</div>
+          <div class="blog-card-footer">
+            <div class="blog-card-author"><div class="blog-author-avatar">AG</div><div class="blog-author-name">Apro Global Team</div></div>
+            <a href="#" class="blog-read-more">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post 4 -->
+      <div class="blog-card">
+        <div class="blog-card-img">
+          <img src="https://images.unsplash.com/photo-1572120360610-d971b9d7767c?w=600&q=80&auto=format&fit=crop" alt="Commercial real estate" />
+          <span class="blog-card-cat">Commercial</span>
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-card-date">August 20, 2026</div>
+          <div class="blog-card-title">Commercial Real Estate in Lagos: Shops, Offices & Warehouses</div>
+          <div class="blog-card-excerpt">The commercial sector is booming. Here's how to position your business or portfolio in the right locations.</div>
+          <div class="blog-card-footer">
+            <div class="blog-card-author"><div class="blog-author-avatar">AG</div><div class="blog-author-name">Apro Global Team</div></div>
+            <a href="#" class="blog-read-more">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post 5 -->
+      <div class="blog-card">
+        <div class="blog-card-img">
+          <img src="https://images.unsplash.com/photo-1565402170291-8491f14678db?w=600&q=80&auto=format&fit=crop" alt="Property management tips" />
+          <span class="blog-card-cat">Property Management</span>
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-card-date">August 5, 2026</div>
+          <div class="blog-card-title">5 Things Every Landlord Should Know About Property Management</div>
+          <div class="blog-card-excerpt">Managing tenants, maintenance, and legal compliance doesn't have to be stressful. Our experts share proven strategies.</div>
+          <div class="blog-card-footer">
+            <div class="blog-card-author"><div class="blog-author-avatar">AG</div><div class="blog-author-name">Apro Global Team</div></div>
+            <a href="#" class="blog-read-more">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /blog-grid -->
+  </section>
+
+  <!-- ══════════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <!-- Full-colour logo — readable on dark bg -->
+        <a href="#" class="logo" aria-label="Apro Global Real Estate">
+          <img class="footer-logo-img" src="assets/image/logo.png" alt="Apro Global Real Estate" />
+        </a>
+        <p>Bridging the gap between demand and supply of quality housing in Nigeria since 2011. Serving Lagos and Abuja with integrity, diligence and dedication.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#">Our Team</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#blog">News &amp; Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#listings">Buy Property</a></li>
+          <li><a href="#listings">Rent Property</a></li>
+          <li><a href="#">Sell Property</a></li>
+          <li><a href="#">Property Management</a></li>
+          <li><a href="#">Financial Advisory</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="#">Lagos Office</a></li>
+          <li><a href="#">Abuja Office</a></li>
+          <li><a href="tel:+2340000000000">+234 000 000 0000</a></li>
+          <li><a href="mailto:info@aproglobal.com">info@aproglobal.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Apro Global Real Estate. All rights reserved.</span>
+      <span>
+        <a href="#">Privacy Policy</a> &nbsp;·&nbsp;
+        <a href="#">Terms of Service</a>
+      </span>
+    </div>
+  </footer>
+
+  <!-- ══════════════════════════════════════════════════
+       FLOATING ACTION BUTTONS
+  ══════════════════════════════════════════════════════ -->
+  <!-- WhatsApp -->
+  <a
+    href="https://wa.me/2340000000000"
+    class="fab fab-whatsapp"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Chat on WhatsApp"
+  >
+    <svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 2C8.268 2 2 8.268 2 16c0 2.47.643 4.787 1.768 6.8L2 30l7.4-1.74A13.94 13.94 0 0 0 16 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm0 25.5a11.45 11.45 0 0 1-5.82-1.588l-.416-.248-4.394 1.032 1.054-4.278-.272-.44A11.47 11.47 0 0 1 4.5 16C4.5 9.648 9.648 4.5 16 4.5S27.5 9.648 27.5 16 22.352 27.5 16 27.5zm6.29-8.62c-.345-.172-2.04-1.006-2.356-1.12-.316-.116-.546-.172-.776.172-.23.345-.89 1.12-1.09 1.35-.2.23-.4.258-.745.086-.345-.172-1.456-.537-2.774-1.712-1.025-.915-1.717-2.044-1.918-2.39-.2-.344-.022-.53.15-.702.154-.154.345-.402.517-.603.172-.2.23-.344.345-.573.115-.23.057-.43-.029-.603-.086-.172-.776-1.87-1.063-2.562-.28-.672-.564-.58-.776-.59l-.66-.012c-.23 0-.603.086-.918.43-.316.344-1.205 1.177-1.205 2.87s1.234 3.33 1.406 3.56c.172.23 2.428 3.71 5.882 5.202.822.355 1.463.567 1.963.726.824.263 1.574.226 2.167.137.66-.099 2.04-.834 2.328-1.638.287-.804.287-1.493.2-1.638-.086-.144-.316-.23-.66-.402z"/>
+    </svg>
+    <span class="fab-label">WhatsApp</span>
+  </a>
+
+  <!-- Scroll to top -->
+  <button class="fab fab-totop" id="scrollToTop" aria-label="Scroll to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </button>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
