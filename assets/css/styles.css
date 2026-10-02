@@ -1812,3 +1812,29 @@ body {
   .about-why > h2,
   .about-team > h2 { font-size: 28px; }
 }
+
+/* ============================================================
+   FOOTER SOCIAL ICONS
+   ============================================================ */
+.footer-socials {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+.social-btn {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.55);
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+}
+.social-btn:hover {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+  transform: translateY(-3px);
+}
+.social-btn svg { width: 17px; height: 17px; }

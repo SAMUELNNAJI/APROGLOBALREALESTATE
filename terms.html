@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service – Apro Global Real Estate</title>
+  <meta name="description" content="Terms of Service for Apro Global Real Estate. Read the terms governing the use of our website and services." />
+  <link rel="icon" type="image/png" href="assets/image/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    .legal-page { background: #fff; }
+    .legal-hero {
+      background: linear-gradient(135deg, #0a1f16 0%, #0f2d22 60%, #1a4030 100%);
+      padding: 160px 6% 80px;
+      position: relative; overflow: hidden;
+    }
+    .legal-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 20% 50%, rgba(46,171,123,0.1), transparent);
+      pointer-events: none;
+    }
+    .legal-hero-content { position: relative; z-index: 2; }
+    .legal-hero-content .breadcrumb {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600;
+      color: rgba(255,255,255,0.45);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      margin-bottom: 20px;
+    }
+    .legal-hero-content .breadcrumb a { color: var(--green-light); text-decoration: none; }
+    .legal-hero-content .breadcrumb svg { width: 12px; height: 12px; }
+    .legal-hero-content h1 {
+      font-size: 52px; font-weight: 800; color: #fff; line-height: 1.1; margin-bottom: 16px;
+    }
+    .legal-hero-content h1 em {
+      font-family: 'Playfair Display', serif; font-style: italic; color: var(--green-light);
+    }
+    .legal-hero-content p { font-size: 15px; color: rgba(255,255,255,0.6); max-width: 560px; line-height: 1.7; }
+    .legal-meta {
+      display: flex; align-items: center; gap: 20px;
+      margin-top: 28px; flex-wrap: wrap;
+    }
+    .legal-meta-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12.5px; color: rgba(255,255,255,0.45);
+    }
+    .legal-meta-item svg { width: 14px; height: 14px; color: var(--green-light); }
+    .legal-layout {
+      display: grid; grid-template-columns: 220px 1fr;
+      gap: 64px; max-width: 1100px; margin: 0 auto;
+      padding: 72px 6% 100px; align-items: start;
+    }
+    .legal-toc { position: sticky; top: 100px; }
+    .legal-toc h4 { font-size: 11px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; }
+    .legal-toc ul { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+    .legal-toc ul li a {
+      font-size: 13px; color: #666; text-decoration: none;
+      padding: 6px 12px; border-radius: 8px; display: block;
+      transition: background 0.15s, color 0.15s;
+      border-left: 2px solid transparent;
+    }
+    .legal-toc ul li a:hover { background: var(--green-tint); color: var(--green); border-left-color: var(--green); }
+    .legal-content h2 {
+      font-size: 22px; font-weight: 800; color: var(--dark);
+      margin: 48px 0 14px; padding-top: 16px;
+      border-top: 1.5px solid #f0f0ee;
+      scroll-margin-top: 100px;
+    }
+    .legal-content h2:first-child { margin-top: 0; border-top: none; }
+    .legal-content h3 { font-size: 16px; font-weight: 700; color: var(--dark); margin: 24px 0 10px; }
+    .legal-content p { font-size: 15px; color: #444; line-height: 1.85; margin-bottom: 16px; }
+    .legal-content ul, .legal-content ol { padding-left: 24px; margin-bottom: 16px; }
+    .legal-content li { font-size: 15px; color: #444; line-height: 1.85; margin-bottom: 8px; }
+    .legal-content a { color: var(--green); text-decoration: underline; }
+    .legal-content strong { color: var(--dark); }
+    .legal-highlight {
+      background: var(--green-tint); border-left: 4px solid var(--green);
+      border-radius: 0 12px 12px 0; padding: 18px 22px; margin: 24px 0;
+    }
+    .legal-highlight p { margin: 0; color: #333; font-size: 14.5px; }
+    @media (max-width: 900px) {
+      .legal-layout { grid-template-columns: 1fr; padding: 48px 5% 72px; }
+      .legal-toc { display: none; }
+      .legal-hero-content h1 { font-size: 36px; }
+    }
+    @media (max-width: 600px) {
+      .legal-hero { padding: 140px 5% 56px; }
+      .legal-hero-content h1 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body class="legal-page">
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true">
+    <div class="mm-blob mm-blob-1"></div>
+    <div class="mm-blob mm-blob-2"></div>
+    <div class="mm-blob mm-blob-3"></div>
+    <div class="mm-topbar">
+      <div class="mm-logo"><img src="assets/image/logo.png" alt="Apro Global" /></div>
+      <button class="mm-close" id="menuClose" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="mm-card">
+      <nav class="mm-nav">
+        <a href="index.html"    class="mm-link" data-num="01" onclick="closeMobileMenu()"><span class="mm-link-label">Home</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="services.html" class="mm-link" data-num="02" onclick="closeMobileMenu()"><span class="mm-link-label">Services</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="listings.html" class="mm-link" data-num="03" onclick="closeMobileMenu()"><span class="mm-link-label">Listings</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="about.html"    class="mm-link" data-num="04" onclick="closeMobileMenu()"><span class="mm-link-label">About</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="contact.html"  class="mm-link" data-num="05" onclick="closeMobileMenu()"><span class="mm-link-label">Contact</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </nav>
+      <div class="mm-card-bottom">
+        <div class="mm-contact-chips">
+          <a href="tel:+2347063822217" class="mm-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1 19.79 19.79 0 0 1 1.56 4.5 2 2 0 0 1 3.54 2.34h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l1.73-1.73a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Call Us</a>
+          <a href="mailto:info@aproglobalestate.com.ng" class="mm-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Email</a>
+        </div>
+        <a href="listings.html" class="mm-cta" onclick="closeMobileMenu()">List Property <span class="mm-cta-arrow">→</span></a>
+      </div>
+    </div>
+    <div class="mm-stats">
+      <div class="mm-stat"><span class="mm-stat-num">250+</span><span class="mm-stat-lbl">Listings</span></div>
+      <div class="mm-stat-div"></div>
+      <div class="mm-stat"><span class="mm-stat-num">1,500+</span><span class="mm-stat-lbl">Clients</span></div>
+      <div class="mm-stat-div"></div>
+      <div class="mm-stat"><span class="mm-stat-num">23yrs</span><span class="mm-stat-lbl">Experience</span></div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="logo"><img src="assets/image/logo.png" alt="Apro Global Real Estate" /></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="listings.html">Listings</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-right">
+      <button class="icon-btn" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></button>
+      <button class="icon-btn" aria-label="My Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
+      <a href="listings.html" class="list-btn">List Property<span class="arrow-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="legal-hero">
+    <div class="legal-hero-content">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        <span>Terms of Service</span>
+      </div>
+      <h1>Terms of <em>Service</em></h1>
+      <p>The terms and conditions governing your use of our website and real estate services.</p>
+      <div class="legal-meta">
+        <div class="legal-meta-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Last updated: October 2, 2026
+        </div>
+        <div class="legal-meta-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          6 min read
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="legal-layout">
+
+    <!-- TOC -->
+    <aside class="legal-toc">
+      <h4>Contents</h4>
+      <ul>
+        <li><a href="#acceptance">1. Acceptance of Terms</a></li>
+        <li><a href="#services-desc">2. Our Services</a></li>
+        <li><a href="#user-obligations">3. User Obligations</a></li>
+        <li><a href="#property-info">4. Property Information</a></li>
+        <li><a href="#fees">5. Fees & Commissions</a></li>
+        <li><a href="#ip">6. Intellectual Property</a></li>
+        <li><a href="#liability">7. Limitation of Liability</a></li>
+        <li><a href="#disclaimers">8. Disclaimers</a></li>
+        <li><a href="#termination">9. Termination</a></li>
+        <li><a href="#governing-law">10. Governing Law</a></li>
+        <li><a href="#changes-terms">11. Changes to Terms</a></li>
+        <li><a href="#contact-terms">12. Contact Us</a></li>
+      </ul>
+    </aside>
+
+    <!-- Article -->
+    <article class="legal-content">
+
+      <div class="legal-highlight">
+        <p>Please read these Terms of Service carefully before using the Apro Global Real Estate website or engaging our services. By accessing our website or using our services, you agree to be bound by these terms.</p>
+      </div>
+
+      <h2 id="acceptance">1. Acceptance of Terms</h2>
+      <p>By accessing or using the Apro Global Real Estate website at <strong>aproglobalestate.com.ng</strong> and engaging any of our real estate services, you agree to these Terms of Service and our Privacy Policy. If you do not agree, please do not use our website or services.</p>
+      <p>These terms apply to all visitors, clients, property owners, tenants, and any other party who interacts with Apro Global Real Estate.</p>
+
+      <h2 id="services-desc">2. Our Services</h2>
+      <p>Apro Global Real Estate provides the following services:</p>
+      <ul>
+        <li>Property sales — facilitating the sale and purchase of residential and commercial properties</li>
+        <li>Property leasing — matching landlords with suitable tenants</li>
+        <li>Property management — managing residential and commercial properties on behalf of owners</li>
+        <li>Property valuation — providing free market valuation reports</li>
+        <li>Real estate financial advisory — guiding clients on investment decisions</li>
+      </ul>
+      <p>We reserve the right to modify, suspend, or discontinue any service at any time without prior notice.</p>
+
+      <h2 id="user-obligations">3. User Obligations</h2>
+      <p>When using our website or services, you agree to:</p>
+      <ul>
+        <li>Provide accurate, complete, and current information</li>
+        <li>Not use our website for any unlawful purpose</li>
+        <li>Not attempt to gain unauthorised access to our systems</li>
+        <li>Not transmit any harmful, offensive, or fraudulent content</li>
+        <li>Respect the confidentiality of any information shared with you during a transaction</li>
+        <li>Comply with all applicable Nigerian laws and regulations relating to property transactions</li>
+      </ul>
+
+      <h2 id="property-info">4. Property Information</h2>
+      <p>All property listings, prices, and availability information on our website are provided in good faith based on information available at the time of publication. However:</p>
+      <ul>
+        <li>Property information is subject to change without notice</li>
+        <li>Images are representative and may not reflect the exact current condition of a property</li>
+        <li>Prices are indicative and may vary based on negotiation and market conditions</li>
+        <li>We do not guarantee the accuracy, completeness, or timeliness of any listing information</li>
+      </ul>
+      <p>Prospective buyers and tenants are advised to conduct their own due diligence and verify all property details independently before committing to a transaction.</p>
+
+      <h2 id="fees">5. Fees & Commissions</h2>
+      <p>Our fees and commission structures are as follows:</p>
+      <ul>
+        <li><strong>Property sales:</strong> Commission is charged as a percentage of the agreed sale price, payable upon successful completion of the transaction</li>
+        <li><strong>Leasing:</strong> Agency fees are typically equivalent to a percentage of the annual rent, as agreed at instruction</li>
+        <li><strong>Property management:</strong> Management fees are charged as a percentage of monthly rental income collected</li>
+        <li><strong>Valuation:</strong> Standard property valuations are provided free of charge</li>
+      </ul>
+      <p>All fees are subject to agreement in writing prior to engagement. We reserve the right to revise our fee structures with reasonable notice.</p>
+
+      <h2 id="ip">6. Intellectual Property</h2>
+      <p>All content on this website — including text, images, graphics, logos, and design — is the property of Apro Global Real Estate or its licensors and is protected by applicable intellectual property laws.</p>
+      <p>You may not reproduce, distribute, modify, or create derivative works without our prior written consent. You may print or download content for personal, non-commercial use only.</p>
+
+      <h2 id="liability">7. Limitation of Liability</h2>
+      <p>To the fullest extent permitted by Nigerian law, Apro Global Real Estate shall not be liable for:</p>
+      <ul>
+        <li>Any indirect, incidental, consequential, or punitive damages arising from your use of our services</li>
+        <li>Loss of profits, data, goodwill, or business opportunities</li>
+        <li>Any property transaction that does not proceed to completion</li>
+        <li>Third-party conduct, including the actions of property owners, tenants, or other parties in a transaction</li>
+      </ul>
+      <p>Our total liability to you in connection with any claim shall not exceed the fees actually paid by you to us in the preceding 12 months.</p>
+
+      <h2 id="disclaimers">8. Disclaimers</h2>
+      <p>Our website and services are provided on an "as is" and "as available" basis. We make no warranties, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, or non-infringement.</p>
+      <p>We do not warrant that our website will be uninterrupted, error-free, or free of viruses or other harmful components.</p>
+
+      <h2 id="termination">9. Termination</h2>
+      <p>We reserve the right to suspend or terminate your access to our website or services at our sole discretion, without notice, for conduct that we believe violates these Terms of Service or is harmful to other users, third parties, or our business interests.</p>
+
+      <h2 id="governing-law">10. Governing Law</h2>
+      <p>These Terms of Service shall be governed by and construed in accordance with the laws of the Federal Republic of Nigeria. Any disputes arising from or relating to these terms shall be subject to the exclusive jurisdiction of the courts of Lagos State, Nigeria.</p>
+
+      <h2 id="changes-terms">11. Changes to Terms</h2>
+      <p>We may update these Terms of Service from time to time. The updated version will be posted on this page with a revised date. Your continued use of our website or services after changes are posted constitutes acceptance of the revised terms.</p>
+
+      <h2 id="contact-terms">12. Contact Us</h2>
+      <p>For any questions regarding these Terms of Service, please contact us:</p>
+      <ul>
+        <li><strong>Address:</strong> 30, Lugard Avenue, Ikoyi, Lagos (Strictly by appointment)</li>
+        <li><strong>Phone:</strong> <a href="tel:+2347063822217">+234 706 382 2217</a></li>
+        <li><strong>Email:</strong> <a href="mailto:info@aproglobalestate.com.ng">info@aproglobalestate.com.ng</a></li>
+      </ul>
+
+    </article>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><img class="footer-logo-img" src="assets/image/logo.png" alt="Apro Global Real Estate" /></a>
+        <p>Bridging the gap between demand and supply of quality housing in Nigeria since 2011. Serving Lagos and Abuja with integrity, diligence and dedication.</p>
+        <div class="footer-socials">
+          <a href="https://facebook.com/aproglobal" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://x.com/aproglobal" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About Us</a></li><li><a href="#">Our Team</a></li><li><a href="#">Careers</a></li><li><a href="index.html#blog">Blog</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Services</h4><ul><li><a href="listings.html">Buy Property</a></li><li><a href="listings.html">Rent Property</a></li><li><a href="contact.html">Sell Property</a></li><li><a href="services.html">Property Management</a></li><li><a href="services.html">Financial Advisory</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="#">Lagos — Ikoyi Office</a></li><li><a href="tel:+2347063822217">+234 706 382 2217</a></li><li><a href="mailto:info@aproglobalestate.com.ng">info@aproglobalestate.com.ng</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Apro Global Real Estate. All rights reserved.</span>
+      <span><a href="privacy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="terms.html">Terms of Service</a></span>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/2347063822217" class="fab fab-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.47.643 4.787 1.768 6.8L2 30l7.4-1.74A13.94 13.94 0 0 0 16 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm0 25.5a11.45 11.45 0 0 1-5.82-1.588l-.416-.248-4.394 1.032 1.054-4.278-.272-.44A11.47 11.47 0 0 1 4.5 16C4.5 9.648 9.648 4.5 16 4.5S27.5 9.648 27.5 16 22.352 27.5 16 27.5zm6.29-8.62c-.345-.172-2.04-1.006-2.356-1.12-.316-.116-.546-.172-.776.172-.23.345-.89 1.12-1.09 1.35-.2.23-.4.258-.745.086-.345-.172-1.456-.537-2.774-1.712-1.025-.915-1.717-2.044-1.918-2.39-.2-.344-.022-.53.15-.702.154-.154.345-.402.517-.603.172-.2.23-.344.345-.573.115-.23.057-.43-.029-.603-.086-.172-.776-1.87-1.063-2.562-.28-.672-.564-.58-.776-.59l-.66-.012c-.23 0-.603.086-.918.43-.316.344-1.205 1.177-1.205 2.87s1.234 3.33 1.406 3.56c.172.23 2.428 3.71 5.882 5.202.822.355 1.463.567 1.963.726.824.263 1.574.226 2.167.137.66-.099 2.04-.834 2.328-1.638.287-.804.287-1.493.2-1.638-.086-.144-.316-.23-.66-.402z"/></svg><span class="fab-label">WhatsApp</span></a>
+  <button class="fab fab-totop" id="scrollToTop" aria-label="Scroll to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
