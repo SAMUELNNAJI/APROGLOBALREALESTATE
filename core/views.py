@@ -377,8 +377,11 @@ def inspection_payment(request, ref):
 # Admin Dashboard
 # ─────────────────────────────────────────────
 @login_required
-@user_passes_test(is_admin, login_url="signin")
 def apro_dashboard(request):
+    if not is_admin(request.user):
+        # Mirror purchaser_dashboard: role mismatches go to the other
+        # dashboard instead of the sign-in page.
+        return redirect("purchaser_dashboard")
     purchasers = User.objects.filter(is_superuser=False)
     week_ago   = timezone.now() - timedelta(days=7)
     bookings   = InspectionBooking.objects.select_related("purchaser", "property")
@@ -600,7 +603,7 @@ def _render_chat(request, active):
     """Shared renderer for the WhatsApp-style chat page."""
     context = {
         "active": active,
-        "messages": (
+        "chat_messages": (
             active.messages.select_related("sender").order_by("created_at")
             if active is not None
             else ChatMessage.objects.none()

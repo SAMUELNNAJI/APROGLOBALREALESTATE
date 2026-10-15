@@ -24,6 +24,7 @@
 
     display: grid;
     grid-template-columns: {% if user.is_superuser %}340px 1fr{% else %}1fr{% endif %};
+    grid-template-rows: minmax(0, 1fr);
     height: calc(100vh - 170px);
     min-height: 480px;
     border: 1px solid var(--wa-border);
@@ -49,7 +50,7 @@
   .wa-list {
     background: var(--wa-panel);
     border-right: 1px solid var(--wa-border);
-    display: flex; flex-direction: column; min-width: 0;
+    display: flex; flex-direction: column; min-width: 0; min-height: 0;
   }
   .wa-list-head {
     padding: 16px 18px 12px;
@@ -88,7 +89,7 @@
   .wa-avatar.lg { width: 42px; height: 42px; font-size: 15px; }
 
   /* ── Chat pane ── */
-  .wa-pane { display: flex; flex-direction: column; min-width: 0; background: var(--wa-bg); }
+  .wa-pane { display: flex; flex-direction: column; min-width: 0; min-height: 0; background: var(--wa-bg); }
   .wa-pane-head {
     display: flex; align-items: center; gap: 12px;
     padding: 10px 18px; background: var(--wa-head);
@@ -229,7 +230,7 @@
 
     <div class="wa-msgs" id="messageList">
       <div class="wa-day">CONVERSATION</div>
-      {% for m in messages %}
+      {% for m in chat_messages %}
       <div class="wa-row {% if m.sender == user %}me{% else %}them{% endif %}">
         <div class="wa-bubble">{{ m.content }}<span class="wa-meta">{{ m.created_at|time:"H:i" }}{% if m.sender == user %} <span class="tick">&#10003;&#10003;</span>{% endif %}</span></div>
       </div>
@@ -277,7 +278,7 @@
   var myUsername = "{{ user.get_username|escapejs }}";
   var listEl = document.getElementById("messageList");
   var sendForm = document.getElementById("sendForm");
-  var lastId = {{ messages.last.id|default:"0" }};
+  var lastId = {{ chat_messages.last.id|default:"0" }};
 
   function scrollBottom() { if (listEl) listEl.scrollTop = listEl.scrollHeight; }
 

@@ -117,7 +117,11 @@ class SignUpForm(forms.ModelForm):
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
-            Profile.objects.create(user=user, phone=self.cleaned_data["phone"])
+            # The core.signals post_save handler may already have created the
+            # profile, so fill in the phone on whichever row exists.
+            profile, _ = Profile.objects.get_or_create(user=user)
+            profile.phone = self.cleaned_data["phone"]
+            profile.save(update_fields=["phone"])
         return user
 
 
@@ -313,5 +317,9 @@ class SignUpForm(forms.ModelForm):
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
-            Profile.objects.create(user=user, phone=self.cleaned_data["phone"])
+            # The core.signals post_save handler may already have created the
+            # profile, so fill in the phone on whichever row exists.
+            profile, _ = Profile.objects.get_or_create(user=user)
+            profile.phone = self.cleaned_data["phone"]
+            profile.save(update_fields=["phone"])
         return user
