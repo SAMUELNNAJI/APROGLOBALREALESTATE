@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start">
+    <div class="pay-grid">
 
       <!-- Left: instructions + proof form -->
       <div>
@@ -37,7 +37,7 @@
               <div style="position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.04);bottom:-40px;left:-40px"></div>
               <button onclick="copyAccNum('{{ bank.account_number }}',this)" style="position:absolute;top:18px;right:18px;z-index:2;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:700;color:#fff;cursor:pointer;font-family:'Inter',sans-serif">Copy</button>
               <div style="font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:.6;margin-bottom:20px;position:relative;z-index:1">{{ bank.bank_name }}</div>
-              <div style="font-size:24px;font-weight:800;letter-spacing:.22em;margin-bottom:20px;position:relative;z-index:1">{{ bank.account_number }}</div>
+              <div class="atm-num" style="font-weight:800;margin-bottom:20px;position:relative;z-index:1">{{ bank.account_number }}</div>
               <div style="display:flex;justify-content:space-between;position:relative;z-index:1">
                 <div>
                   <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;opacity:.5;margin-bottom:3px">Account Name</div>
@@ -99,7 +99,7 @@
           {% endif %}
           <div style="padding:20px">
             <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Booking Summary</div>
-            <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:10px;line-height:1.35">{{ booking.property.title }}</div>
+            <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:10px;line-height:1.35;overflow-wrap:anywhere">{{ booking.property.title }}</div>
             <div style="font-size:12px;color:rgba(255,255,255,.5);margin-bottom:14px">{{ booking.property.location }}</div>
             <div style="border-top:1px solid rgba(255,255,255,.08);padding-top:14px;display:flex;flex-direction:column;gap:8px">
               <div style="display:flex;justify-content:space-between"><span style="font-size:12px;color:rgba(255,255,255,.45)">Date</span><span style="font-size:12.5px;font-weight:600;color:#fff">{{ booking.preferred_date|date:"j M Y" }}</span></div>
@@ -133,6 +133,11 @@
   }
   form input:focus, form select:focus, form textarea:focus { border-color:#1a7a5e; background:#fff; }
   form input[type="file"] { padding:8px; }
+  /* Layout — moved out of inline styles so it can respond to screen size */
+  .pay-grid{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start}
+  .atm-num{font-size:24px;letter-spacing:.22em}
+  @media(max-width:860px){.pay-grid{grid-template-columns:1fr}}
+  @media(max-width:420px){.atm-num{font-size:19px;letter-spacing:.14em}}
 </style>
 
 <script>

@@ -268,6 +268,9 @@ class SupportTicket(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    # Last time each side opened/viewed the conversation (drives unread badges)
+    admin_read_at = models.DateTimeField(null=True, blank=True)
+    purchaser_read_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         ordering = ["-created_at"]
@@ -296,5 +299,7 @@ class ChatMessage(models.Model):
         ordering = ["created_at"]
 
     def __str__(self):
-        return f"{self.sender} on {self.ticket} ({self.content[:30]!r})"
+        # NB: never render ticket/content reprs here — this string has leaked
+        # into flash-message blocks before. Keep it boring on purpose.
+        return f"Chat message #{self.pk}"
 

@@ -1,7 +1,11 @@
+from datetime import date, time
+
 from django.contrib.auth import get_user_model
 from django.contrib.staticfiles import finders
 from django.test import TestCase
 from django.urls import reverse
+
+from .models import InspectionBooking, Property
 
 User = get_user_model()
 
@@ -142,3 +146,67 @@ class AuthFlowTests(TestCase):
         self.assertEqual(self.client.get(reverse("signout")).status_code, 405)
         self.assertRedirects(self.client.post(reverse("signout")), reverse("home"))
         self.assertNotIn("_auth_user_id", self.client.session)
+
+
+class MobileListingLayoutTests(TestCase):
+    """Guard the responsive layout of the property detail + booking pages.
+
+    The fixed two-column grids used to live in inline styles, which media
+    queries cannot override — so the pages overflowed horizontally on mobile.
+    These tests assert the grids are class-based and collapse to one column.
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.purchaser = User.objects.create_user(
+            "mobile@example.com", "mobile@example.com", "Sup3r&Secret!pass"
+        )
+        cls.prop = Property.objects.create(
+            title="Sunset Duplex Lekki Phase 1",
+            location="Lekki Phase 1, Lagos",
+            price=75_000_000,
+            description="A spacious 4 bedroom duplex with a fully fitted kitchen.",
+        )
+        cls.booking = InspectionBooking.objects.create(
+            purchaser=cls.purchaser,
+            property=cls.prop,
+            full_name="Mobile Tester",
+            email="mobile@example.com",
+            phone="+2348000000000",
+            preferred_date=date(2026, 10, 20),
+            preferred_time=time(10, 30),
+        )
+
+    def test_property_detail_collapses_to_single_column_on_mobile(self):
+        response = self.client.get(reverse("property_detail", args=[self.prop.slug]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "property_detail.html")
+        self.assertContains(response, 'class="pd-grid"')
+        self.assertContains(response, "@media(max-width:900px)")
+        # the fixed grid must no longer be inline (media queries can't override it there)
+        self.assertNotIn(
+            'style="display:grid;grid-template-columns:1fr 380px',
+            response.content.decode(),
+        )
+
+    def test_booking_form_page_is_responsive(self):
+        self.client.force_login(self.purchaser)
+        response = self.client.get(reverse("book_inspection", args=[self.prop.slug]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "booking/book.html")
+        self.assertContains(response, "@media(max-width:860px)")
+        self.assertContains(response, ".bk-grid{grid-template-columns:1fr}")
+
+    def test_booking_payment_page_collapses_to_single_column_on_mobile(self):
+        self.client.force_login(self.purchaser)
+        response = self.client.get(
+            reverse("inspection_payment", args=[self.booking.reference])
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "booking/payment.html")
+        self.assertContains(response, 'class="pay-grid"')
+        self.assertContains(response, "@media(max-width:860px)")
+        self.assertNotIn(
+            'style="display:grid;grid-template-columns:1fr 320px',
+            response.content.decode(),
+        )
