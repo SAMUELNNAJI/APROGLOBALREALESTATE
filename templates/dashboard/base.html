@@ -1,0 +1,195 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}Dashboard{% endblock %} – Apro Global</title>
+  <link rel="icon" type="image/png" href="{% static 'image/logo.png' %}"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="{% static 'css/dashboard2.css' %}"/>
+  <script>
+    // Apply saved theme before paint to avoid flash
+    (function () {
+      try {
+        var t = localStorage.getItem('aproDashTheme') || 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="dash2-body" data-auth="1">
+
+  <!-- ── Mobile sidebar overlay ── -->
+  <div class="ds-overlay" id="dsOverlay" onclick="closeSidebar()"></div>
+
+  <!-- ════════════════════════════
+       SIDEBAR
+  ════════════════════════════ -->
+  <aside class="ds-sidebar" id="dsSidebar">
+    <div class="ds-sidebar-logo">
+      <a href="{% url 'home' %}">
+        <img src="{% static 'image/logo.png' %}" alt="Apro Global"/>
+      </a>
+    </div>
+
+    <nav class="ds-nav">
+      {% if user.is_superuser %}
+        <div class="ds-nav-label">Main</div>
+        <a href="{% url 'apro_dashboard' %}"        class="ds-nav-link {% block nav_overview %}{% endblock %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Overview
+        </a>
+        <a href="{% url 'admin_properties' %}"      class="ds-nav-link {% block nav_properties %}{% endblock %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Properties
+        </a>
+        <a href="{% url 'admin_blog' %}"            class="ds-nav-link {% block nav_blog %}{% endblock %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Blog Posts
+        </a>
+        <div class="ds-nav-label">Clients</div>
+        <a href="{% url 'admin_bookings' %}"        class="ds-nav-link {% block nav_bookings %}{% endblock %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Bookings
+        </a>
+        <a href="{% url 'admin_purchasers' %}" class="ds-nav-link {% block nav_purchasers %}{% endblock %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Purchasers
+        </a>
+        <div class="ds-nav-label">Settings</div>
+        <a href="{% url 'admin_bank_details' %}"    class="ds-nav-link {% block nav_bank %}{% endblock %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Bank Details
+        </a>
+        <a href="{% url 'support_tickets' %}" class="ds-nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          Support
+        </a>
+      {% else %}
+        <div class="ds-nav-label">My Account</div>
+        <a href="{% url 'purchaser_dashboard' %}"   class="ds-nav-link {% block nav_myoverview %}{% endblock %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Overview
+        </a>
+        <a href="{% url 'listings' %}" class="ds-nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          Browse Listings
+        </a>
+        <a href="{% url 'contact' %}" class="ds-nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1"/><path d="M1.56 4.5A2 2 0 0 1 3.54 2.34h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91"/></svg>
+          Contact Agent
+        </a>
+        <a href="{% url 'support_tickets' %}" class="ds-nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          Support
+        </a>
+      {% endif %}
+    </nav>
+
+    <div class="ds-sidebar-footer">
+      <div class="ds-user-pill">
+        <span class="ds-avatar">{{ user.first_name|default:user.get_username|slice:":1"|upper }}</span>
+        <div class="ds-user-info">
+          <strong>{{ user.get_full_name|default:user.get_username }}</strong>
+          <small>{{ user.email|truncatechars:22 }}</small>
+        </div>
+      </div>
+      <form method="post" action="{% url 'signout' %}" style="margin-top:10px">
+        {% csrf_token %}
+        <button type="submit" class="ds-signout-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign out
+        </button>
+      </form>
+    </div>
+  </aside>
+
+  <!-- ════════════════════════════
+       MAIN AREA
+  ════════════════════════════ -->
+  <div class="ds-main">
+
+    <!-- Top bar (mobile hamburger + page title) -->
+    <header class="ds-topbar">
+      <button class="ds-hamburger" onclick="openSidebar()" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="ds-topbar-title">{% block page_title %}Dashboard{% endblock %}</div>
+      <div class="ds-topbar-right">
+        <button class="ds-theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" title="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        </button>
+        <a href="{% url 'home' %}" class="ds-view-site" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          View site
+        </a>
+      </div>
+    </header>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="ds-messages">
+      {% for msg in messages %}
+      <div class="ds-msg ds-msg-{{ msg.tags }}">{{ msg }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Page content -->
+    <div class="ds-content">
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+
+  <script>
+    function openSidebar()  { document.getElementById('dsSidebar').classList.add('open'); document.getElementById('dsOverlay').classList.add('show'); }
+    function closeSidebar() { document.getElementById('dsSidebar').classList.remove('open'); document.getElementById('dsOverlay').classList.remove('show'); }
+
+    // ── Wishlist toggle (CSRF + save endpoint) ──
+    function getCookie(name){var v=`; ${document.cookie}`;var p=v.split(`; ${name}=`);if(p.length===2)return p.pop().split(';').shift();return '';}
+    window.toggleSaveProperty = function (slug, btn, event) {
+      if (event) { event.preventDefault(); event.stopPropagation(); }
+      fetch(`/property/${slug}/save/`, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': getCookie('csrftoken'), 'X-Requested-With': 'XMLHttpRequest' },
+        credentials: 'same-origin',
+      })
+        .then(r => r.json())
+        .then(data => {
+          if (typeof data.saved === 'boolean') {
+            // On the saved list, removing a card should drop it from the DOM.
+            var card = btn && btn.closest('.ds-prop-card');
+            if (!data.saved && card) {
+              card.style.transition = 'opacity .3s, transform .3s';
+              card.style.opacity = '0';
+              card.style.transform = 'scale(.92)';
+              setTimeout(function(){ card.remove(); }, 300);
+            } else if (btn) {
+              btn.classList.toggle('liked', data.saved);
+            }
+            document.querySelectorAll('[data-wishlist-count]').forEach(function(el){ el.textContent = data.count; });
+          }
+        })
+        .catch(function(){});
+    };
+
+    // Theme toggle
+    (function () {
+      var btn = document.getElementById('themeToggle');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        var cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', cur);
+        try { localStorage.setItem('aproDashTheme', cur); } catch (e) {}
+        // let charts re-read theme colors
+        window.dispatchEvent(new Event('apro:themechange'));
+      });
+    })();
+  </script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

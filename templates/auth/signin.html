@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sign In – Apro Global Real Estate{% endblock %}
+{% block meta_description %}Sign in to your Apro Global Real Estate account.{% endblock %}
+{% block body_class %}auth-page{% endblock %}
+
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/auth.css' %}" />{% endblock %}
+
+{% block content %}
+<main class="auth-stage">
+  {% include 'auth/_scene.html' with eyebrow="Welcome back, key holder" headline="Your next address is <em>waiting</em> inside." subline="Sign in and watch the tower light up. Your saved searches, enquiries and viewings are one door away." %}
+
+  <div class="auth-card-wrap">
+    <section class="auth-card" aria-labelledby="signin-title">
+      <header class="card-head">
+        <span class="card-kicker"><i></i>Secure sign in</span>
+        <h2 id="signin-title">Open your door</h2>
+        <p>Use your email or username and password to continue.</p>
+      </header>
+
+      <form method="post" novalidate data-auth-form>
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}" />
+
+        {% if form.non_field_errors %}
+        <div class="auth-alert" role="alert">{{ form.non_field_errors|join:" " }}</div>
+        {% endif %}
+
+        {% include 'auth/_field.html' with field=form.username %}
+        {% include 'auth/_field.html' with field=form.password is_password=True %}
+
+        <div class="form-meta">
+          <label class="check" for="{{ form.remember_me.id_for_label }}">
+            {{ form.remember_me }}
+            <span class="box"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span>
+            <span>Keep me signed in</span>
+          </label>
+        </div>
+
+        <button type="submit" class="key-btn">
+          <span>Turn the key</span>
+          <svg class="key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3L21 2M16 7l3 3M14 9l2 2"/></svg>
+        </button>
+      </form>
+
+      <p class="card-foot">New to Apro Global? <a href="{% url 'signup' %}">Create your account</a></p>
+      <div class="trust-row">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Encrypted session</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Verified agency since 2011</span>
+      </div>
+    </section>
+  </div>
+</main>
+{% endblock %}
+
+{% block extra_js %}<script src="{% static 'js/auth.js' %}"></script>{% endblock %}

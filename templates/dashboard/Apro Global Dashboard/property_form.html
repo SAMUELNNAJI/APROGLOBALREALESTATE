@@ -1,0 +1,117 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}{{ action }} Property{% endblock %}
+{% block page_title %}{{ action }} Property{% endblock %}
+{% block nav_properties %}active{% endblock %}
+
+{% block content %}
+<div class="ds-page-header">
+  <div>
+    <h1>{{ action }} Property</h1>
+    <p>{% if action == "Add" %}Create a new property listing{% else %}Update this listing{% endif %}</p>
+  </div>
+  <a href="{% url 'admin_properties' %}" class="ds-btn ds-btn-outline">← Back to Properties</a>
+</div>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="ds-form-card">
+
+    <div class="ds-form-grid">
+
+      <!-- Title -->
+      <div class="ds-form-group full">
+        <label>Title</label>
+        {{ form.title }}
+        {% for e in form.title.errors %}<ul class="errorlist"><li>{{ e }}</li></ul>{% endfor %}
+      </div>
+
+      <!-- Status + Type -->
+      <div class="ds-form-group">
+        <label>Status</label>
+        {{ form.status }}
+      </div>
+      <div class="ds-form-group">
+        <label>Property Type</label>
+        {{ form.property_type }}
+      </div>
+
+      <!-- City + Location -->
+      <div class="ds-form-group">
+        <label>City</label>
+        {{ form.city }}
+      </div>
+      <div class="ds-form-group">
+        <label>Location (full address)</label>
+        {{ form.location }}
+      </div>
+
+      <!-- Price + Label -->
+      <div class="ds-form-group">
+        <label>Price (₦)</label>
+        {{ form.price }}
+        {% for e in form.price.errors %}<ul class="errorlist"><li>{{ e }}</li></ul>{% endfor %}
+      </div>
+      <div class="ds-form-group">
+        <label>Price Label</label>
+        {{ form.price_label }}
+        <span class="ds-helptext">e.g. "sale", "year", "plot"</span>
+      </div>
+
+      <!-- Beds / Baths / Size -->
+      <div class="ds-form-group">
+        <label>Bedrooms</label>
+        {{ form.bedrooms }}
+      </div>
+      <div class="ds-form-group">
+        <label>Bathrooms</label>
+        {{ form.bathrooms }}
+      </div>
+      <div class="ds-form-group">
+        <label>Size (m²)</label>
+        {{ form.size_sqm }}
+      </div>
+
+      <!-- Image upload -->
+      <div class="ds-form-group">
+        <label>Upload Image</label>
+        {{ form.image }}
+        {% if prop.get_image %}
+          <img src="{{ prop.get_image }}" alt="" style="margin-top:8px;height:80px;border-radius:8px;object-fit:cover"/>
+        {% endif %}
+      </div>
+      <div class="ds-form-group">
+        <label>Or Image URL</label>
+        {{ form.image_url }}
+        <span class="ds-helptext">Paste an external image URL as fallback</span>
+      </div>
+
+      <!-- Description -->
+      <div class="ds-form-group full">
+        <label>Description</label>
+        {{ form.description }}
+      </div>
+
+      <!-- Toggles -->
+      <div class="ds-form-group">
+        <div class="ds-checkbox-row">
+          {{ form.is_featured }}
+          <label for="{{ form.is_featured.id_for_label }}">Featured on homepage</label>
+        </div>
+        <div class="ds-checkbox-row">
+          {{ form.is_active }}
+          <label for="{{ form.is_active.id_for_label }}">Active (visible on site)</label>
+        </div>
+      </div>
+
+    </div><!-- /grid -->
+
+    <div class="ds-form-actions">
+      <button type="submit" class="ds-btn ds-btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        {{ action }} Property
+      </button>
+      <a href="{% url 'admin_properties' %}" class="ds-btn ds-btn-outline">Cancel</a>
+    </div>
+  </div>
+</form>
+{% endblock %}

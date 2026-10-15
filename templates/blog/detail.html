@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ post.title }} – Apro Global Real Estate{% endblock %}
+
+{% block extra_head %}
+<style>
+  .bd-wrap{background:#f7f8f6;padding-bottom:80px}
+  .bd-hero{position:relative;height:52vh;min-height:380px;max-height:520px;overflow:hidden;display:flex;align-items:flex-end}
+  .bd-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .bd-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(8,20,15,.88) 0%,rgba(8,20,15,.45) 45%,rgba(8,20,15,.25) 100%)}
+  .bd-hero-inner{position:relative;z-index:2;width:100%;max-width:860px;margin:0 auto;padding:0 5% 48px;color:#fff}
+  .bd-crumb{display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:20px;color:rgba(255,255,255,.75)}
+  .bd-crumb a{color:#fff;text-decoration:none;font-weight:600;transition:color .2s}
+  .bd-crumb a:hover{color:#7fd6b0}
+  .bd-crumb svg{width:13px;height:13px;opacity:.6}
+  .bd-cat{display:inline-block;background:rgba(255,255,255,.16);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:11px;font-weight:800;padding:6px 15px;border-radius:50px;text-transform:uppercase;letter-spacing:.09em;margin-bottom:18px}
+  .bd-title{font-size:40px;font-weight:800;line-height:1.18;letter-spacing:-.02em;text-shadow:0 2px 20px rgba(0,0,0,.3);margin-bottom:20px}
+  .bd-meta{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .bd-meta-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#1a7a5e,#2eab7b);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+  .bd-meta-name{font-size:14px;font-weight:700}
+  .bd-meta-date{font-size:12.5px;color:rgba(255,255,255,.72)}
+  .bd-meta-sep{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.4)}
+
+  /* full-width layout with sidebar */
+  .bd-body-wrap{max-width:1280px;margin:0 auto;padding:0 5%}
+  .bd-layout{display:grid;grid-template-columns:1fr 340px;gap:36px;align-items:start;margin-top:-48px;position:relative;z-index:3}
+  .bd-article{background:#fff;border:1px solid #eceae3;border-radius:26px;box-shadow:0 18px 50px rgba(13,31,24,.08);padding:48px 54px}
+  .bd-back{display:inline-flex;align-items:center;gap:9px;color:#1a7a5e;font-size:13.5px;font-weight:700;text-decoration:none;margin-bottom:26px;transition:gap .2s}
+  .bd-back:hover{gap:13px}
+  .bd-content{font-size:16.5px;color:#3a403c;line-height:1.95}
+  .bd-content p{margin-bottom:22px}
+  .bd-content strong{color:#0d1f18;font-weight:700}
+  .bd-content a{color:#1a7a5e;font-weight:600}
+
+  .bd-share{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:40px;padding-top:28px;border-top:1px solid #f0efeb}
+  .bd-share-label{font-size:13px;font-weight:700;color:#6b716c;text-transform:uppercase;letter-spacing:.08em}
+  .bd-share-links{display:flex;gap:10px}
+  .bd-share-btn{width:42px;height:42px;border-radius:12px;background:#f4f6f4;border:1px solid #eceee9;color:#4a524d;display:flex;align-items:center;justify-content:center;transition:all .2s;text-decoration:none}
+  .bd-share-btn:hover{background:#1a7a5e;color:#fff;border-color:#1a7a5e;transform:translateY(-2px)}
+  .bd-share-btn svg{width:17px;height:17px}
+
+  .bd-related{margin-top:64px}
+  .bd-related-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px;gap:16px;flex-wrap:wrap}
+  .bd-related-head h2{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:#0d1f18}
+  .bd-related-head h2 em{font-style:italic;color:#1a7a5e}
+  .bd-related-tag{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;color:#1a7a5e;text-transform:uppercase;letter-spacing:.14em}
+  .bd-related-tag::before{content:'';width:26px;height:2px;background:#1a7a5e;border-radius:2px}
+  .bd-related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .bd-rcard{background:#fff;border:1px solid #eceae3;border-radius:20px;overflow:hidden;transition:transform .35s cubic-bezier(.2,.7,.3,1),box-shadow .35s,border-color .35s}
+  .bd-rcard:hover{transform:translateY(-6px);box-shadow:0 22px 50px rgba(13,31,24,.13);border-color:#dde6df}
+  .bd-rcard-img{position:relative;height:160px;overflow:hidden;background:#eceeeb}
+  .bd-rcard-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.2,.7,.3,1)}
+  .bd-rcard:hover .bd-rcard-img img{transform:scale(1.08)}
+  .bd-rcard-body{padding:18px 20px 20px}
+  .bd-rcard-cat{font-size:10.5px;font-weight:800;color:#1a7a5e;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+  .bd-rcard-title{font-size:15px;font-weight:800;color:#131a15;line-height:1.4;transition:color .2s}
+  .bd-rcard:hover .bd-rcard-title{color:#1a7a5e}
+
+  /* ── Sidebar ── */
+  .bd-sidebar{display:flex;flex-direction:column;gap:22px;position:sticky;top:24px}
+  .bd-widget{background:#fff;border:1px solid #eceae3;border-radius:20px;box-shadow:0 12px 36px rgba(13,31,24,.06);overflow:hidden}
+  .bd-widget-head{padding:18px 20px 14px;border-bottom:1px solid #f1f0eb}
+  .bd-widget-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:800;color:#1a7a5e;text-transform:uppercase;letter-spacing:.12em}
+  .bd-widget-tag::before{content:'';width:20px;height:2px;background:#1a7a5e;border-radius:2px}
+  .bd-widget-head h3{font-size:17px;font-weight:800;color:#0d1f18;margin-top:6px}
+  .bd-widget-body{padding:8px 14px 16px;display:flex;flex-direction:column;gap:6px}
+  .bd-sprop{display:flex;gap:12px;align-items:center;padding:10px;border-radius:14px;text-decoration:none;transition:background .2s}
+  .bd-sprop:hover{background:#f6f8f6}
+  .bd-sprop-img{width:74px;height:64px;border-radius:12px;overflow:hidden;flex-shrink:0;background:#eceeeb}
+  .bd-sprop-img img{width:100%;height:100%;object-fit:cover;display:block}
+  .bd-sprop-info{min-width:0;flex:1}
+  .bd-sprop-price{font-size:14px;font-weight:800;color:#0d1f18}
+  .bd-sprop-title{font-size:12.5px;font-weight:600;color:#4a524d;margin:2px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bd-sprop-loc{font-size:11px;color:#9aa0a9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bd-widget-foot{padding:0 20px 18px}
+  .bd-widget-foot a{display:flex;align-items:center;justify-content:center;gap:7px;background:#1a7a5e;color:#fff;font-size:13px;font-weight:700;padding:11px;border-radius:12px;text-decoration:none;transition:background .2s,transform .2s}
+  .bd-widget-foot a:hover{background:#155f49;transform:translateY(-1px)}
+
+  @media(max-width:1024px){.bd-layout{grid-template-columns:1fr}.bd-sidebar{position:static}}
+  @media(max-width:700px){
+    .bd-title{font-size:28px}
+    .bd-article{padding:32px 24px}
+    .bd-related-grid{grid-template-columns:1fr}
+    .bd-content{font-size:15.5px}
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="bd-wrap">
+  <!-- Hero -->
+  <div class="bd-hero">
+    {% if post.get_image %}<img src="{{ post.get_image }}" alt="{{ post.title }}"/>{% endif %}
+    <div class="bd-hero-inner">
+      <div class="bd-crumb">
+        <a href="{% url 'home' %}">Home</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        <a href="{% url 'blog' %}">Blog</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        <span>{{ post.get_category_display }}</span>
+      </div>
+      <span class="bd-cat">{{ post.get_category_display }}</span>
+      <h1 class="bd-title">{{ post.title }}</h1>
+      <div class="bd-meta">
+        <span class="bd-meta-avatar">{{ post.author|slice:":1"|upper }}</span>
+        <div>
+          <div class="bd-meta-name">{{ post.author }}</div>
+          <div class="bd-meta-date">{{ post.published_at|date:"F j, Y" }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bd-body-wrap">
+    <div class="bd-layout">
+      <article class="bd-article">
+        <a href="{% url 'blog' %}" class="bd-back">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          Back to Blog
+        </a>
+
+        <div class="bd-content">
+          {{ post.content|linebreaks }}
+        </div>
+
+        <div class="bd-share">
+          <span class="bd-share-label">Share this article</span>
+          <div class="bd-share-links">
+            <a class="bd-share-btn" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" rel="noopener" aria-label="Share on Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+            <a class="bd-share-btn" href="https://twitter.com/intent/tweet?text={{ post.title|urlencode }}&url={{ request.build_absolute_uri }}" target="_blank" rel="noopener" aria-label="Share on X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+            <a class="bd-share-btn" href="https://wa.me/?text={{ post.title|urlencode }}%20{{ request.build_absolute_uri }}" target="_blank" rel="noopener" aria-label="Share on WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.524 5.845L.05 23.5l5.828-1.53A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.82c-1.97 0-3.81-.53-5.402-1.455l-.387-.23-4.006 1.05 1.07-3.91-.252-.4A9.79 9.79 0 0 1 2.18 12c0-5.42 4.4-9.82 9.82-9.82 5.42 0 9.82 4.4 9.82 9.82 0 5.42-4.4 9.82-9.82 9.82z"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Sidebar: featured properties -->
+      <aside class="bd-sidebar">
+        <div class="bd-widget">
+          <div class="bd-widget-head">
+            <span class="bd-widget-tag">Featured</span>
+            <h3>Properties for you</h3>
+          </div>
+          <div class="bd-widget-body">
+            {% for p in sidebar_properties %}
+            <a href="{% url 'property_detail' p.slug %}" class="bd-sprop">
+              <span class="bd-sprop-img">{% if p.get_image %}<img src="{{ p.get_image }}" alt="{{ p.title }}" loading="lazy"/>{% endif %}</span>
+              <span class="bd-sprop-info">
+                <span class="bd-sprop-price">{{ p.formatted_price }}</span>
+                <span class="bd-sprop-title">{{ p.title }}</span>
+                <span class="bd-sprop-loc">{{ p.location }}</span>
+              </span>
+            </a>
+            {% empty %}
+            <p style="padding:14px 8px;font-size:13px;color:#9aa0a9">No properties to show.</p>
+            {% endfor %}
+          </div>
+          <div class="bd-widget-foot">
+            <a href="{% url 'listings' %}">
+              Browse all listings
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </aside>
+    </div><!-- /bd-layout -->
+    {% if related %}
+    <div class="bd-related">
+      <div class="bd-related-head">
+        <div>
+          <span class="bd-related-tag">Keep Reading</span>
+          <h2>Related <em>Articles</em></h2>
+        </div>
+        <a href="{% url 'blog' %}" class="bd-back" style="margin:0">
+          View all posts
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="bd-related-grid">
+        {% for r in related %}
+        <a href="{% url 'blog_detail' r.slug %}" class="bd-rcard">
+          <div class="bd-rcard-img">
+            {% if r.get_image %}<img src="{{ r.get_image }}" alt="{{ r.title }}" loading="lazy"/>{% endif %}
+          </div>
+          <div class="bd-rcard-body">
+            <div class="bd-rcard-cat">{{ r.get_category_display }}</div>
+            <div class="bd-rcard-title">{{ r.title|truncatechars:60 }}</div>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

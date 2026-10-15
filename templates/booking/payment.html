@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Payment – Booking {{ booking.reference }}{% endblock %}
+
+{% block content %}
+<div style="padding-top:80px;background:#f3f4f6;min-height:100vh">
+  <div style="max-width:820px;margin:0 auto;padding:40px 5%">
+
+    <!-- Progress steps -->
+    <div style="display:flex;align-items:center;gap:0;margin-bottom:36px">
+      <div style="display:flex;align-items:center;gap:8px;opacity:.5">
+        <span style="width:32px;height:32px;border-radius:50%;background:#1a7a5e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800">✓</span>
+        <span style="font-size:13px;font-weight:700;color:#6b7280">Your Details</span>
+      </div>
+      <div style="flex:1;height:2px;background:#1a7a5e;margin:0 12px"></div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="width:32px;height:32px;border-radius:50%;background:#1a7a5e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800">2</span>
+        <span style="font-size:13px;font-weight:700;color:#1a7a5e">Payment</span>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start">
+
+      <!-- Left: instructions + proof form -->
+      <div>
+        <div style="background:#fff;border-radius:20px;padding:32px;border:1.5px solid #e5e7eb;margin-bottom:20px">
+          <h1 style="font-size:22px;font-weight:800;color:#111;margin-bottom:6px">Complete Payment</h1>
+          <p style="font-size:13.5px;color:#6b7280;margin-bottom:28px">
+            Transfer the Booking / Inspection fee to the account below, then upload your payment proof.
+          </p>
+
+          <!-- ATM Card -->
+          {% if bank %}
+          <div style="margin-bottom:28px">
+            <div style="background:linear-gradient(135deg,#0a1f16 0%,#1a7a5e 60%,#2eab7b 100%);border-radius:20px;padding:28px 26px;color:#fff;position:relative;overflow:hidden;box-shadow:0 14px 48px rgba(26,122,94,.4);max-width:340px">
+              <div style="position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.06);top:-60px;right:-60px"></div>
+              <div style="position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.04);bottom:-40px;left:-40px"></div>
+              <button onclick="copyAccNum('{{ bank.account_number }}',this)" style="position:absolute;top:18px;right:18px;z-index:2;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:700;color:#fff;cursor:pointer;font-family:'Inter',sans-serif">Copy</button>
+              <div style="font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:.6;margin-bottom:20px;position:relative;z-index:1">{{ bank.bank_name }}</div>
+              <div style="font-size:24px;font-weight:800;letter-spacing:.22em;margin-bottom:20px;position:relative;z-index:1">{{ bank.account_number }}</div>
+              <div style="display:flex;justify-content:space-between;position:relative;z-index:1">
+                <div>
+                  <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;opacity:.5;margin-bottom:3px">Account Name</div>
+                  <div style="font-size:13px;font-weight:700">{{ bank.account_name }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% else %}
+          <div style="background:#fef3c7;border:1.5px solid #f59e0b;border-radius:14px;padding:16px 20px;margin-bottom:28px;font-size:13.5px;color:#92400e">
+            <strong>Payment account not yet configured.</strong><br>
+            Please contact us at <a href="tel:+2347063822217" style="color:#92400e">+234 706 382 2217</a> for payment details.
+          </div>
+          {% endif %}
+
+          <!-- Booking reference reminder -->
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:14px;padding:16px 20px;font-size:13.5px;color:#065f46">
+              <strong>Your Booking Reference:</strong>
+              <code style="font-size:15px;font-weight:800;margin-left:8px">{{ booking.reference }}</code><br>
+              <span style="font-size:12px;opacity:.75;margin-top:4px;display:block">Include this reference in your transfer description.</span>
+            </div>
+            <div style="background:#fff;border:1.5px solid #e5e7eb;border-radius:14px;padding:16px 20px;font-size:13.5px;color:#065f46">
+              <span style="font-size:11px;font-weight:800;color:#1a7a5e;text-transform:uppercase;letter-spacing:.05em">Booking / Inspection fee due</span>
+              <div style="font-size:24px;font-weight:800;color:#1a7a5e;margin-top:4px">{{ booking.property.formatted_booking_fee }}</div>
+              <span style="font-size:12px;color:#65a30d;margin-top:4px">Paid when you submit your payment proof on the next step.</span>
+            </div>
+          </div>
+
+          {% if already %}
+          <div style="background:#dbeafe;border:1.5px solid #93c5fd;border-radius:14px;padding:16px 20px;font-size:13.5px;color:#1e40af">
+            <strong>Payment proof already submitted.</strong> We're reviewing it — you'll be notified once verified.
+          </div>
+          {% else %}
+          <!-- Upload proof form -->
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h3 style="font-size:15px;font-weight:700;color:#111;margin-bottom:16px">Upload Payment Proof</h3>
+            {% for field in form %}
+            <div style="margin-bottom:16px">
+              <label style="display:block;font-size:11.5px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">{{ field.label }}</label>
+              {{ field }}
+              {% for err in field.errors %}<p style="font-size:12px;color:#dc2626;margin-top:4px">{{ err }}</p>{% endfor %}
+            </div>
+            {% endfor %}
+            <button type="submit" style="width:100%;background:#1a7a5e;color:#fff;font-size:15px;font-weight:700;padding:15px;border:none;border-radius:14px;cursor:pointer;font-family:'Inter',sans-serif;margin-top:8px">
+              I Have Paid — Submit Proof
+            </button>
+          </form>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Right: booking summary -->
+      <div>
+        <div style="background:#0a1f16;border-radius:20px;overflow:hidden">
+          {% if booking.property.get_image %}
+            <img src="{{ booking.property.get_image }}" alt="{{ booking.property.title }}" style="width:100%;height:150px;object-fit:cover;display:block"/>
+          {% endif %}
+          <div style="padding:20px">
+            <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Booking Summary</div>
+            <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:10px;line-height:1.35">{{ booking.property.title }}</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.5);margin-bottom:14px">{{ booking.property.location }}</div>
+            <div style="border-top:1px solid rgba(255,255,255,.08);padding-top:14px;display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;justify-content:space-between"><span style="font-size:12px;color:rgba(255,255,255,.45)">Date</span><span style="font-size:12.5px;font-weight:600;color:#fff">{{ booking.preferred_date|date:"j M Y" }}</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="font-size:12px;color:rgba(255,255,255,.45)">Time</span><span style="font-size:12.5px;font-weight:600;color:#fff">{{ booking.preferred_time|time:"H:i" }}</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="font-size:12px;color:rgba(255,255,255,.45)">Name</span><span style="font-size:12.5px;font-weight:600;color:#fff">{{ booking.full_name }}</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="font-size:12px;color:rgba(255,255,255,.45)">Reference</span><span style="font-size:12px;font-weight:700;color:#2eab7b">{{ booking.reference }}</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="font-size:12px;color:rgba(255,255,255,.45)">Booking fee</span><span style="font-size:12.5px;font-weight:700;color:#2eab7b">{{ booking.property.formatted_booking_fee }}</span></div>
+            </div>
+          </div>
+        </div>
+        <div style="background:#fff;border-radius:14px;padding:16px 18px;margin-top:12px;border:1.5px solid #e5e7eb">
+          <div style="font-size:12px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">What Happens Next?</div>
+          <ol style="padding-left:16px;font-size:13px;color:#4b5563;line-height:1.7">
+            <li>Transfer the fee to the account shown</li>
+            <li>Upload your payment screenshot / receipt</li>
+            <li>We verify and confirm your inspection date</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  form input, form select, form textarea {
+    width:100%; padding:11px 14px;
+    border:1.5px solid #e5e7eb; border-radius:10px;
+    font-size:14px; font-weight:500; color:#111;
+    background:#f9fafb; font-family:'Inter',sans-serif;
+    outline:none; transition:border-color .18s;
+  }
+  form input:focus, form select:focus, form textarea:focus { border-color:#1a7a5e; background:#fff; }
+  form input[type="file"] { padding:8px; }
+</style>
+
+<script>
+function copyAccNum(num, btn) {
+  navigator.clipboard.writeText(num).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+}
+</script>
+{% endblock %}

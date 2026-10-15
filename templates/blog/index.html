@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Blog & Insights – Apro Global Real Estate{% endblock %}
+
+{% block extra_head %}
+<style>
+  .blog-page{background:#f7f8f6;padding-bottom:80px}
+  .bp-tag{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;color:#1a7a5e;text-transform:uppercase;letter-spacing:.14em}
+  .bp-tag::before{content:'';width:26px;height:2px;background:#1a7a5e;border-radius:2px}
+  .bp-featured{display:grid;grid-template-columns:1.15fr 1fr;background:#fff;border:1px solid #eceae3;border-radius:28px;overflow:hidden;box-shadow:0 24px 60px rgba(13,31,24,.10);transition:transform .4s cubic-bezier(.2,.7,.3,1),box-shadow .4s;margin-bottom:52px}
+  .bp-featured:hover{transform:translateY(-6px);box-shadow:0 34px 80px rgba(13,31,24,.16)}
+  .bp-featured-img{position:relative;min-height:440px;overflow:hidden}
+  .bp-featured-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.7,.3,1)}
+  .bp-featured:hover .bp-featured-img img{transform:scale(1.06)}
+  .bp-featured-img::after{content:'';position:absolute;inset:0;background:linear-gradient(120deg,rgba(13,31,24,.35),transparent 55%)}
+  .bp-featured-badge{position:absolute;top:22px;left:22px;z-index:2;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);color:#1a7a5e;font-size:11px;font-weight:800;padding:7px 15px;border-radius:50px;text-transform:uppercase;letter-spacing:.08em;box-shadow:0 6px 18px rgba(0,0,0,.16)}
+  .bp-featured-body{padding:52px 48px;display:flex;flex-direction:column;justify-content:center}
+  .bp-featured-date{display:flex;align-items:center;gap:10px;font-size:12.5px;font-weight:600;color:#9aa0a9;margin-bottom:18px}
+  .bp-featured-date .dot{width:4px;height:4px;border-radius:50%;background:#cbd0c9}
+  .bp-featured-title{font-size:30px;font-weight:800;color:#0d1f18;line-height:1.22;letter-spacing:-.02em;margin-bottom:18px}
+  .bp-featured:hover .bp-featured-title{color:#1a7a5e}
+  .bp-featured-excerpt{font-size:15px;color:#5c635e;line-height:1.8;margin-bottom:28px}
+  .bp-author{display:flex;align-items:center;gap:11px;margin-bottom:26px}
+  .bp-author-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#1a7a5e,#2eab7b);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;box-shadow:0 6px 16px rgba(26,122,94,.35)}
+  .bp-author-name{font-size:13.5px;font-weight:700;color:#131a15}
+  .bp-author-role{font-size:11.5px;color:#9aa0a9}
+  .bp-cta{display:inline-flex;align-items:center;gap:9px;align-self:flex-start;color:#1a7a5e;font-size:14px;font-weight:800}
+  .bp-cta .arrow{width:38px;height:38px;border-radius:50%;background:#e7f4ee;color:#1a7a5e;display:flex;align-items:center;justify-content:center;transition:background .25s,transform .25s}
+  .bp-featured:hover .bp-cta .arrow{background:#1a7a5e;color:#fff;transform:translateX(3px)}
+  .bp-grid-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:30px;gap:16px;flex-wrap:wrap}
+  .bp-grid-head h2{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:#0d1f18}
+  .bp-grid-head h2 em{font-style:italic;color:#1a7a5e}
+  .bp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-bottom:48px}
+  .bp-card{background:#fff;border:1px solid #eceae3;border-radius:22px;overflow:hidden;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.2,.7,.3,1),box-shadow .35s,border-color .35s;text-decoration:none;color:inherit}
+  .bp-card, .bp-card *{text-decoration:none !important}
+  .bp-card:hover{transform:translateY(-8px);box-shadow:0 26px 58px rgba(13,31,24,.14);border-color:#dde6df}
+  .bp-card-img{position:relative;height:210px;overflow:hidden;background:#eceeeb}
+  .bp-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .55s cubic-bezier(.2,.7,.3,1)}
+  .bp-card:hover .bp-card-img img{transform:scale(1.08)}
+  .bp-card-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.28),transparent 55%)}
+  .bp-card-cat{position:absolute;top:16px;left:16px;z-index:2;background:rgba(255,255,255,.94);backdrop-filter:blur(6px);color:#1a7a5e;font-size:10.5px;font-weight:800;padding:6px 13px;border-radius:50px;text-transform:uppercase;letter-spacing:.07em;box-shadow:0 4px 12px rgba(0,0,0,.14)}
+  .bp-card-body{padding:22px 24px 24px;display:flex;flex-direction:column;gap:11px;flex:1}
+  .bp-card-date{font-size:11.5px;font-weight:600;color:#9aa0a9}
+  .bp-card-title{font-size:17px;font-weight:800;color:#131a15;line-height:1.35;transition:color .2s}
+  .bp-card:hover .bp-card-title{color:#1a7a5e}
+  .bp-card-excerpt{font-size:13.5px;color:#6b716c;line-height:1.7}
+  .bp-card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:16px;border-top:1px solid #f1f0eb}
+  .bp-card-author{display:flex;align-items:center;gap:9px}
+  .bp-card-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#1a7a5e,#2eab7b);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+  .bp-card-name{font-size:12px;font-weight:700;color:#131a15}
+  .bp-card-more{color:#1a7a5e;font-size:12.5px;font-weight:800;display:inline-flex;align-items:center;gap:4px;transition:gap .2s}
+  .bp-card:hover .bp-card-more{gap:8px}
+  .bp-pagination{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+  .bp-pg{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-width:46px;height:46px;padding:0 16px;border:1.5px solid #e6e8e3;border-radius:14px;background:#fff;font-size:14px;font-weight:700;color:#1a1a1a;text-decoration:none;transition:all .2s;font-family:'Inter',sans-serif}
+  .bp-pg:hover{border-color:#1a7a5e;color:#1a7a5e;transform:translateY(-2px)}
+  .bp-pg.active{background:#0d1f18;color:#fff;border-color:#0d1f18}
+  .bp-pg.disabled{opacity:.35;pointer-events:none}
+  .bp-pg svg{width:16px;height:16px}
+  @media(max-width:900px){.bp-featured{grid-template-columns:1fr}.bp-featured-img{min-height:280px}.bp-featured-body{padding:36px 30px}.bp-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:600px){.bp-grid{grid-template-columns:1fr}.bp-featured-title{font-size:24px}}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="blog-page">
+<section class="page-hero">
+  <img class="page-hero-bg" src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1600&q=85&auto=format&fit=crop" alt="Blog"/>
+  <div class="page-hero-content">
+    <div class="breadcrumb"><a href="{% url 'home' %}">Home</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><path d="M9 18l6-6-6-6"/></svg><span>Blog</span></div>
+    <h1>Insights &amp; <em>Real Estate</em> Tips</h1>
+    <p class="page-hero-sub">Market trends, buyer guides, investment tips and more from Nigeria's trusted property experts.</p>
+  </div>
+</section>
+
+<section style="padding:56px 5% 0">
+  {% if featured and not request.GET.page %}
+  <a href="{% url 'blog_detail' featured.slug %}" class="bp-featured" style="text-decoration:none;color:inherit">
+    <div class="bp-featured-img">
+      {% if featured.get_image %}<img src="{{ featured.get_image }}" alt="{{ featured.title }}" loading="lazy"/>{% endif %}
+      <span class="bp-featured-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2H22l-6 4.6 2.3 7.2-6.3-4.6-6.3 4.6L8 13.8 2 9.2h7.6z"/></svg>
+        Featured
+      </span>
+    </div>
+    <div class="bp-featured-body">
+      <div class="bp-featured-date">
+        <span>{{ featured.get_category_display }}</span>
+        <span class="dot"></span>
+        <span>{{ featured.published_at|date:"F j, Y" }}</span>
+      </div>
+      <h2 class="bp-featured-title">{{ featured.title }}</h2>
+      <p class="bp-featured-excerpt">{{ featured.excerpt }}</p>
+      <div class="bp-author">
+        <span class="bp-author-avatar">{{ featured.author|slice:":1"|upper }}</span>
+        <div>
+          <div class="bp-author-name">{{ featured.author }}</div>
+          <div class="bp-author-role">Editorial Team</div>
+        </div>
+      </div>
+      <span class="bp-cta">Read Article <span class="arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></span>
+    </div>
+  </a>
+  {% endif %}
+  <div class="bp-grid-head">
+    <div>
+      <span class="bp-tag">{% if request.GET.page %}All Posts{% else %}Latest Articles{% endif %}</span>
+      <h2>From the <em>Apro Global</em> Journal</h2>
+    </div>
+  </div>
+
+  <div class="bp-grid">
+    {% for post in page_obj %}
+    {% if not forloop.first or request.GET.page or post != featured %}
+    <a href="{% url 'blog_detail' post.slug %}" class="bp-card">
+      <div class="bp-card-img">
+        {% if post.get_image %}<img src="{{ post.get_image }}" alt="{{ post.title }}" loading="lazy"/>{% endif %}
+        <span class="bp-card-cat">{{ post.get_category_display }}</span>
+      </div>
+      <div class="bp-card-body">
+        <div class="bp-card-date">{{ post.published_at|date:"F j, Y" }}</div>
+        <div class="bp-card-title">{{ post.title }}</div>
+        <div class="bp-card-excerpt">{{ post.excerpt|truncatechars:120 }}</div>
+        <div class="bp-card-foot">
+          <div class="bp-card-author">
+            <span class="bp-card-avatar">{{ post.author|slice:":1"|upper }}</span>
+            <span class="bp-card-name">{{ post.author }}</span>
+          </div>
+          <span class="bp-card-more">Read <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+    </a>
+    {% endif %}
+    {% empty %}
+    <div style="grid-column:1/-1;text-align:center;padding:70px 20px;color:#9aa0a9">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.5" width="64" height="64"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <p style="font-size:16px;margin-top:14px">No blog posts published yet.</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% if page_obj.has_other_pages %}
+  <div class="bp-pagination">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}" class="bp-pg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg> Prev</a>
+    {% else %}
+      <span class="bp-pg disabled"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg> Prev</span>
+    {% endif %}
+    {% for i in page_obj.paginator.page_range %}
+      <a href="?page={{ i }}" class="bp-pg {% if page_obj.number == i %}active{% endif %}">{{ i }}</a>
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}" class="bp-pg">Next <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></a>
+    {% else %}
+      <span class="bp-pg disabled">Next <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+    {% endif %}
+  </div>
+  {% endif %}
+</section>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}Purchasers{% endblock %}
+{% block page_title %}Purchasers{% endblock %}
+{% block nav_purchasers %}active{% endblock %}
+
+{% block content %}
+<div class="ds-page-header">
+  <div>
+    <h1>Purchasers</h1>
+    <p>{{ page_obj.paginator.count }} registered account{{ page_obj.paginator.count|pluralize }}</p>
+  </div>
+</div>
+
+{% if page_obj.object_list %}
+<div class="ds-card">
+  <div class="ds-table-wrap">
+    <table class="ds-table">
+      <thead>
+        <tr>
+          <th>Purchaser</th>
+          <th>Phone</th>
+          <th>Bookings</th>
+          <th>Joined</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for person in page_obj %}
+        <tr>
+          <td>
+            <div class="ds-person">
+              <span class="ds-avatar">{{ person.first_name|default:person.username|slice:":1"|upper }}</span>
+              <div>
+                <b>{{ person.get_full_name|default:person.username }}</b>
+                <span>{{ person.email|default:"—" }}</span>
+              </div>
+            </div>
+          </td>
+          <td>{{ person.profile.phone|default:"—" }}</td>
+          <td>{{ person.bookings.count }}</td>
+          <td>{{ person.date_joined|date:"j M Y" }}</td>
+          <td>
+            {% if person.is_active %}
+              <span class="ds-pill ds-pill-green">Active</span>
+            {% else %}
+              <span class="ds-pill ds-pill-red">Disabled</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include 'dashboard/_pagination.html' %}
+</div>
+{% else %}
+<div class="ds-card">
+  <div class="ds-empty">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+    <h3>No purchasers yet</h3>
+    <p>New sign-ups will appear here.</p>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

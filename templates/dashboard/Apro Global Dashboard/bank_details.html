@@ -1,0 +1,100 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}Bank Details{% endblock %}
+{% block page_title %}Bank Details{% endblock %}
+{% block nav_bank %}active{% endblock %}
+
+{% block content %}
+<div class="ds-page-header">
+  <div>
+    <h1>Bank Details</h1>
+    <p>Payment accounts shown to purchasers during inspection booking</p>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1.2fr;gap:28px;align-items:start">
+
+  <!-- Left: existing cards -->
+  <div>
+    <h2 style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:16px">Active Accounts</h2>
+    {% if details %}
+      {% for d in details %}
+      <div style="margin-bottom:20px">
+        <!-- ATM card preview -->
+        <div class="atm-card" style="position:relative">
+          <button class="atm-copy-btn" onclick="copyAccNum('{{ d.account_number }}', this)">Copy</button>
+          <div class="atm-logo">{{ d.bank_name }}</div>
+          <div class="atm-account-num">{{ d.account_number }}</div>
+          <div class="atm-row">
+            <div class="atm-field">
+              <label>Account Name</label>
+              <span>{{ d.account_name }}</span>
+            </div>
+            <div class="atm-field" style="text-align:right">
+              <label>Status</label>
+              <span>{% if d.is_active %}● Active{% else %}Inactive{% endif %}</span>
+            </div>
+          </div>
+        </div>
+        <!-- delete -->
+        <form method="post" action="{% url 'admin_bank_delete' d.pk %}" onsubmit="return confirm('Remove this bank account?')" style="margin-top:10px">
+          {% csrf_token %}
+          <button type="submit" class="ds-btn ds-btn-danger ds-btn-sm">Remove Account</button>
+        </form>
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="ds-card">
+        <div class="ds-empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          <h3>No bank accounts yet</h3>
+          <p>Add your first account using the form →</p>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Right: add form -->
+  <div>
+    <h2 style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:16px">Add New Account</h2>
+    <form method="post">
+      {% csrf_token %}
+      <div class="ds-form-card">
+        <div class="ds-form-grid cols-1">
+          <div class="ds-form-group">
+            <label>Bank Name</label>
+            {{ form.bank_name }}
+            {% for e in form.bank_name.errors %}<ul class="errorlist"><li>{{ e }}</li></ul>{% endfor %}
+          </div>
+          <div class="ds-form-group">
+            <label>Account Name</label>
+            {{ form.account_name }}
+          </div>
+          <div class="ds-form-group">
+            <label>Account Number</label>
+            {{ form.account_number }}
+          </div>
+          <div class="ds-checkbox-row">
+            {{ form.is_active }}
+            <label for="{{ form.is_active.id_for_label }}">Active (shown to purchasers)</label>
+          </div>
+        </div>
+        <div class="ds-form-actions">
+          <button type="submit" class="ds-btn ds-btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Save Account
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+function copyAccNum(num, btn) {
+  navigator.clipboard.writeText(num).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+}
+</script>
+{% endblock %}

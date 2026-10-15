@@ -1,0 +1,161 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}My Dashboard{% endblock %}
+{% block page_title %}My Dashboard{% endblock %}
+{% block nav_myoverview %}active{% endblock %}
+
+{% block content %}
+<div class="ds-page-header">
+  <div>
+    <h1>Welcome, {{ user.first_name|default:user.get_username }}.</h1>
+    <p>Your personal space for bookings and property enquiries.</p>
+  </div>
+  <a href="{% url 'listings' %}" class="ds-btn ds-btn-primary">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    Browse Listings
+  </a>
+</div>
+
+<div class="ds-stat-grid">
+  <div class="ds-stat">
+    <div class="ds-stat-label">Total Bookings</div>
+    <div class="ds-stat-value">{{ bookings_count }}</div>
+    <div class="ds-stat-note">Inspection requests</div>
+  </div>
+  <div class="ds-stat">
+    <div class="ds-stat-label">Pending Payment</div>
+    <div class="ds-stat-value">{{ pending_count }}</div>
+    <div class="ds-stat-note">Awaiting your proof</div>
+  </div>
+  <div class="ds-stat">
+    <div class="ds-stat-label">Confirmed</div>
+    <div class="ds-stat-value">{{ confirmed_count }}</div>
+    <div class="ds-stat-note">Inspections confirmed</div>
+  </div>
+  <div class="ds-stat">
+    <div class="ds-stat-label">Member Since</div>
+    <div class="ds-stat-value" style="font-size:28px;padding-top:6px">{{ user.date_joined|date:"M Y" }}</div>
+    <div class="ds-stat-note">Account active</div>
+  </div>
+</div>
+
+<!-- Bookings table -->
+<div class="ds-card">
+  <div class="ds-card-head">
+    <div>
+      <h2>My Inspection Bookings</h2>
+      <p>Track the status of your property inspection requests</p>
+    </div>
+  </div>
+
+  {% if bookings %}
+  <div class="ds-table-wrap">
+    <table class="ds-table">
+      <thead>
+        <tr><th>Reference</th><th>Property</th><th>Date & Time</th><th>Status</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        {% for b in bookings %}
+        <tr>
+          <td><code style="font-size:12px;background:var(--bg-subtle);color:var(--text);padding:3px 7px;border-radius:6px">{{ b.reference }}</code></td>
+          <td>
+            <a href="{% url 'property_detail' b.property.slug %}" style="color:var(--green);font-weight:600;font-size:13px;text-decoration:none">
+              {{ b.property.title|truncatechars:38 }}
+            </a>
+            <div style="font-size:12px;color:var(--text-muted)">{{ b.property.location }}</div>
+          </td>
+          <td>{{ b.preferred_date|date:"j M Y" }}<br><small style="color:var(--text-muted)">{{ b.preferred_time|time:"H:i" }}</small></td>
+          <td>
+            {% if b.status == 'pending'   %}<span class="ds-pill ds-pill-gray">Awaiting Payment</span>
+            {% elif b.status == 'paid'    %}<span class="ds-pill ds-pill-yellow">Payment Submitted</span>
+            {% elif b.status == 'verified'%}<span class="ds-pill ds-pill-green">Payment Verified</span>
+            {% elif b.status == 'rejected'%}<span class="ds-pill ds-pill-red">Payment Rejected</span>
+            {% elif b.status == 'confirmed'%}<span class="ds-pill ds-pill-blue">Inspection Confirmed</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if b.status == 'pending' %}
+              <a href="{% url 'inspection_payment' b.reference %}" class="ds-btn ds-btn-primary ds-btn-sm">Pay Now</a>
+            {% elif b.status == 'paid' %}
+              <span style="font-size:12px;color:var(--text-body)">Awaiting verification</span>
+            {% elif b.status == 'rejected' %}
+              <a href="{% url 'inspection_payment' b.reference %}" class="ds-btn ds-btn-danger ds-btn-sm">Re-submit Proof</a>
+            {% else %}
+              <span style="font-size:12px;color:var(--green)">✓ Done</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="ds-empty">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <h3>No bookings yet</h3>
+    <p>Find a property you like and book an inspection.</p>
+    <a href="{% url 'listings' %}" class="ds-btn ds-btn-primary" style="margin-top:16px">Explore Listings</a>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Account details -->
+<div class="ds-card">
+  <div class="ds-card-head"><h2>Account Details</h2></div>
+  <div class="ds-card-body">
+    <dl style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div><dt style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:3px">Name</dt><dd style="font-size:14px;font-weight:600;color:var(--text)">{{ user.get_full_name|default:"—" }}</dd></div>
+      <div><dt style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:3px">Email</dt><dd style="font-size:14px;font-weight:600;color:var(--text)">{{ user.email|default:"—" }}</dd></div>
+      <div><dt style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:3px">Phone</dt><dd style="font-size:14px;font-weight:600;color:var(--text)">{{ user.profile.phone|default:"—" }}</dd></div>
+      <div><dt style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:3px">Joined</dt><dd style="font-size:14px;font-weight:600;color:var(--text)">{{ user.date_joined|date:"j M Y" }}</dd></div>
+    </dl>
+  </div>
+</div>
+<!-- Saved properties (wishlist) -->
+<div class="ds-card" style="margin-top:24px">
+  <div class="ds-card-head">
+    <div>
+      <h2>Saved Properties</h2>
+      <p>Properties you've hearted — {{ saved_count }} saved</p>
+    </div>
+    <a href="{% url 'listings' %}" class="ds-btn ds-btn-outline ds-btn-sm">Browse More</a>
+  </div>
+
+  {% if saved_properties %}
+  <div class="ds-card-body">
+    <div class="ds-prop-grid">
+      {% for s in saved_properties %}
+      <div class="ds-prop-card">
+        <div class="ds-prop-img">
+          {% if s.property.get_image %}
+            <img src="{{ s.property.get_image }}" alt="{{ s.property.title }}" loading="lazy" />
+          {% else %}
+            <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--bg-subtle)">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            </div>
+          {% endif %}
+        </div>
+        <div class="ds-prop-body">
+          <div class="ds-prop-price">{{ s.property.formatted_price }}</div>
+          <div class="ds-prop-title">{{ s.property.title }}</div>
+          <div class="ds-prop-loc">{{ s.property.location }}</div>
+          <div class="ds-prop-actions">
+            <a href="{% url 'property_detail' s.property.slug %}" class="ds-btn ds-btn-outline ds-btn-sm">View</a>
+            {% if not user.is_superuser %}
+            <button type="button" class="ds-btn ds-btn-danger ds-btn-sm" onclick="window.toggleSaveProperty('{{ s.property.slug }}', this, event)" title="Remove from saved">Remove</button>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% else %}
+  <div class="ds-empty">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    <h3>No saved properties yet</h3>
+    <p>Tap the heart on any listing to save it here.</p>
+    <a href="{% url 'listings' %}" class="ds-btn ds-btn-primary" style="margin-top:16px">Explore Listings</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -956,7 +956,10 @@ body {
   transition: transform 0.25s, box-shadow 0.25s;
   cursor: pointer;
   display: flex; flex-direction: column;
+  text-decoration: none; color: inherit;
 }
+/* kill any inherited underline on children too (title/category/excerpt) */
+.blog-card, .blog-card * { text-decoration: none !important; }
 .blog-card:hover { transform: translateY(-5px); box-shadow: 0 14px 44px rgba(0,0,0,0.1); }
 
 /* featured card spans 2 rows */

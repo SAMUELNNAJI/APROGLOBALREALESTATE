@@ -1,0 +1,91 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}Bookings{% endblock %}
+{% block page_title %}Inspection Bookings{% endblock %}
+{% block nav_bookings %}active{% endblock %}
+
+{% block content %}
+<div class="ds-page-header">
+  <div>
+    <h1>Inspection Bookings</h1>
+    <p>{{ page_obj.paginator.count }} booking{{ page_obj.paginator.count|pluralize }} total</p>
+  </div>
+</div>
+
+{% if page_obj.object_list %}
+<div class="ds-card">
+  <div class="ds-table-wrap">
+    <table class="ds-table">
+      <thead>
+        <tr>
+          <th>Reference</th>
+          <th>Purchaser</th>
+          <th>Property</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Payment</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for b in page_obj %}
+        <tr>
+          <td><code style="font-size:12px;background:var(--bg-subtle);color:var(--text);padding:3px 7px;border-radius:6px">{{ b.reference }}</code></td>
+          <td>
+            <div class="ds-person">
+              <span class="ds-avatar">{{ b.full_name|slice:":1"|upper }}</span>
+              <div>
+                <b>{{ b.full_name }}</b>
+                <span>{{ b.email }}</span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <a href="{% url 'property_detail' b.property.slug %}" target="_blank" style="color:var(--green);text-decoration:none;font-weight:600;font-size:13px">
+              {{ b.property.title|truncatechars:32 }}
+            </a>
+          </td>
+          <td>{{ b.preferred_date|date:"j M Y" }}<br><small style="color:var(--text-muted)">{{ b.preferred_time|time:"H:i" }}</small></td>
+          <td>
+            {% if b.status == 'pending'  %}<span class="ds-pill ds-pill-gray">Pending</span>
+            {% elif b.status == 'paid'   %}<span class="ds-pill ds-pill-yellow">Paid — Verify</span>
+            {% elif b.status == 'verified' %}<span class="ds-pill ds-pill-green">Verified</span>
+            {% elif b.status == 'rejected' %}<span class="ds-pill ds-pill-red">Rejected</span>
+            {% elif b.status == 'confirmed' %}<span class="ds-pill ds-pill-blue">Confirmed</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if b.payment %}
+              <a href="{{ b.payment.proof_image.url }}" target="_blank" class="ds-btn ds-btn-outline ds-btn-sm">View Proof</a>
+              <div style="font-size:12px;color:var(--text-body);margin-top:4px">₦{{ b.payment.amount_paid|floatformat:0 }}</div>
+            {% else %}
+              <span style="font-size:12px;color:var(--text-muted)">No proof yet</span>
+            {% endif %}
+          </td>
+          <td>
+            <form method="post" action="{% url 'admin_booking_status' b.pk %}" style="display:flex;flex-direction:column;gap:5px">
+              {% csrf_token %}
+              <select name="status" style="font-size:12px;padding:5px 8px;border:1.5px solid var(--border);border-radius:8px;background:var(--card);color:var(--text);font-family:'Inter',sans-serif;outline:none">
+                {% for val, label in b.STATUS_CHOICES %}
+                  <option value="{{ val }}" {% if b.status == val %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+              <button type="submit" class="ds-btn ds-btn-primary ds-btn-sm">Update</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include 'dashboard/_pagination.html' %}
+</div>
+{% else %}
+<div class="ds-card">
+  <div class="ds-empty">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <h3>No bookings yet</h3>
+    <p>Inspection booking requests will appear here once purchasers submit them.</p>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

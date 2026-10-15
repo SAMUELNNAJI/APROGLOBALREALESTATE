@@ -11,6 +11,54 @@ function setTab(el) {
 /* ── Filter tag toggle ── */
 function toggleFilter(el) { el.classList.toggle('active-tag'); }
 
+/* ── CSRF helper for AJAX POSTs ── */
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return '';
+}
+
+/* ── Wishlist (save property) toggle ──
+   Persists to the server. Anonymous users are sent to sign-in.
+   `btn` is the heart button; we flip its .liked class on success. */
+window.toggleSaveProperty = function (slug, btn, event) {
+  if (event) { event.preventDefault(); event.stopPropagation(); }
+
+  const authed = document.body.dataset.auth === '1';
+  if (!authed) {
+    // Not logged in — bounce to sign-in, then come back to this page.
+    window.location.href = `/signin/?next=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+    return;
+  }
+
+  const url = `/property/${slug}/save/`;
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'X-CSRFToken': getCookie('csrftoken'),
+      'X-Requested-With': 'XMLHttpRequest',
+    },
+    credentials: 'same-origin',
+  })
+    .then((r) => r.json().then((data) => ({ ok: r.ok, status: r.status, data })))
+    .then(({ ok, status, data }) => {
+      if (ok && typeof data.saved === 'boolean') {
+        if (btn) btn.classList.toggle('liked', data.saved);
+        // nudge any wishlist counters on the page
+        document.querySelectorAll('[data-wishlist-count]').forEach((el) => {
+          el.textContent = data.count;
+        });
+      } else if (data && data.admin) {
+        // Admins can't save — flash a message instead of breaking.
+        if (btn) btn.classList.add('shake');
+        setTimeout(() => btn && btn.classList.remove('shake'), 500);
+      }
+    })
+    .catch(() => {});
+};
+
+
 /* ── Mobile menu close (called inline & from JS) ── */
 function closeMobileMenu() {
   const menu      = document.getElementById('mobileMenu');
@@ -121,9 +169,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ── Wishlist hearts ── */
+  /* ── Wishlist hearts (home page cards) ── */
   document.querySelectorAll('.card-wishlist').forEach(btn => {
-    btn.addEventListener('click', e => { e.stopPropagation(); btn.classList.toggle('liked'); });
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      window.toggleSaveProperty(btn.dataset.slug, btn, e);
+    });
   });
 
   /* ── Nav link active ── */

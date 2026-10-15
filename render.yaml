@@ -1,0 +1,44 @@
+# Render blueprint — https://render.com/docs/blueprint-spec
+# Deploy: Render dashboard → New → Blueprint → pick this repository.
+#
+# Database: SQLite on the instance disk by default. Migrations and the demo
+# seed run on every boot, so on the free plan (ephemeral disk) the site
+# always comes up with content, but bookings/accounts reset on redeploys.
+# For durable data create a Render Postgres instance and attach it to this
+# service — DATABASE_URL is then picked up automatically by settings.py.
+services:
+  - type: web
+    name: apro-global-real-estate
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: python manage.py migrate --noinput && python manage.py seed_if_empty && gunicorn config.wsgi:application
+    healthCheckPath: /healthz
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.0
+      - key: DJANGO_DEBUG
+        value: "false"
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      # Wildcard host; settings.py also adds RENDER_EXTERNAL_HOSTNAME and
+      # derives CSRF trusted origins from this list automatically.
+      - key: DJANGO_ALLOWED_HOSTS
+        value: .onrender.com
+      # Optional: set these in the Render dashboard to auto-create a
+      # dashboard admin on first boot (leave empty to skip).
+      - key: DJANGO_SUPERUSER_USERNAME
+        sync: false
+      - key: DJANGO_SUPERUSER_PASSWORD
+        sync: false
+      - key: DJANGO_SUPERUSER_EMAIL
+        sync: false
+      # Optional SMTP (emails print to the server log when unset):
+      # - key: DJANGO_EMAIL_BACKEND
+      #   sync: false
+    # Persistent disk (paid plans only) — keeps media uploads and the SQLite
+    # database across deploys. Mount path must match settings.BASE_DIR.
+    # disk:
+    #   name: apro-data
+    #   mountPath: /opt/render/project/src
+    #   sizeGB: 1

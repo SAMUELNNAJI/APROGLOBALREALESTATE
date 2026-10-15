@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Create Account – Apro Global Real Estate{% endblock %}
+{% block meta_description %}Create your Apro Global Real Estate account to save listings and track enquiries.{% endblock %}
+{% block body_class %}auth-page{% endblock %}
+
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/auth.css' %}" />{% endblock %}
+
+{% block content %}
+<main class="auth-stage">
+  {% include 'auth/_scene.html' with eyebrow="Build your address" headline="Every great home starts with a <em>single floor</em>." subline="Fill in your details and your tower rises, one lit window at a time. The beacon on top reads your password strength." %}
+
+  <div class="auth-card-wrap">
+    <section class="auth-card" aria-labelledby="signup-title">
+      <header class="card-head">
+        <span class="card-kicker"><i></i>Free purchaser account</span>
+        <h2 id="signup-title">Lay the foundation</h2>
+        <p>Create your account to save properties, track enquiries and book viewings.</p>
+      </header>
+
+      <form method="post" novalidate data-auth-form>
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+        <div class="auth-alert" role="alert">{{ form.non_field_errors|join:" " }}</div>
+        {% endif %}
+
+        <div class="field-row">
+          {% include 'auth/_field.html' with field=form.first_name %}
+          {% include 'auth/_field.html' with field=form.last_name %}
+        </div>
+        {% include 'auth/_field.html' with field=form.email %}
+        {% include 'auth/_field.html' with field=form.phone %}
+        {% include 'auth/_field.html' with field=form.password1 is_password=True %}
+        <div class="meter" data-level="0" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <div class="meter-label" aria-live="polite"></div>
+        {% include 'auth/_field.html' with field=form.password2 is_password=True %}
+
+        <div class="form-meta">
+          <label class="check" for="{{ form.accept_terms.id_for_label }}">
+            {{ form.accept_terms }}
+            <span class="box"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span>
+            <span>I agree to the <a href="{% url 'terms' %}" target="_blank" rel="noopener">Terms</a> and <a href="{% url 'privacy' %}" target="_blank" rel="noopener">Privacy Policy</a>.</span>
+          </label>
+        </div>
+        {% for error in form.accept_terms.errors %}<div class="field-error" style="margin:-14px 0 14px">{{ error }}</div>{% endfor %}
+
+        <button type="submit" class="key-btn">
+          <span>Collect my keys</span>
+          <svg class="key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3L21 2M16 7l3 3M14 9l2 2"/></svg>
+        </button>
+      </form>
+
+      <p class="card-foot">Already have an account? <a href="{% url 'signin' %}">Sign in</a></p>
+    </section>
+  </div>
+</main>
+{% endblock %}
+
+{% block extra_js %}<script src="{% static 'js/auth.js' %}"></script>{% endblock %}

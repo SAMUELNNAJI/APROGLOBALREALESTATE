@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact Us – Apro Global Real Estate</title>
-  <meta name="description" content="Get in touch with Apro Global Real Estate. Visit our Ikoyi office or call +234 706 382 2217." />
-  <link rel="icon" type="image/png" href="assets/image/logo.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/styles.css" />
-  <style>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us – Apro Global Real Estate{% endblock %}
+{% block meta_description %}Get in touch with Apro Global Real Estate. Visit our Ikoyi office or call +234 706 382 2217.{% endblock %}
+{% block body_class %}contact-body{% endblock %}
+
+{% block extra_head %}
+<style>
     /* ══════════════════════════════════════════════
        CONTACT PAGE STYLES
     ══════════════════════════════════════════════ */
@@ -322,69 +318,15 @@
       .map-frame { height: 280px; }
     }
   </style>
-</head>
-<body class="contact-body">
+{% endblock %}
 
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true">
-    <div class="mm-blob mm-blob-1"></div>
-    <div class="mm-blob mm-blob-2"></div>
-    <div class="mm-blob mm-blob-3"></div>
-    <div class="mm-topbar">
-      <div class="mm-logo"><img src="assets/image/logo.png" alt="Apro Global" /></div>
-      <button class="mm-close" id="menuClose" aria-label="Close menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </button>
-    </div>
-    <div class="mm-card">
-      <nav class="mm-nav">
-        <a href="index.html"    class="mm-link"        data-num="01" onclick="closeMobileMenu()"><span class="mm-link-label">Home</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-        <a href="services.html" class="mm-link"        data-num="02" onclick="closeMobileMenu()"><span class="mm-link-label">Services</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-        <a href="listings.html" class="mm-link"        data-num="03" onclick="closeMobileMenu()"><span class="mm-link-label">Listings</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-        <a href="about.html"    class="mm-link"        data-num="04" onclick="closeMobileMenu()"><span class="mm-link-label">About</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-        <a href="contact.html"  class="mm-link active" data-num="05" onclick="closeMobileMenu()"><span class="mm-link-label">Contact</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      </nav>
-      <div class="mm-card-bottom">
-        <div class="mm-contact-chips">
-          <a href="tel:+2347063822217" class="mm-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1 19.79 19.79 0 0 1 1.56 4.5 2 2 0 0 1 3.54 2.34h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l1.73-1.73a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Call Us</a>
-          <a href="mailto:info@aproglobalestate.com.ng" class="mm-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Email</a>
-        </div>
-        <a href="#" class="mm-cta" onclick="closeMobileMenu()">List Property <span class="mm-cta-arrow">→</span></a>
-      </div>
-    </div>
-    <div class="mm-stats">
-      <div class="mm-stat"><span class="mm-stat-num">250+</span><span class="mm-stat-lbl">Listings</span></div>
-      <div class="mm-stat-div"></div>
-      <div class="mm-stat"><span class="mm-stat-num">1,500+</span><span class="mm-stat-lbl">Clients</span></div>
-      <div class="mm-stat-div"></div>
-      <div class="mm-stat"><span class="mm-stat-num">23yrs</span><span class="mm-stat-lbl">Experience</span></div>
-    </div>
-  </div>
-
-  <!-- NAVBAR -->
-  <nav class="navbar" id="navbar">
-    <a href="index.html" class="logo"><img src="assets/image/logo.png" alt="Apro Global Real Estate" /></a>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="services.html">Services</a>
-      <a href="listings.html">Listings</a>
-      <a href="about.html">About</a>
-      <a href="contact.html" class="active">Contact</a>
-    </div>
-    <div class="nav-right">
-      <button class="icon-btn" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></button>
-      <button class="icon-btn" aria-label="My Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
-      <a href="listings.html" class="list-btn">List Property<span class="arrow-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></a>
-      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
-    </div>
-  </nav>
-
+{% block content %}
   <!-- PAGE HERO -->
   <section class="page-hero">
     <img class="page-hero-bg" src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&q=85&auto=format&fit=crop" alt="Contact Apro Global" />
     <div class="page-hero-content">
       <div class="breadcrumb">
-        <a href="index.html">Home</a>
+        <a href="{% url 'home' %}">Home</a>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
         <span>Contact</span>
       </div>
@@ -536,37 +478,11 @@
   </div>
 
   <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="index.html" class="logo"><img class="footer-logo-img" src="assets/image/logo.png" alt="Apro Global Real Estate" /></a>
-        <p>Bridging the gap between demand and supply of quality housing in Nigeria since 2011. Serving Lagos and Abuja with integrity, diligence and dedication.</p>
-        <div class="footer-socials">
-          <a href="https://facebook.com/aproglobal" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-          <a href="https://x.com/aproglobal" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-        </div>
-      </div>
-      <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About Us</a></li><li><a href="#">Our Team</a></li><li><a href="#">Careers</a></li><li><a href="index.html#blog">Blog</a></li><li><a href="contact.html">Contact</a></li></ul></div>
-      <div class="footer-col"><h4>Services</h4><ul><li><a href="listings.html">Buy Property</a></li><li><a href="listings.html">Rent Property</a></li><li><a href="contact.html">Sell Property</a></li><li><a href="services.html">Property Management</a></li><li><a href="services.html">Financial Advisory</a></li></ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul><li><a href="#">Lagos — Ikoyi Office</a></li><li><a href="tel:+2347063822217">+234 706 382 2217</a></li><li><a href="mailto:info@aproglobalestate.com.ng">info@aproglobalestate.com.ng</a></li></ul></div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 Apro Global Real Estate. All rights reserved.</span>
-      <span><a href="privacy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="terms.html">Terms of Service</a></span>
-    </div>
-  </footer>
+  
+{% endblock %}
 
-  <!-- FABs -->
-  <a href="https://wa.me/2347063822217" class="fab fab-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-    <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.47.643 4.787 1.768 6.8L2 30l7.4-1.74A13.94 13.94 0 0 0 16 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm0 25.5a11.45 11.45 0 0 1-5.82-1.588l-.416-.248-4.394 1.032 1.054-4.278-.272-.44A11.47 11.47 0 0 1 4.5 16C4.5 9.648 9.648 4.5 16 4.5S27.5 9.648 27.5 16 22.352 27.5 16 27.5zm6.29-8.62c-.345-.172-2.04-1.006-2.356-1.12-.316-.116-.546-.172-.776.172-.23.345-.89 1.12-1.09 1.35-.2.23-.4.258-.745.086-.345-.172-1.456-.537-2.774-1.712-1.025-.915-1.717-2.044-1.918-2.39-.2-.344-.022-.53.15-.702.154-.154.345-.402.517-.603.172-.2.23-.344.345-.573.115-.23.057-.43-.029-.603-.086-.172-.776-1.87-1.063-2.562-.28-.672-.564-.58-.776-.59l-.66-.012c-.23 0-.603.086-.918.43-.316.344-1.205 1.177-1.205 2.87s1.234 3.33 1.406 3.56c.172.23 2.428 3.71 5.882 5.202.822.355 1.463.567 1.963.726.824.263 1.574.226 2.167.137.66-.099 2.04-.834 2.328-1.638.287-.804.287-1.493.2-1.638-.086-.144-.316-.23-.66-.402z"/></svg>
-    <span class="fab-label">WhatsApp</span>
-  </a>
-  <button class="fab fab-totop" id="scrollToTop" aria-label="Scroll to top">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
-  </button>
-
-  <script src="assets/js/main.js"></script>
-  <script>
+{% block extra_js %}
+<script>
     // Lift select label when value chosen
     document.getElementById('fsubject').addEventListener('change', function () {
       document.getElementById('subject-label').style.top      = '10px';
@@ -588,5 +504,4 @@
       }, 3000);
     });
   </script>
-</body>
-</html>
+{% endblock %}

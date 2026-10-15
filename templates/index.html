@@ -1,0 +1,437 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Apro Global Real Estate – Find Your Place in Lagos & Abuja{% endblock %}
+{% block meta_description %}Apro Global Real Estate – A full service real estate agency serving Lagos and Abuja since 2011. Buy, Rent or Sell properties below market price.{% endblock %}
+
+{% block content %}
+  <!-- ══════════════════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════════════════ -->
+  <section class="hero" id="hero">
+
+    <!-- Single background image -->
+    <img
+      class="hero-bg"
+      src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1600&q=85&auto=format&fit=crop"
+      alt="Luxury modern villa"
+      onerror="this.style.background='linear-gradient(135deg,#0d1f1a 0%,#1a4030 100%)';this.removeAttribute('src')"
+    />
+
+    <!-- Performance Widget -->
+    <div class="perf-widget">
+      <div class="perf-header">
+        <div class="perf-label"><span class="perf-dot"></span>Market Performance</div>
+        <div class="perf-change">
+          Change
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="perf-nums">
+        <div><div class="perf-num">₦85M</div><div class="perf-num-sub">Current</div></div>
+        <div><div class="perf-num">₦68M</div><div class="perf-num-sub">Est.</div></div>
+      </div>
+      <div class="bar-chart">
+        <div class="bar-group">
+          <div class="bar-wrap"><div class="bar light" style="height:26px"></div><div class="bar dark" style="height:18px"></div></div>
+          <span class="bar-year">2022</span>
+        </div>
+        <div class="bar-group">
+          <div class="bar-wrap"><div class="bar light" style="height:30px"></div><div class="bar dark" style="height:22px"></div></div>
+          <span class="bar-year">2023</span>
+        </div>
+        <div class="bar-group">
+          <div class="bar-wrap"><div class="bar light" style="height:36px"></div><div class="bar dark" style="height:28px"></div></div>
+          <span class="bar-year">2024</span>
+        </div>
+        <div class="bar-group">
+          <div class="bar-wrap"><div class="bar light" style="height:42px"></div><div class="bar dark" style="height:34px"></div></div>
+          <span class="bar-year">2025</span>
+        </div>
+        <div class="bar-group" style="position:relative">
+          <div class="bar-tooltip">₦85M</div>
+          <div class="bar-wrap"><div class="bar light" style="height:48px"></div><div class="bar dark" style="height:48px"></div></div>
+          <span class="bar-year">2026</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero animated headline -->
+    <div class="hero-content">
+      <h1>
+        <span class="hero-line">
+          <span class="hero-line-inner">
+            <span class="normal">Better </span><span class="italic">places,</span>
+          </span>
+        </span>
+        <span class="hero-line">
+          <span class="hero-line-inner">
+            <span class="italic">Smarter property </span><span class="normal">decisions</span>
+          </span>
+        </span>
+      </h1>
+      <div class="hero-sub">
+        <span class="hero-sub-badge">Est. 2011</span>
+        <span class="hero-sub-text">Lagos &amp; Abuja — Nigeria's most trusted agency</span>
+      </div>
+    </div>
+
+    <!-- Property type pills removed -->
+
+  </section><!-- /hero -->
+
+  <!-- ══════════════════════════════════════════════════
+       SEARCH PANEL — functional form
+  ══════════════════════════════════════════════════════ -->
+  <form method="get" action="{% url 'listings' %}" id="heroSearchForm">
+  <div class="search-panel">
+    <div class="search-tabs">
+      <button type="button" class="tab active" data-val="all"  onclick="setHeroTab(this)">Buy</button>
+      <button type="button" class="tab"        data-val="rent" onclick="setHeroTab(this)">Rent</button>
+      <button type="button" class="tab"        data-val="sale" onclick="setHeroTab(this)">Sell</button>
+    </div>
+    <input type="hidden" name="tab" id="heroTabInput" value="all"/>
+    <div class="search-fields">
+      <div class="search-field">
+        <div class="field-label">Location</div>
+        <div class="field-value">
+          <select name="location" style="border:none;outline:none;font-size:14px;font-weight:700;color:#222;background:transparent;font-family:'Inter',sans-serif;appearance:none;-webkit-appearance:none;width:100%;cursor:pointer">
+            <option value="all">All Cities</option>
+            <option value="lagos">Lagos</option>
+            <option value="abuja">Abuja</option>
+          </select>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;pointer-events:none"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="search-field">
+        <div class="field-label">Property Type</div>
+        <div class="field-value">
+          <select name="type" style="border:none;outline:none;font-size:14px;font-weight:700;color:#222;background:transparent;font-family:'Inter',sans-serif;appearance:none;-webkit-appearance:none;width:100%;cursor:pointer">
+            <option value="all">All Types</option>
+            <option value="apartment">Apartment</option>
+            <option value="duplex">Duplex</option>
+            <option value="townhouse">Townhouse</option>
+            <option value="house">Detached House</option>
+            <option value="office">Office</option>
+            <option value="land">Land</option>
+          </select>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;pointer-events:none"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="search-field">
+        <div class="field-label">Price Range</div>
+        <div class="field-value">
+          <select name="price" style="border:none;outline:none;font-size:14px;font-weight:700;color:#222;background:transparent;font-family:'Inter',sans-serif;appearance:none;-webkit-appearance:none;width:100%;cursor:pointer">
+            <option value="all">Any Price</option>
+            <option value="low">Under ₦10M</option>
+            <option value="mid">₦10M – ₦100M</option>
+            <option value="high">Above ₦100M</option>
+          </select>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;pointer-events:none"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="search-field">
+        <div class="field-label">Rooms</div>
+        <div class="field-value">
+          <select name="q" style="border:none;outline:none;font-size:14px;font-weight:700;color:#222;background:transparent;font-family:'Inter',sans-serif;appearance:none;-webkit-appearance:none;width:100%;cursor:pointer">
+            <option value="">Any</option>
+            <option value="1 bedroom">1 Bedroom</option>
+            <option value="2 bedroom">2 Bedrooms</option>
+            <option value="3 bedroom">3 Bedrooms</option>
+            <option value="4 bedroom">4 Bedrooms</option>
+            <option value="5 bedroom">5+ Bedrooms</option>
+          </select>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;pointer-events:none"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="search-bottom">
+      <div class="filter-row">
+        <span class="filter-label">Filter:</span>
+        <button type="button" class="filter-tag active-tag" onclick="setHeroType(this,'apartment')">Apartment</button>
+        <button type="button" class="filter-tag" onclick="setHeroType(this,'townhouse')">Villa</button>
+        <button type="button" class="filter-tag" onclick="setHeroType(this,'house')">House</button>
+        <button type="button" class="filter-tag" onclick="setHeroType(this,'office')">Office</button>
+        <button type="button" class="filter-tag" onclick="setHeroType(this,'land')">Land</button>
+      </div>
+      <button type="submit" class="search-btn">
+        Search Properties
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  </form>
+
+  <!-- ══════════════════════════════════════════════════
+       STATS BAR
+  ══════════════════════════════════════════════════════ -->
+  <div class="stats-bar">
+    <div class="stat-item"><div class="stat-num">250<span>+</span></div><div class="stat-desc">Active listings</div></div>
+    <div class="stat-item"><div class="stat-num">1,500<span>+</span></div><div class="stat-desc">Clients serviced</div></div>
+    <div class="stat-item"><div class="stat-num">23<span>+</span></div><div class="stat-desc">Years of experience</div></div>
+    <div class="stat-item"><div class="stat-num">2<span>+</span></div><div class="stat-desc">Cities – Lagos &amp; Abuja</div></div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       ABOUT US
+  ══════════════════════════════════════════════════════ -->
+  <section class="about-section" id="about">
+    <img class="about-bg-img" src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&q=60&auto=format&fit=crop" alt="" aria-hidden="true" />
+    <div class="about-overlay"></div>
+    <div class="about-inner">
+
+      <!-- Left -->
+      <div class="about-left">
+        <div class="about-label">Who We Are</div>
+        <h2 class="about-headline">Nigeria's Trusted<br><em>Real Estate</em> Partner</h2>
+        <div class="about-metrics">
+          <div class="metric-card"><div class="metric-num">15<span>+</span></div><div class="metric-label">Years of trusted service in Nigeria</div></div>
+          <div class="metric-card"><div class="metric-num">1,500<span>+</span></div><div class="metric-label">Clients successfully serviced</div></div>
+          <div class="metric-card"><div class="metric-num">23<span>+</span></div><div class="metric-label">Combined years of expertise</div></div>
+          <div class="metric-card"><div class="metric-num">2</div><div class="metric-label">Major cities — Lagos &amp; Abuja</div></div>
+        </div>
+        <div class="about-photos">
+          <div class="about-photo"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=900&q=80&auto=format&fit=crop" alt="Apro Global Real Estate team" /></div>
+          <div class="about-photo"><img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=500&q=80&auto=format&fit=crop" alt="Luxury property" /></div>
+          <div class="about-photo"><img src="https://images.unsplash.com/photo-1628744448840-55bdb2497bd4?w=500&q=80&auto=format&fit=crop" alt="Modern interior" /></div>
+        </div>
+      </div>
+
+      <!-- Right -->
+      <div class="about-right">
+        <div class="about-divider"></div>
+        <p>Apro Global Real Estate was established in <strong>2011</strong> with the sole aim to bridge the gap between the demand and supply of quality housing, foster access to emerging real developments, below market price property investments and to offer real estate financial advisory services.</p>
+        <p>As a full service real estate agency and property management company, serving <strong>Lagos and Abuja</strong>, with a combined 23 years of experience in the real estate business we have demonstrated expertise in the management, sales and lease of; Flats/Apartments, Duplex, Townhouses, Commercial properties (shops, offices, warehouses) and more — building a strong client base of over <strong>1,500 serviced clients</strong>.</p>
+        <p>We believe that prompt attention to our property seekers, property owners as well as our residents is crucial in delivering optimum service. We also believe in the success of our clients because we cannot spell success without <strong>"U"</strong>. This has been our driving force that formed the basis of our vision: to <em>"attain a global presence and be the first point of call in terms of real estate needs."</em></p>
+        <div class="core-values">
+          <span class="value-badge">Diligence</span>
+          <span class="value-badge">Integrity</span>
+          <span class="value-badge">Dedication</span>
+        </div>
+        <div class="about-cta">
+          <a href="#listings" class="btn-primary">
+            View Properties
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#" class="btn-secondary">Contact Us</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════
+       LATEST LISTINGS
+  ══════════════════════════════════════════════════════ -->
+  <section class="listings-section" id="listings">
+    <div class="listings-header">
+      <div class="listings-header-left">
+        <span class="section-tag">Latest Listings</span>
+        <h2>Fresh Properties,<br><em>Exceptional</em> Value</h2>
+      </div>
+      <a href="{% url 'listings' %}" class="view-all-btn">
+        View All Listings
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="listings-grid">
+      {% for p in featured_properties %}
+      <a href="{% url 'property_detail' p.slug %}" class="listing-card" style="text-decoration:none;color:inherit">
+        <div class="card-image">
+          {% if p.get_image %}<img src="{{ p.get_image }}" alt="{{ p.title }}" loading="lazy"/>{% else %}<div style="width:100%;height:100%;background:#e5e7eb;display:flex;align-items:center;justify-content:center"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>{% endif %}
+          <span class="card-badge badge-{{ p.status }}">{{ p.get_status_display }}</span>
+          <button type="button" class="card-wishlist{% if p.pk in saved_ids %} liked{% endif %}" data-slug="{{ p.slug }}" aria-label="Save to wishlist" onclick="event.preventDefault();event.stopPropagation();window.toggleSaveProperty('{{ p.slug }}', this, event)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        </div>
+        <div class="card-body">
+          <div class="card-price">{{ p.formatted_price }} <span>/ {{ p.price_label }}</span></div>
+          <div class="card-title">{{ p.title }}</div>
+          <div class="card-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>{{ p.location }}</div>
+          <hr class="card-divider" />
+          <div class="card-features">
+            {% if p.bedrooms %}<div class="card-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>{{ p.bedrooms }} Beds</div><div class="card-feature-divider"></div>{% endif %}
+            {% if p.bathrooms %}<div class="card-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h7"/></svg>{{ p.bathrooms }} Baths</div><div class="card-feature-divider"></div>{% endif %}
+            {% if p.size_sqm %}<div class="card-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>{{ p.size_sqm }} m²</div>{% endif %}
+          </div>
+          <div class="card-agent"><div class="agent-info"><div class="agent-avatar">AG</div><div><div class="agent-name">Apro Global</div><div class="agent-role">Verified Agent</div></div></div><span class="card-contact-btn">Contact</span></div>
+        </div>
+      </a>
+      {% empty %}
+      <div class="no-results" style="grid-column:1/-1;text-align:center;padding:60px 20px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="2" width="56" height="56"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <h3 style="font-size:20px;font-weight:700;color:#444;margin:14px 0 8px">No listings yet</h3>
+        <p style="font-size:14px;color:#888">Check back soon for our latest properties.</p>
+      </div>
+      {% endfor %}
+    </div><!-- /listings-grid -->
+  </section>
+
+  <!-- ══════════════════════════════════════════════════
+       TESTIMONIALS — 3D carousel
+  ══════════════════════════════════════════════════════ -->
+  <section class="testimonials-section" id="testimonials">
+    <div class="testimonials-header">
+      <span class="section-tag">Testimonials</span>
+      <h2>What Our <em>Clients</em> Say</h2>
+    </div>
+
+    <div class="tcarousel-scene">
+      <div class="tcarousel-track">
+
+        <div class="t-card">
+          <div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div>
+          <p class="t-quote">Apro Global found us a perfect 3-bedroom flat in Lekki within two weeks. Their team was professional, responsive and made the whole process seamless. Highly recommended!</p>
+          <div class="t-person">
+            <div class="t-avatar">AO</div>
+            <div><div class="t-name">Adaeze Okonkwo</div><div class="t-role">Homeowner, Lekki Lagos</div></div>
+          </div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div>
+          <p class="t-quote">As a first-time investor, I was nervous. Apro Global's financial advisory team guided me to a below-market deal in Epe that has already appreciated 30% in two years.</p>
+          <div class="t-person">
+            <div class="t-avatar">EM</div>
+            <div><div class="t-name">Emeka Maduka</div><div class="t-role">Property Investor, Abuja</div></div>
+          </div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div>
+          <p class="t-quote">We leased our commercial warehouse in Apapa through Apro Global. The entire process from listing to signing took just 3 weeks. Excellent service, excellent team.</p>
+          <div class="t-person">
+            <div class="t-avatar">TF</div>
+            <div><div class="t-name">Taiwo Fashola</div><div class="t-role">Business Owner, Apapa Lagos</div></div>
+          </div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div>
+          <p class="t-quote">My family relocated from the UK and Apro Global handled everything — property search, documentation, and management. We couldn't have done it without them. Truly world-class.</p>
+          <div class="t-person">
+            <div class="t-avatar">NK</div>
+            <div><div class="t-name">Ngozi Kalu</div><div class="t-role">Diaspora Returnee, Ikoyi Lagos</div></div>
+          </div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div>
+          <p class="t-quote">Sold my duplex in Wuse 2 above asking price in under a month. Apro Global's marketing and negotiation skills are top-notch. I've since referred four friends to them.</p>
+          <div class="t-person">
+            <div class="t-avatar">BI</div>
+            <div><div class="t-name">Bello Ibrahim</div><div class="t-role">Property Seller, Wuse 2 Abuja</div></div>
+          </div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div>
+          <p class="t-quote">Their property management service for my Victoria Island apartment has been flawless for three years. Rent collected on time, maintenance handled promptly. Peace of mind guaranteed.</p>
+          <div class="t-person">
+            <div class="t-avatar">CF</div>
+            <div><div class="t-name">Chisom Eze</div><div class="t-role">Landlord, Victoria Island Lagos</div></div>
+          </div>
+        </div>
+
+      </div><!-- /tcarousel-track -->
+    </div><!-- /tcarousel-scene -->
+
+    <div class="tcarousel-nav">
+      <button class="tcarousel-btn t-prev" aria-label="Previous testimonial">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="tcarousel-counter"><span>1</span> / 6</div>
+      <button class="tcarousel-btn t-next" aria-label="Next testimonial">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+    <div class="tcarousel-dots">
+      <button class="tcarousel-dot active" aria-label="Testimonial 1"></button>
+      <button class="tcarousel-dot"        aria-label="Testimonial 2"></button>
+      <button class="tcarousel-dot"        aria-label="Testimonial 3"></button>
+      <button class="tcarousel-dot"        aria-label="Testimonial 4"></button>
+      <button class="tcarousel-dot"        aria-label="Testimonial 5"></button>
+      <button class="tcarousel-dot"        aria-label="Testimonial 6"></button>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════
+       BLOG SECTION
+  ══════════════════════════════════════════════════════ -->
+  <section class="blog-section" id="blog">
+    <div class="blog-header">
+      <div class="blog-header-left">
+        <span class="section-tag">Our Blog</span>
+        <h2>Insights &amp; <em>Real Estate</em> Tips</h2>
+      </div>
+      <a href="{% url 'blog' %}" class="view-all-btn">
+        View All Articles
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="blog-grid">
+
+      {% if featured_post %}
+      <!-- Featured post -->
+      <a href="{% url 'blog_detail' featured_post.slug %}" class="blog-card featured" style="text-decoration:none;color:inherit">
+        <div class="blog-card-img">
+          {% if featured_post.get_image %}<img src="{{ featured_post.get_image }}" alt="{{ featured_post.title }}" loading="lazy" />{% endif %}
+          <span class="blog-card-cat">{{ featured_post.get_category_display }}</span>
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-card-date">{{ featured_post.published_at|date:"F j, Y" }}</div>
+          <div class="blog-card-title">{{ featured_post.title }}</div>
+          <div class="blog-card-excerpt">{{ featured_post.excerpt }}</div>
+          <div class="blog-card-footer">
+            <div class="blog-card-author"><div class="blog-author-avatar">AG</div><div class="blog-author-name">{{ featured_post.author }}</div></div>
+            <span class="blog-read-more">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          </div>
+        </div>
+      </a>
+      {% endif %}
+
+      {% for post in latest_posts %}
+        {% if post != featured_post %}
+        <a href="{% url 'blog_detail' post.slug %}" class="blog-card">
+          <div class="blog-card-img">
+            {% if post.get_image %}<img src="{{ post.get_image }}" alt="{{ post.title }}" loading="lazy"/>{% endif %}
+            <span class="blog-card-cat">{{ post.get_category_display }}</span>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-date">{{ post.published_at|date:"F j, Y" }}</div>
+            <div class="blog-card-title">{{ post.title }}</div>
+            <div class="blog-card-excerpt">{{ post.excerpt }}</div>
+            <div class="blog-card-footer">
+              <div class="blog-card-author"><div class="blog-author-avatar">AG</div><div class="blog-author-name">{{ post.author }}</div></div>
+              <span class="blog-read-more">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+            </div>
+          </div>
+        </a>
+        {% endif %}
+      {% endfor %}
+
+    </div><!-- /blog-grid -->
+  </section>
+
+  <!-- ══════════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════════════ -->
+  
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function setHeroTab(btn) {
+  document.querySelectorAll('.search-tabs .tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('heroTabInput').value = btn.dataset.val;
+}
+function setHeroType(btn, val) {
+  document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active-tag'));
+  btn.classList.add('active-tag');
+  var sel = document.querySelector('#heroSearchForm select[name="type"]');
+  if (sel) sel.value = val;
+}
+</script>
+{% endblock %}
