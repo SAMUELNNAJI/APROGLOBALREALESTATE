@@ -740,24 +740,25 @@ def support_messages(request, pk):
 
 @login_required
 def support_send(request, pk):
-    if request.method == "POST":
-        ticket = get_object_or_404(SupportTicket, pk=pk)
-        if not request.user.is_superuser and ticket.purchaser != request.user:
-            return HttpResponseForbidden()
-        content = request.POST.get("content", "").strip()
-        if not content:
-            return JsonResponse({"ok": False, "error": "Message cannot be empty."}, status=400)
-        message = ChatMessage.objects.create(ticket=ticket, sender=request.user, content=content)
-        # Bump activity so the admin's conversation list re-orders live
-        SupportTicket.objects.filter(pk=ticket.pk).update(updated_at=timezone.now())
-        return JsonResponse({
-            "ok": True,
-            "id": message.id,
-            "sender": message.sender.username,
-            "content": message.content,
-            "created_at": message.created_at.isoformat(),
-            "is_admin": message.sender.is_superuser,
-        })
+    if request.method != "POST":
+        return JsonResponse({"ok": False, "error": "Method not allowed."}, status=405)
+    ticket = get_object_or_404(SupportTicket, pk=pk)
+    if not request.user.is_superuser and ticket.purchaser != request.user:
+        return JsonResponse({"ok": False, "error": "You cannot message in this conversation."}, status=403)
+    content = request.POST.get("content", "").strip()
+    if not content:
+        return JsonResponse({"ok": False, "error": "Message cannot be empty."}, status=400)
+    message = ChatMessage.objects.create(ticket=ticket, sender=request.user, content=content)
+    # Bump activity so the admin's conversation list re-orders live
+    SupportTicket.objects.filter(pk=ticket.pk).update(updated_at=timezone.now())
+    return JsonResponse({
+        "ok": True,
+        "id": message.id,
+        "sender": message.sender.username,
+        "content": message.content,
+        "created_at": message.created_at.isoformat(),
+        "is_admin": message.sender.is_superuser,
+    })
 
 
 @login_required

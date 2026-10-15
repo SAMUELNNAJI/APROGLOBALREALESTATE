@@ -95,6 +95,12 @@ body.dash2-body {
   background: var(--green);
   color: #fff;
 }
+.ds-nav-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 20px; height: 20px; padding: 0 6px; margin-left: auto;
+  border-radius: 999px; background: var(--green-light); color: #fff;
+  font-size: 11px; font-weight: 800; line-height: 1;
+}
 
 /* sidebar footer */
 .ds-sidebar-footer {
@@ -129,6 +135,7 @@ body.dash2-body {
 .ds-main {
   margin-left: var(--sidebar-w);
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -174,7 +181,7 @@ body.dash2-body {
 .ds-msg-info { background: #dbeafe; color: #1e40af; }
 
 /* content area */
-.ds-content { padding: 28px; flex: 1; }
+.ds-content { padding: 28px; flex: 1; min-width: 0; }
 
 /* ── Page header ── */
 .ds-page-header {
