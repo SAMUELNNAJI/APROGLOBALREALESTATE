@@ -11,7 +11,10 @@ services:
     name: apro-global-real-estate
     runtime: python
     plan: free
-    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    # migrate runs in BOTH phases: build creates the SQLite file on first
+    # deploy, and the start command re-runs it on every boot because the
+    # free plan's instance disk is wiped whenever the instance restarts.
+    buildCommand: pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py collectstatic --noinput
     startCommand: python manage.py migrate --noinput && python manage.py seed_if_empty && gunicorn config.wsgi:application
     healthCheckPath: /healthz
     envVars:
