@@ -161,6 +161,7 @@ body.dash2-body {
 }
 .ds-view-site svg { width: 13px; height: 13px; }
 .ds-view-site:hover { background: var(--green); color: #fff; }
+.ds-topbar-right { display: flex; align-items: center; gap: 10px; }
 
 /* messages */
 .ds-messages { padding: 16px 28px 0; }
@@ -445,6 +446,29 @@ body.dash2-body {
 .ds-empty h3 { font-size: 17px; font-weight: 700; color: var(--text-body); margin-bottom: 6px; }
 .ds-empty p { font-size: 13.5px; color: var(--gray); }
 
+/* ── Quick links (overview) — 3 tight stacked rows ── */
+.ds-quick-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+.ds-quick-grid .ds-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  margin-bottom: 0;
+  text-decoration: none;
+}
+
+/* ── Bank details split (admin) — collapses to 1 col ≤768px ── */
+.ds-bank-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 28px;
+  align-items: start;
+}
+
 /* ── Overlay (mobile) ── */
 .ds-overlay {
   display: none; position: fixed; inset: 0;
@@ -473,6 +497,7 @@ body.dash2-body {
   .ds-content { padding: 16px; }
   .ds-topbar  { padding: 0 16px; }
   .ds-form-card { padding: 20px 16px; }
+  .ds-bank-grid { grid-template-columns: 1fr; gap: 18px; }
 }
 
 @media (max-width: 480px) {

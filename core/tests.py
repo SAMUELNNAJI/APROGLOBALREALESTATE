@@ -1,3 +1,4 @@
+import re
 from datetime import date, time
 
 from django.contrib.auth import get_user_model
@@ -209,4 +210,49 @@ class MobileListingLayoutTests(TestCase):
         self.assertNotIn(
             'style="display:grid;grid-template-columns:1fr 320px',
             response.content.decode(),
+        )
+
+
+class MobileAdminDashboardTests(TestCase):
+    """Admin dashboard must not use fixed inline grids (media queries cannot
+    override inline styles); the overview quick links stack as 3 tight rows."""
+
+    def setUp(self):
+        self.admin = User.objects.create_superuser(
+            username="layout-admin",
+            email="layout-admin@example.com",
+            password="Sup3r&Secret!pass",
+        )
+        self.client.force_login(self.admin)
+
+    @staticmethod
+    def _dashboard_css():
+        path = finders.find("css/dashboard2.css")
+        with open(path, encoding="utf-8") as fh:
+            return fh.read().replace("\r\n", "\n")
+
+    def test_overview_quick_links_stack_as_three_tight_rows(self):
+        response = self.client.get(reverse("apro_dashboard"))
+        self.assertEqual(response.status_code, 200)
+        html = response.content.decode()
+        self.assertContains(response, 'class="ds-quick-grid"')
+        # a fixed inline grid would defeat the stylesheet/media queries
+        self.assertNotIn("grid-template-columns:1fr 1fr 1fr", html)
+        css = self._dashboard_css()
+        block = re.search(r"\.ds-quick-grid\s*\{([^}]*)\}", css)
+        self.assertIsNotNone(block, "quick links must be styled in dashboard2.css")
+        self.assertIn("grid-template-columns: 1fr", block.group(1))
+        self.assertIn("gap: 10px", block.group(1))
+
+    def test_bank_details_split_collapses_on_mobile(self):
+        response = self.client.get(reverse("admin_bank_details"))
+        self.assertEqual(response.status_code, 200)
+        html = response.content.decode()
+        self.assertContains(response, 'class="ds-bank-grid"')
+        self.assertNotIn("grid-template-columns:1fr 1.2fr", html)
+        css = self._dashboard_css()
+        self.assertIn("@media (max-width: 768px)", css)
+        media = css.split("@media (max-width: 768px)")[1]
+        self.assertIn(
+            ".ds-bank-grid { grid-template-columns: 1fr; gap: 18px; }", media
         )
