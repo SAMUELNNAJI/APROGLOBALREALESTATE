@@ -599,10 +599,59 @@ def _purchaser_conversation(user):
     return conv
 
 
-def _render_chat(request, active):
-    """Shared renderer for the WhatsApp-style chat page."""
+def _mark_read(ticket, user):
+    """Stamp the viewer's side as read (clears their unread badge).
+
+    Uses QuerySet.update() so `updated_at` (auto_now) is untouched — reading
+    must never reorder the conversation list.
+    """
+    if ticket is None:
+        return
+    if user.is_superuser:
+        field, current = "admin_read_at", ticket.admin_read_at
+        incoming = ticket.messages.filter(sender_id=ticket.purchaser_id)
+    else:
+        field, current = "purchaser_read_at", ticket.purchaser_read_at
+        incoming = ticket.messages.exclude(sender_id=ticket.purchaser_id)
+    if current is not None:
+        incoming = incoming.filter(created_at__gt=current)
+    if incoming.exists():
+        now = timezone.now()
+        setattr(ticket, field, now)
+        SupportTicket.objects.filter(pk=ticket.pk).update(**{field: now})
+
+
+def _annotated_conversations():
+    """Admin conversation list with live last-message + unread badge counts."""
+    convs = list(
+        SupportTicket.objects.select_related("purchaser")
+        .prefetch_related("messages")
+        .order_by("-updated_at")
+    )
+    for c in convs:
+        msgs = list(c.messages.all())          # prefetched, ordered created_at asc
+        c.last_msg = msgs[-1] if msgs else None
+        read_at = c.admin_read_at
+        # Unread for the admin = messages the PURCHASER sent since last open
+        c.unread = sum(
+            1
+            for m in msgs
+            if m.sender_id == c.purchaser_id
+            and (read_at is None or m.created_at > read_at)
+        )
+    return convs
+
+
+def _render_chat(request, active, opened=False):
+    """Shared renderer for the WhatsApp-style chat page.
+
+    `opened=True` means the conversation was explicitly requested (deep link /
+    ?t= click / purchaser's always-visible chat) — on mobile the page boots
+    straight into the chat view instead of the list.
+    """
     context = {
         "active": active,
+        "initial_open": opened,
         "chat_messages": (
             active.messages.select_related("sender").order_by("created_at")
             if active is not None
@@ -610,11 +659,7 @@ def _render_chat(request, active):
         ),
     }
     if request.user.is_superuser:
-        context["conversations"] = list(
-            SupportTicket.objects.select_related("purchaser")
-            .prefetch_related("messages")
-            .order_by("-updated_at")
-        )
+        context["conversations"] = _annotated_conversations()
     return render(request, "chat/chat.html", context)
 
 
@@ -627,13 +672,21 @@ def support_tickets(request):
     """
     if request.user.is_superuser:
         active = None
+        opened = False
         wanted = request.GET.get("t", "")
         if wanted.isdigit():
             active = SupportTicket.objects.filter(pk=int(wanted)).first()
+            if active is not None:
+                # Explicit open → clear this conversation's unread badge
+                _mark_read(active, request.user)
+                opened = True
         if active is None:
             active = SupportTicket.objects.order_by("-updated_at").first()
-        return _render_chat(request, active)
-    return _render_chat(request, _purchaser_conversation(request.user))
+        return _render_chat(request, active, opened=opened)
+    conv = _purchaser_conversation(request.user)
+    # Purchasers always see their only conversation → treat it as read
+    _mark_read(conv, request.user)
+    return _render_chat(request, conv, opened=True)
 
 
 @login_required
@@ -660,7 +713,8 @@ def support_chat(request, pk):
     ticket = get_object_or_404(SupportTicket, pk=pk)
     if not request.user.is_superuser and ticket.purchaser != request.user:
         raise Http404
-    return _render_chat(request, ticket)
+    _mark_read(ticket, request.user)
+    return _render_chat(request, ticket, opened=True)
 
 
 @login_required
@@ -668,6 +722,8 @@ def support_messages(request, pk):
     ticket = get_object_or_404(SupportTicket, pk=pk)
     if not request.user.is_superuser and ticket.purchaser != request.user:
         return HttpResponseForbidden()
+    # The client only polls while the pane is on screen → viewing = read
+    _mark_read(ticket, request.user)
     messages = ticket.messages.select_related("sender").order_by("-created_at")[:60]
     data = [
         {
@@ -702,6 +758,39 @@ def support_send(request, pk):
             "created_at": message.created_at.isoformat(),
             "is_admin": message.sender.is_superuser,
         })
+
+
+@login_required
+def support_pane(request, pk):
+    """Chat-pane HTML fragment — fetched on sidebar click for instant open
+    (no full-page reload) and marks the conversation read."""
+    ticket = get_object_or_404(SupportTicket, pk=pk)
+    if not request.user.is_superuser and ticket.purchaser != request.user:
+        raise Http404
+    _mark_read(ticket, request.user)
+    return render(request, "chat/_pane.html", {
+        "active": ticket,
+        "chat_messages": ticket.messages.select_related("sender").order_by("created_at"),
+    })
+
+
+@login_required
+def support_sidebar(request):
+    """JSON payload for the live admin sidebar: previews, times, unread badges."""
+    if not request.user.is_superuser:
+        return HttpResponseForbidden()
+    data = []
+    for c in _annotated_conversations():
+        last = c.last_msg
+        data.append({
+            "id": c.pk,
+            "name": c.purchaser.get_full_name() or c.purchaser.username,
+            "initial": (c.purchaser.first_name or c.purchaser.username)[:1].upper(),
+            "preview": last.content if last else "",
+            "time": last.created_at.strftime("%b %d %H:%M") if last else "",
+            "unread": c.unread,
+        })
+    return JsonResponse({"sidebar": data})
 
 
 

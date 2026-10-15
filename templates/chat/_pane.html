@@ -1,0 +1,52 @@
+<section class="wa-pane"
+         {% if active %}data-ticket="{{ active.id }}" data-last="{{ chat_messages.last.id|default:'0' }}"{% endif %}>
+  {% if active %}
+  <header class="wa-pane-head">
+    {% if user.is_superuser %}
+    <button class="wa-back" type="button" aria-label="Back to chat list">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    </button>
+    {% endif %}
+    <span class="wa-avatar lg">
+      {% if user.is_superuser %}{{ active.purchaser.first_name|default:active.purchaser.username|slice:":1"|upper }}{% else %}A{% endif %}
+    </span>
+    <div class="wa-who">
+      <div class="wa-name">
+        {% if user.is_superuser %}{{ active.purchaser.get_full_name|default:active.purchaser.username }}{% else %}Apro Global Support{% endif %}
+      </div>
+      <div class="wa-status">
+        {% if user.is_superuser %}{{ active.purchaser.username }}{% else %}We typically reply in a few minutes{% endif %}
+      </div>
+    </div>
+  </header>
+
+  <div class="wa-msgs" id="messageList">
+    <div class="wa-day">CONVERSATION</div>
+    {% for m in chat_messages %}
+    <div class="wa-row {% if m.sender == user %}me{% else %}them{% endif %}">
+      <div class="wa-bubble">{{ m.content }}<span class="wa-meta">{{ m.created_at|time:"H:i" }}{% if m.sender == user %} <span class="tick">&#10003;&#10003;</span>{% endif %}</span></div>
+    </div>
+    {% empty %}
+    <div class="wa-empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:56px;height:56px;opacity:.35"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <div class="big">No messages yet</div>
+      <div>Say hello — an agent will reply here in real time.</div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <form class="wa-compose" id="sendForm" autocomplete="off">
+    {% csrf_token %}
+    <input type="text" name="content" placeholder="Type a message" required maxlength="2000">
+    <button type="submit" class="wa-send" aria-label="Send">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </form>
+  {% else %}
+  <div class="wa-empty">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:60px;height:60px;opacity:.3"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <div class="big">Select a conversation</div>
+    <div>Choose a purchaser on the left to start chatting.</div>
+  </div>
+  {% endif %}
+</section>

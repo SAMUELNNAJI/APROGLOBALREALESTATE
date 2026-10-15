@@ -77,7 +77,26 @@
     font-size: 12.5px; color: var(--wa-muted); margin-top: 2px;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
-  .wa-convo-time { font-size: 11px; color: var(--wa-muted); flex: none; align-self: flex-start; margin-top: 4px; }
+  .wa-convo-time { font-size: 11px; color: var(--wa-muted); white-space: nowrap; }
+  .wa-convo-side {
+    display: flex; flex-direction: column; align-items: flex-end; gap: 5px;
+    flex: none;
+  }
+  .wa-badge {
+    min-width: 20px; height: 20px; padding: 0 6px;
+    border-radius: 999px; background: var(--wa-accent); color: #fff;
+    font-size: 11px; font-weight: 800; line-height: 1;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .wa-back {
+    display: none; width: 36px; height: 36px; flex: none;
+    align-items: center; justify-content: center;
+    border: none; border-radius: 50%; background: transparent;
+    color: var(--wa-text); cursor: pointer;
+    transition: background .15s;
+  }
+  .wa-back:hover { background: rgba(46,171,123,.14); }
+  .wa-back svg { width: 20px; height: 20px; }
 
   .wa-avatar {
     width: 46px; height: 46px; border-radius: 50%; flex: none;
@@ -173,33 +192,39 @@
   .wa-send svg { width: 20px; height: 20px; }
 
   @media (max-width: 860px) {
-    .wa-page { grid-template-columns: 1fr; height: calc(100vh - 150px); }
-    {% if user.is_superuser %}
-    .wa-page { grid-template-rows: auto 1fr; }
-    .wa-list { max-height: 220px; border-right: none; border-bottom: 1px solid var(--wa-border); }
-    {% endif %}
+    /* WhatsApp-style mobile: the list and the chat are two separate
+       full-page views — .show-chat swaps between them (toggled by JS). */
+    .wa-page { display: block; height: calc(100vh - 150px); min-height: 320px; }
+    .wa-list { height: 100%; border-right: none; }
+    .wa-pane { display: none; height: 100%; }
+    .wa-page.show-chat .wa-pane { display: flex; }
+    .wa-page.show-chat .wa-list { display: none; }
+    .wa-back { display: inline-flex; }
     .wa-bubble { max-width: 85%; }
     .wa-msgs { padding: 14px 12px; }
   }
+  @media (max-width: 768px) {
+    /* .ds-content padding drops 28px → 16px here — reclaim the extra space */
+    .wa-page { height: calc(100vh - 126px); }
+  }
 </style>
 
-<div class="wa-page">
+<div class="wa-page{% if initial_open %} show-chat{% endif %}">
   <!-- ── Conversation list (admins only) ── -->
   {% if user.is_superuser %}
   <aside class="wa-list">
     <div class="wa-list-head">Chats <span>{{ conversations|length }} conversation{{ conversations|length|pluralize }}</span></div>
     <div class="wa-convos">
       {% for c in conversations %}
-      <a class="wa-convo {% if active and active.id == c.id %}active{% endif %}" href="?t={{ c.id }}">
+      <a class="wa-convo {% if active and active.id == c.id %}active{% endif %}" href="?t={{ c.id }}" data-id="{{ c.id }}">
         <span class="wa-avatar">{{ c.purchaser.first_name|default:c.purchaser.username|slice:":1"|upper }}</span>
         <span class="wa-convo-body">
           <span class="wa-convo-name">{{ c.purchaser.get_full_name|default:c.purchaser.username }}</span>
-          <span class="wa-convo-prev">
-            {% with last=c.messages.last %}{{ last.content|default:"No messages yet — say hello"|truncatechars:42 }}{% endwith %}
-          </span>
+          <span class="wa-convo-prev">{{ c.last_msg.content|default:"No messages yet — say hello"|truncatechars:42 }}</span>
         </span>
-        <span class="wa-convo-time">
-          {% with last=c.messages.last %}{{ last.created_at|date:"M d H:i" }}{% endwith %}
+        <span class="wa-convo-side">
+          <span class="wa-convo-time">{{ c.last_msg.created_at|date:"M d H:i" }}</span>
+          {% if c.unread %}<span class="wa-badge">{{ c.unread }}</span>{% endif %}
         </span>
       </a>
       {% empty %}
@@ -211,53 +236,7 @@
   </aside>
   {% endif %}
 
-  <!-- ── Chat pane ── -->
-  <section class="wa-pane">
-    {% if active %}
-    <header class="wa-pane-head">
-      <span class="wa-avatar lg">
-        {% if user.is_superuser %}{{ active.purchaser.first_name|default:active.purchaser.username|slice:":1"|upper }}{% else %}A{% endif %}
-      </span>
-      <div class="wa-who">
-        <div class="wa-name">
-          {% if user.is_superuser %}{{ active.purchaser.get_full_name|default:active.purchaser.username }}{% else %}Apro Global Support{% endif %}
-        </div>
-        <div class="wa-status">
-          {% if user.is_superuser %}{{ active.purchaser.username }}{% else %}We typically reply in a few minutes{% endif %}
-        </div>
-      </div>
-    </header>
-
-    <div class="wa-msgs" id="messageList">
-      <div class="wa-day">CONVERSATION</div>
-      {% for m in chat_messages %}
-      <div class="wa-row {% if m.sender == user %}me{% else %}them{% endif %}">
-        <div class="wa-bubble">{{ m.content }}<span class="wa-meta">{{ m.created_at|time:"H:i" }}{% if m.sender == user %} <span class="tick">&#10003;&#10003;</span>{% endif %}</span></div>
-      </div>
-      {% empty %}
-      <div class="wa-empty">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:56px;height:56px;opacity:.35"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <div class="big">No messages yet</div>
-        <div>Say hello — an agent will reply here in real time.</div>
-      </div>
-      {% endfor %}
-    </div>
-
-    <form class="wa-compose" id="sendForm" autocomplete="off">
-      {% csrf_token %}
-      <input type="text" name="content" placeholder="Type a message" required maxlength="2000">
-      <button type="submit" class="wa-send" aria-label="Send">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-      </button>
-    </form>
-    {% else %}
-    <div class="wa-empty">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:60px;height:60px;opacity:.3"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-      <div class="big">Select a conversation</div>
-      <div>Choose a purchaser on the left to start chatting.</div>
-    </div>
-    {% endif %}
-  </section>
+  {% include "chat/_pane.html" %}
 </div>
 {% endblock %}
 
@@ -273,12 +252,22 @@
   }
   var csrftoken = getCookie("csrftoken");
 
-  {% if active %}
-  var ticketId = {{ active.id }};
+  var page = document.querySelector(".wa-page");
+  var isAdmin = {% if user.is_superuser %}true{% else %}false{% endif %};
+  var ticketId = {% if active %}{{ active.id }}{% else %}0{% endif %};
   var myUsername = "{{ user.get_username|escapejs }}";
-  var listEl = document.getElementById("messageList");
-  var sendForm = document.getElementById("sendForm");
-  var lastId = {{ chat_messages.last.id|default:"0" }};
+  var listEl = null;
+  var sendForm = null;
+  var lastId = {% if active %}{{ chat_messages.last.id|default:"0" }}{% else %}0{% endif %};
+  var lastSidebarJson = "";   // skip DOM rebuilds when nothing changed
+  var readStamp = 0;          // client ms when a pane open finished (stale-payload guard)
+
+  function isMobile() { return window.matchMedia("(max-width: 860px)").matches; }
+  function paneVisible() {
+    // Desktop: always visible. Mobile: only while the chat view is showing.
+    return !isAdmin || !isMobile() || (page && page.classList.contains("show-chat"));
+  }
+  function truncate(s, n) { return s.length > n ? s.slice(0, n - 1) + "\u2026" : s; }
 
   function scrollBottom() { if (listEl) listEl.scrollTop = listEl.scrollHeight; }
 
@@ -313,11 +302,11 @@
     scrollBottom();
   }
 
-  function poll() {
-    fetch("/support/ticket/" + ticketId + "/messages/", {
+  function pollMessages(forTicket) {
+    return fetch("/support/ticket/" + forTicket + "/messages/", {
       headers: { "X-Requested-With": "XMLHttpRequest" }
     }).then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
-      if (!data) return;
+      if (!data || forTicket !== ticketId) return;   // conversation swapped away mid-flight
       var msgs = data.messages || [];
       // endpoint returns newest-first; collect unseen, then append oldest-first
       var fresh = [];
@@ -331,36 +320,200 @@
     }).catch(function () {});
   }
 
-  setInterval(poll, 1500);
+  function pollSidebar() {
+    var started = Date.now();
+    fetch("/support/sidebar/", { headers: { "X-Requested-With": "XMLHttpRequest" } })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        if (!data || !data.sidebar) return;
+        // A chat was opened after this fetch started → payload may predate the
+        // read-mark; drop it and let the next tick fetch a fresh one.
+        if (started < readStamp) return;
+        renderSidebar(data.sidebar);
+      })
+      .catch(function () {});
+  }
+
+  function renderSidebar(items) {
+    var json = JSON.stringify(items);
+    if (json === lastSidebarJson) return;   // unchanged → don't touch the DOM
+    lastSidebarJson = json;
+    var wrap = document.querySelector(".wa-convos");
+    if (!wrap) return;
+    var keepScroll = wrap.scrollTop;
+    while (wrap.firstChild) wrap.removeChild(wrap.firstChild);
+    if (!items.length) {
+      var empty = document.createElement("div");
+      empty.setAttribute("style", "padding:36px 20px;text-align:center;color:var(--wa-muted);font-size:13px");
+      empty.textContent = "No conversations yet. When a purchaser messages support, it appears here.";
+      wrap.appendChild(empty);
+      return;
+    }
+    items.forEach(function (it) {
+      var a = document.createElement("a");
+      a.className = "wa-convo" + (it.id === ticketId ? " active" : "");
+      a.href = "?t=" + it.id;
+      a.setAttribute("data-id", String(it.id));
+
+      var av = document.createElement("span");
+      av.className = "wa-avatar";
+      av.textContent = it.initial;
+
+      var body = document.createElement("span");
+      body.className = "wa-convo-body";
+      var name = document.createElement("span");
+      name.className = "wa-convo-name";
+      name.textContent = it.name;
+      var prev = document.createElement("span");
+      prev.className = "wa-convo-prev";
+      prev.textContent = truncate(it.preview || "No messages yet — say hello", 42);
+      body.appendChild(name);
+      body.appendChild(prev);
+
+      var side = document.createElement("span");
+      side.className = "wa-convo-side";
+      var time = document.createElement("span");
+      time.className = "wa-convo-time";
+      time.textContent = it.time || "";
+      side.appendChild(time);
+      if (it.unread > 0) {
+        var badge = document.createElement("span");
+        badge.className = "wa-badge";
+        badge.textContent = it.unread > 99 ? "99+" : String(it.unread);
+        side.appendChild(badge);
+      }
+
+      a.appendChild(av);
+      a.appendChild(body);
+      a.appendChild(side);
+      wrap.appendChild(a);
+    });
+    wrap.scrollTop = keepScroll;
+  }
+
   scrollBottom();
 
-  if (sendForm) {
-    sendForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var input = sendForm.querySelector('input[name="content"]');
-      var text = input.value.trim();
-      if (!text) return;
-      input.value = "";
-      fetch("/support/ticket/" + ticketId + "/send/", {
-        method: "POST",
-        headers: {
-          "X-CSRFToken": csrftoken,
-          "Content-Type": "application/x-www-form-urlencoded",
-          "X-Requested-With": "XMLHttpRequest"
-        },
-        body: "content=" + encodeURIComponent(text)
-      }).then(function (r) { return r.json(); }).then(function (data) {
-        if (data.ok) {
+  function onSend(e) {
+    e.preventDefault();
+    if (!sendForm || !ticketId) return;
+    var input = sendForm.querySelector('input[name="content"]');
+    var text = input.value.trim();
+    if (!text) return;
+    var forTicket = ticketId;
+    input.value = "";
+    fetch("/support/ticket/" + forTicket + "/send/", {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": csrftoken,
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-Requested-With": "XMLHttpRequest"
+      },
+      body: "content=" + encodeURIComponent(text)
+    }).then(function (r) { return r.json(); }).then(function (data) {
+      if (data.ok) {
+        if (forTicket === ticketId) {
           appendMessage(data.content, data.created_at, true);
           lastId = Math.max(lastId, data.id);
-        } else {
-          input.value = text;
-          alert(data.error || "Failed to send.");
         }
-      }).catch(function () { input.value = text; });
-    });
+      } else {
+        input.value = text;
+        alert(data.error || "Failed to send.");
+      }
+    }).catch(function () { input.value = text; });
   }
-  {% endif %}
+
+  function removeBadge(id) {
+    var el = document.querySelector('a.wa-convo[data-id="' + id + '"] .wa-badge');
+    if (el) el.remove();
+  }
+
+  function setActive(id) {
+    var links = document.querySelectorAll("a.wa-convo");
+    for (var i = 0; i < links.length; i++) {
+      var on = links[i].getAttribute("data-id") === String(id);
+      links[i].classList.toggle("active", on);
+      if (on) {
+        // opening a conversation clears its unread badge
+        var b = links[i].querySelector(".wa-badge");
+        if (b) b.remove();
+      }
+    }
+  }
+
+  function bindPane() {
+    listEl = document.getElementById("messageList");
+    sendForm = document.getElementById("sendForm");
+    var pane = document.querySelector(".wa-pane");
+    if (pane) {
+      var t = parseInt(pane.getAttribute("data-ticket") || "0", 10);
+      if (t) ticketId = t;
+      lastId = parseInt(pane.getAttribute("data-last") || "0", 10) || 0;
+    }
+    if (sendForm) sendForm.addEventListener("submit", onSend);
+    var back = document.querySelector(".wa-back");
+    if (back) back.addEventListener("click", showList);
+    scrollBottom();
+  }
+
+  function showList() {
+    if (!page) return;
+    page.classList.remove("show-chat");
+    if (window.history && history.pushState) history.pushState({}, "", location.pathname);
+  }
+
+  function openChat(id, push) {
+    fetch("/support/ticket/" + id + "/pane/", { headers: { "X-Requested-With": "XMLHttpRequest" } })
+      .then(function (r) { return r.ok ? r.text() : null; })
+      .then(function (html) {
+        if (!html) return;
+        var tmp = document.createElement("div");
+        tmp.innerHTML = html;
+        var fresh = tmp.querySelector(".wa-pane");
+        var old = document.querySelector(".wa-pane");
+        if (!fresh || !old || !old.parentNode) return;
+        old.parentNode.replaceChild(fresh, old);
+        ticketId = id;
+        if (isAdmin && page) page.classList.add("show-chat");
+        setActive(id);           // highlights + drops the badge instantly
+        bindPane();
+        readStamp = Date.now();  // server already marked it read at this point
+        if (push !== false && window.history && history.pushState) {
+          history.pushState({ t: id }, "", "?t=" + id);
+        }
+      })
+      .catch(function () {});
+  }
+
+  // Instant open: click a conversation → fetch the pane fragment (no reload)
+  document.addEventListener("click", function (e) {
+    var link = e.target && e.target.closest ? e.target.closest("a.wa-convo") : null;
+    if (!link) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return; // real clicks only
+    e.preventDefault();
+    var id = parseInt(link.getAttribute("data-id"), 10);
+    if (id) openChat(id, true);
+  });
+
+  window.addEventListener("popstate", function () {
+    var m = location.search.match(/[?&]t=(\d+)/);
+    if (m) openChat(parseInt(m[1], 10), false);
+    else if (isAdmin && page) page.classList.remove("show-chat");
+  });
+
+  // One shared ticker: message polling (visible chat only) + live sidebar badges.
+  // The sidebar fetch waits for the message poll so it always sees fresh read-marks.
+  function tick() {
+    var p = Promise.resolve();
+    if (ticketId && paneVisible()) {
+      removeBadge(ticketId);   // instant local clear; server confirms via poll
+      p = pollMessages(ticketId);
+    }
+    if (isAdmin) p.then(pollSidebar);
+  }
+
+  bindPane();
+  tick();
+  setInterval(tick, 1500);
 })();
 </script>
 {% endblock %}

@@ -46,6 +46,8 @@ urlpatterns = [
     path("support/ticket/<int:pk>/chat/",   views.support_chat,      name="support_chat"),
     path("support/ticket/<int:pk>/messages/", views.support_messages, name="support_messages"),
     path("support/ticket/<int:pk>/send/",     views.support_send,    name="support_send"),
+    path("support/ticket/<int:pk>/pane/",     views.support_pane,    name="support_pane"),
+    path("support/sidebar/",                  views.support_sidebar, name="support_sidebar"),
     path("support/ticket/<int:pk>/assign/",   views.support_assign,  name="support_assign"),
 
 
