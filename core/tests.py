@@ -30,14 +30,23 @@ class SitePageTests(TestCase):
                 self.assertTemplateUsed(response, "base.html")
                 self.assertContains(response, 'class="navbar"')
                 self.assertContains(response, 'class="footer"')
+                self.assertContains(response, "image/favicon-32x32.png")
+                self.assertContains(response, "image/apple-touch-icon.png")
 
     def test_unknown_page_returns_404(self):
         self.assertEqual(self.client.get("/not-a-page.html").status_code, 404)
 
     def test_static_assets_are_discoverable(self):
-        for path in ("css/styles.css", "css/auth.css", "css/dashboard.css", "js/auth.js", "image/logo.png"):
+        for path in ("css/styles.css", "css/auth.css", "css/dashboard.css", "js/auth.js", "image/logo.png",
+                     "image/favicon.ico", "image/favicon-16x16.png", "image/favicon-32x32.png",
+                     "image/apple-touch-icon.png"):
             with self.subTest(path=path):
                 self.assertIsNotNone(finders.find(path))
+
+    def test_favicon_route_serves_icon(self):
+        response = self.client.get("/favicon.ico")
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response["Content-Type"].startswith("image/"))
 
     def test_auth_pages_render(self):
         for name in ("signin", "signup"):

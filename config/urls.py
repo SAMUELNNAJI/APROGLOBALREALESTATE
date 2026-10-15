@@ -4,6 +4,16 @@ from django.urls import include, path, re_path
 from django.views.static import serve
 
 urlpatterns = [
+    # Browsers and crawlers auto-request /favicon.ico even when <link> tags
+    # exist — serve the generated icon from the source static directory.
+    path(
+        "favicon.ico",
+        serve,
+        {
+            "document_root": settings.BASE_DIR / "staticfiles" / "image",
+            "path": "favicon.ico",
+        },
+    ),
     path("", include("core.urls")),
 ]
 
